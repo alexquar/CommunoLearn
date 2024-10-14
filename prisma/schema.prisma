@@ -64,6 +64,16 @@ model User {
     sessions      Session[]
     posts         Post[]
     todos         Todo[] 
+
+    Meetings Meeting[]
+
+    OwnedCommunities Community[] @relation("CreatedByCommunity")
+
+    OwnedProjects Project[] @relation("createdByProject")
+
+    Projects Project[] @relation("ProjectMembers")
+
+    Communities Community[] @relation("CommunityMembers")
 }
 
 model VerificationToken {
@@ -84,8 +94,60 @@ model Todo {
     createdBy  User   @relation(fields: [userId], references: [id])
     userId     String
     stage     Stage @default(idea)
+
+    Project Project[]
 }
 
+model Community {
+    createdBy  User   @relation("CreatedByCommunity", fields: [userId], references: [id])
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId     String
+    projects     Project[]
+    meetings Meeting[]
+    members User[] @relation("CommunityMembers")
+    private Boolean @default(false)
+    numberOfMembers Int
+}
+model Meeting {
+    id        Int      @id @default(autoincrement())
+    title     String
+    content   String?
+    meetingTime DateTime
+    meetingLocationOrLink String
+    online Boolean @default(false)
+    inPerson Boolean @default(true)
+    meetingDocuments String[]
+    done      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    createdBy  User   @relation(fields: [userId], references: [id])
+    userId     String
+    stage     Stage @default(idea)
+
+    AssociatedCommunity Community[]
+}
+
+model Project {
+    id        Int      @id @default(autoincrement())
+    title     String
+    description   String?
+    endDate DateTime
+    done      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    createdBy  User   @relation("createdByProject", fields: [userId], references: [id])
+    projectMembers User[] @relation("ProjectMembers")
+    userId     String
+    stage     Stage @default(idea)
+    todos    Todo[]
+
+    associatedCommunity Community[]
+}
+
+//enum of all project stages
 enum Stage {
     done
     onHold
