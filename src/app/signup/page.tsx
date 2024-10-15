@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import icon from "../../../public/plan-28.svg";
+import Link from "next/link";
 export default function signup() {
   return (
     <>
@@ -32,7 +33,7 @@ export default function signup() {
                   name="firstName"
                   type="text"
                   required
-                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm ring-1 outline-accentBrand ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -50,7 +51,7 @@ export default function signup() {
                   name="lastName"
                   type="text"
                   required
-                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -69,7 +70,7 @@ export default function signup() {
                   type="email"
                   required
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -98,7 +99,7 @@ export default function signup() {
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-textBrand outline-accentBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -115,12 +116,12 @@ export default function signup() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?{" "}
-            <a
-              href="#"
+            <Link
+              href="/login"
               className="font-semibold leading-6 text-secondaryBrand hover:text-secondaryBrand/75"
             >
              Sign in now!
-            </a>
+            </Link>
           </p>
         </div>
       </div>
