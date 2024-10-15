@@ -76,6 +76,18 @@ export default function signup() {
             </div>
 
             <div>
+            <label htmlFor="countries" className="block mb-2 text-sm font-medium text-textBrand">Country</label>
+  <select id="countries" className="bg-white border border-accentBrand outline-accentBrand text-textBrand text-sm rounded-lg focus:ring-accentBrand focus:border-accentBrand block w-full px-1 py-2.5 ">
+    <option selected>Canada</option>
+    <option value="US">United States</option>
+    <option value="CA">Mexio</option>
+    <option value="FR">France</option>
+    <option value="DE">Germany</option>
+  </select>
+
+            </div>
+
+            <div>
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
