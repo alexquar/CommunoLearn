@@ -9,7 +9,11 @@ export default {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
       colors: {
-
+        textBrand : "#7784a1",
+        backgroundBrand : "#f6f6f6",
+        primaryBrand : "#ebd65a",
+        secondaryBrand : "#ee6605",
+        accentBrand : "#777b83"
       }
     },
   },
