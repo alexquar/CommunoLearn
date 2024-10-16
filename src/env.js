@@ -32,6 +32,7 @@ POSTGRES_USER:  z.string(),
 POSTGRES_HOST: z.string(),
 POSTGRES_PASSWORD: z.string(),
 POSTGRES_DATABASE: z.string(),
+CLERK_SECRET_KEY:z.string()
   },
 
   /**
@@ -40,7 +41,7 @@ POSTGRES_DATABASE: z.string(),
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
   },
 
   /**
@@ -62,6 +63,8 @@ POSTGRES_USER: process.env.POSTGRES_USER,
 POSTGRES_HOST: process.env.POSTGRES_HOST,
 POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+CLERK_SECRET_KEY:process.env.CLERK_SECRET_KEY
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
