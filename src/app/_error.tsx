@@ -1,4 +1,3 @@
-import { error } from 'console';
 import React from 'react'
 import Link from 'next/link';
 

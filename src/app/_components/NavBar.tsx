@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import logo from "../../../public/plan-28.svg"
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs"
 
 export default function NavBar(){
     const [dropdown, setDropdown] = useState(false)
@@ -34,6 +34,9 @@ export default function NavBar(){
         </li>
         <li>
           <Link href="#" className="block py-2 px-3 text-textBrand hover:text-accentBrand hover:font-bold underline rounded md:hover:bg-transparent md:p-0 ">Sign Out</Link>
+        </li>
+        <li>
+          <SignOutButton>Sign Out</SignOutButton>
         </li>
       </ul>
     </div> 
