@@ -1,7 +1,8 @@
-import React from 'react'
+"use client"
+import { useState } from "react"
+export default function Communities() {
 
-export default function communitiespage() {
   return (
-    <></>
+   <></>
   )
 }

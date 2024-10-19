@@ -227,7 +227,7 @@ export default async function Home() {
               />
               <button
                 type="submit"
-                className="flex-none rounded-3xl bg-accentBrand px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-backgroundBrand border-4 border-accentBrand hover:text-accentBrand "
+                className="flex-none rounded-3xl bg-accentBrand px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-backgroundBrand border-2 border-accentBrand hover:text-accentBrand "
               >
                 Create
               </button>
