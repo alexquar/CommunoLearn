@@ -5,12 +5,9 @@ export const dynamic = "force-dynamic";
 import { signIn } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
-
+import Link from "next/link";
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await getServerAuthSession();
-  const error = true;
-  void api.post.getLatest.prefetch();
+
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return (
     <HydrateClient>
@@ -212,6 +209,51 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      <div className="relative isolate overflow-hidden bg-backgroundBrand py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+          <div className="max-w-xl lg:max-w-lg">
+            <h2 className="text-3xl font-bold tracking-tight text-primaryBrand sm:text-4xl">Getting Started</h2>
+            <p className="mt-4 text-lg leading-8 text-textBrand">
+              Communities are where the work gets done on CommunoLearn. You can create your own community, join a public community or work in your own personal zone!
+            </p>
+            <div className="mt-6 flex max-w-md gap-x-4">
+              <input
+                name="text"
+                type="text"
+                required
+                placeholder="Name your first community!"
+                className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-accentBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
+              />
+              <button
+                type="submit"
+                className="flex-none rounded-3xl bg-accentBrand px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-backgroundBrand border-4 border-accentBrand hover:text-accentBrand "
+              >
+                Create
+              </button>
+            </div>
+          </div>
+          <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+            <div className="flex flex-col items-start">
+              <div className="rounded-md  p-2 ">
+              </div>
+              <dt className="mt-4 font-semibold text-secondaryBrand">Check out live communities</dt>
+              <dd className="mt-2 leading-7 text-textBrand">
+                <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/ccomunities">Visit this page</Link> to see all the communities that are currently active on CommunoLearn.
+              </dd>
+            </div>
+            <div className="flex flex-col items-start">
+              <div className="rounded-md  p-2 ">
+              </div>
+              <dt className="mt-4 font-semibold text-secondaryBrand">Check out your personal community</dt>
+              <dd className="mt-2 leading-7 text-textBrand">
+              <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/ccomunities">Visit this page</Link> to enter your work zone where you can work on your own private tasks.
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
     </HydrateClient>
   );
 }

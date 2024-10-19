@@ -15,7 +15,7 @@ export default function NavBar(){
     <span>
         <Image src={logo} width={32} className="h-8 hidden md:block" alt="Flowbite Logo" />
         </span>
-        <span className="text-2xl md:ms-5 font-semibold whitespace-nowrap text-textBrand">CommunoLearn</span>
+        <Link href="/" className="text-2xl md:ms-5 font-semibold hover:cursor-pointer whitespace-nowrap text-textBrand">CommunoLearn</Link>
     </div>
     <SignedIn>
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
