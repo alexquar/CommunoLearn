@@ -203,7 +203,7 @@ export default function NewCommunity({communityName = " "}) {
                       id="comments"
                       name="comments"
                       type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      className="h-4 w-4 rounded border-accentBrand text-accentBrand focus:ring-accentBrand accent-textBrand"
                     />
                   </div>
                   <div className="text-sm leading-6">
@@ -223,6 +223,19 @@ export default function NewCommunity({communityName = " "}) {
                   name="community-password"
                   type="password"
                   placeholder="The perfect password"
+                  className="block md:w-1/2 w-full px-2 rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
+                />
+              </div>
+
+              <label htmlFor="username" className="block text-sm font-medium leading-6 text-secondaryBrand">
+                Confirm Password
+              </label>
+              <div className="mt-2">
+                <input
+                  id="community-password"
+                  name="community-password"
+                  type="password"
+                  placeholder="The perfect password pt2"
                   className="block md:w-1/2 w-full px-2 rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>

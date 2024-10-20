@@ -239,7 +239,7 @@ export default async function Home() {
               </div>
               <dt className="mt-4 font-semibold text-secondaryBrand">Check out live communities</dt>
               <dd className="mt-2 leading-7 text-textBrand">
-                <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/ccomunities">Visit this page</Link> to see all the communities that are currently active on CommunoLearn.
+                <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/communities">Visit this page</Link> to see all the communities that are currently active on CommunoLearn.
               </dd>
             </div>
             <div className="flex flex-col items-start">
@@ -247,7 +247,7 @@ export default async function Home() {
               </div>
               <dt className="mt-4 font-semibold text-secondaryBrand">Check out your personal community</dt>
               <dd className="mt-2 leading-7 text-textBrand">
-              <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/ccomunities">Visit this page</Link> to enter your work zone where you can work on your own private tasks.
+              <Link className="underline hover:cursor-pointer hover:text-textBrand/75" href="/myzone">Visit this page</Link> to enter your work zone where you can work on your own private tasks.
               </dd>
             </div>
           </dl>

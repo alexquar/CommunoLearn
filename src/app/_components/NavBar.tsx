@@ -10,7 +10,7 @@ import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs"
 export default function NavBar(){
     const [dropdown, setDropdown] = useState(false)
   return (
-    <nav className="bg-backgroundBrand md:shadow-lg p-10 flex justify-between flex-row border-gray-200 dark:bg-gray-900">
+    <nav className="bg-backgroundBrand md:shadow-lg p-10 flex justify-between flex-row border-gray-200">
     <div className="flex ">
     <span>
         <Image src={logo} width={32} className="h-8 hidden md:block" alt="Flowbite Logo" />
@@ -19,7 +19,7 @@ export default function NavBar(){
     </div>
     <SignedIn>
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-      <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+      <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
         <li>
           <Link href="#" className="block py-2 px-3 text-secondaryBrand hover:text-secondaryBrand/75 0 rounded md:bg-transparent md:p-0" aria-current="page">Home</Link>
         </li>
@@ -45,7 +45,7 @@ export default function NavBar(){
 
     <SignedOut>
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 ">
       <li>
         <SignInButton >Sign In</SignInButton>
       </li>
@@ -68,25 +68,25 @@ export default function NavBar(){
 {dropdown &&
 <>
     <SignedIn>
-    <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+    <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                   <li>
-                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100 ">Dashboard</Link>
                   </li>
                   <li>
-                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
+                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100 ">Settings</Link>
                   </li>
                   <li>
-                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</Link>
+                    <Link href="#" className="block px-4 py-2 hover:bg-gray-100">Earnings</Link>
                   </li>
                 </ul>
                 <div className="py-1">
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
+                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Sign out</Link>
                 </div>
             </div>
       </SignedIn>
       <SignedOut>
-        <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+        <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
           <li>
             <Link href="/signup" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Signup</Link>
