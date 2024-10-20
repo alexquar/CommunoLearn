@@ -4,12 +4,14 @@ import { useState } from "react";
 export default function MyZone() {
 const [chosen, setChosen] = useState("communities");
   return (
-    <>
-      <div>MyZone</div>
-      <div className="inline-flex rounded-md shadow-sm" role="group">
+    <main className="flex mt-10 flex-col mx-4 md:mx-0 justify-start text-start md:text-center md:justify-center">
+      <div className="text-accentBrand text-3xl font-bold">My Zone</div>
+      <p className="text-textBrand my-4 font-semibold">Work on your own personal tasks and be productive in your own space.</p>
+      <div className="inline-flex my-10 justify-center rounded-md" role="group">
         <button
           type="button"
-          className="inline-flex items-center rounded-s-lg border border-accentBrand hover:border-primaryBrand focus:border-primaryBrand  bg-transparent px-4 py-2 text-sm font-medium text-accentBrand hover:bg-primaryBrand hover:text-backgroundBrand focus:z-10 focus:bg-primaryBrand focus:text-backgroundBrand focus:ring-2 focus:ring-primaryBrand "
+          onClick={()=>setChosen("communities")}
+          className={`inline-flex  items-center rounded-s-lg border ${chosen==="communities" ? " z-10 ring-2 ring-primaryBrand border-primaryBrand bg-primaryBrand text-backgroundBrand" : "border-accentBrand text-accentBrand"}  hover:border-primaryBrand focus:border-primaryBrand  bg-transparent px-4 py-2 text-sm font-medium  hover:bg-primaryBrand hover:text-backgroundBrand focus:z-10 focus:bg-primaryBrand focus:text-backgroundBrand focus:ring-2 focus:ring-primaryBrand `}
         >
           <svg
             className="me-2 h-3 w-3"
@@ -23,8 +25,9 @@ const [chosen, setChosen] = useState("communities");
           My Communities
         </button>
         <button
+        onClick = {()=>setChosen("projects")}
           type="button"
-          className="inline-flex items-center border-b border-t border-gray-900 bg-transparent px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-2 focus:ring-gray-500 dark:border-white dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700"
+          className="inline-flex items-center border-b border-t border-accentBrand hover:border-primaryBrand focus:border-primaryBrand  bg-transparent px-4 py-2 text-sm font-medium text-accentBrand hover:bg-primaryBrand hover:text-backgroundBrand focus:z-10 focus:bg-primaryBrand focus:text-backgroundBrand focus:ring-2 focus:ring-primaryBrand"
         >
           <svg
             className="me-2 h-3 w-3"
@@ -45,7 +48,7 @@ const [chosen, setChosen] = useState("communities");
         </button>
         <button
           type="button"
-          className="inline-flex items-center rounded-e-lg border border-gray-900 bg-transparent px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:bg-gray-900 focus:text-white focus:ring-2 focus:ring-gray-500 dark:border-white dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700"
+          className="inline-flex items-center rounded-e-lg border border-accentBrand hover:border-primaryBrand focus:border-primaryBrand  bg-transparent px-4 py-2 text-sm font-medium text-accentBrand hover:bg-primaryBrand hover:text-backgroundBrand focus:z-10 focus:bg-primaryBrand focus:text-backgroundBrand focus:ring-2 focus:ring-primaryBrand"
         >
           <svg
             className="me-2 h-3 w-3"
@@ -60,6 +63,6 @@ const [chosen, setChosen] = useState("communities");
           My Todos
         </button>
       </div>
-    </>
+    </main>
   );
 }
