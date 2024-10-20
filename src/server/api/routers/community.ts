@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -28,6 +27,35 @@ export const communityRouter = createTRPCRouter({
       return await ctx.db.community.findUnique({
           where: {
               id: input.id
+          }
+      })
+    }),
+
+    newCommunity: publicProcedure
+    .input(z.object({ 
+        name: z.string().min(1), 
+        aboutCommunity: z.string().min(1), 
+        private: z.boolean(),
+        password: z.string().min(1),
+        locationCommunity: z.string().min(1),
+        sloganCommunity: z.string().min(1),
+    }))
+    .mutation(async({ ctx, input }) => {
+      return await ctx.db.community.create({
+          data: {
+              name: input.name,
+              aboutCommunity: input.aboutCommunity,
+              private: input.private ?? null,
+              password: input.password,
+              locationCommunity: input.locationCommunity,
+              sloganCommunity: input.sloganCommunity,
+              numberOfMembers: 1,
+              //need a user here
+              createdBy: 
+              {
+                  connect: { id: 'cm2avbnnf0000buxc4t44yo3p' }
+              }
+              //will need to do actual user eventually
           }
       })
     }),
