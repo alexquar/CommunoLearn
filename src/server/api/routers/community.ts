@@ -22,6 +22,16 @@ export const communityRouter = createTRPCRouter({
       };
     }),
 
+    getCommunity: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async({ ctx, input }) => {
+      return await ctx.db.community.findUnique({
+          where: {
+              id: input.id
+          }
+      })
+    }),
+
 //   create: protectedProcedure
 //     .input(z.object({ name: z.string().min(1) }))
 //     .mutation(async ({ ctx, input }) => {
