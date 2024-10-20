@@ -1,7 +1,8 @@
 "use client"
 import { useState } from "react"
-export default function NewCommunity({communityName = " "}) {
-    const [name, setName] = useState(communityName)
+export default function NewCommunity() {
+  //might get passed a name we will see
+    const [name, setName] = useState("")
     const [aboutCommunity, setAboutCommunity] = useState("")
     const [locationCommunity, setLocationCommunity] = useState("")
     const [sloganCommunity, setSloganCommunity] = useState("")
