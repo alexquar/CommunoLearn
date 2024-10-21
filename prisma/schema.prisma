@@ -107,10 +107,12 @@ model Community {
     projects     Project[]
     meetings Meeting[]
     members User[] @relation("CommunityMembers")
+    ownerEmail String?
     password String?
     aboutCommunity String
     locationCommunity String
     sloganCommunity String
+    communityType String @default("Other")
     private Boolean @default(false)
     numberOfMembers Int
 }
