@@ -4,20 +4,22 @@
 "use client"
 import { useState } from "react"
 import { api } from "~/trpc/react"
-
-
-
-
+import Loading from "~/app/loading"
+import ErrorNotification from "~/app/_components/ErrorNotification"
+import { useRouter } from "next/navigation"
 export default function NewCommunity() {
   //might get passed a name we will see
-  const {mutate, error} = api.communities.newCommunity.useMutation({
+  const router = useRouter()
+  const {mutate} = api.communities.newCommunity.useMutation({
     onSuccess: () => {
       console.log("Community Created")
-  },
+    },
     onError: (error) => {
       console.error(error)
+      setError("Community could not be created!")
+      setLoading(false)
     }
-})
+  })
 
     const [name, setName] = useState("")
     const [aboutCommunity, setAboutCommunity] = useState("")
@@ -28,9 +30,12 @@ export default function NewCommunity() {
     const [privateCommunity, setPrivateCommunity ] = useState(false)
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-
-    const handleCreate = async (e: React.FormEvent) => {
+    const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
+    const handleCreate = (e: React.FormEvent) => {
       e.preventDefault()
+      setLoading(true)
+      setError(null)
       if((password !== confirmPassword) && privateCommunity){
         alert("Passwords do not match")
         //set an error here
@@ -47,9 +52,13 @@ export default function NewCommunity() {
         private: privateCommunity,
         password
       })
+      setError(null)
+      setLoading(false)
     }
 
   return (
+    <>
+    {loading ? <Loading /> :
    <form className="m-10 md:mx-auto md:w-3/4 lg:w-1/2">
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -209,7 +218,7 @@ export default function NewCommunity() {
                 <label htmlFor="username" className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Password
               </label>
-              <div className="mt-2">
+              <div className="my-2">
                 <input
                   value = {password}
                   onChange = {(e) => setPassword(e.target.value)}
@@ -242,17 +251,24 @@ export default function NewCommunity() {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <span className="text-sm font-semibold leading-6 text-gray-900">
+        {error &&
+        <ErrorNotification message={error} />
+}
+        <span
+        onClick={() => router.push("/communities")}
+        className="text-sm font-semibold cursor-pointer hover:underline leading-6 text-gray-900">
           Cancel
         </span>
         <button
-          onClick={handleCreate}
+           onClick={handleCreate}
           type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-xl bg-primaryBrand px-3.5 py-2.5 text-sm font-semibold hover:text-primaryBrand text-white shadow-sm border hover:bg-backgroundBrand border-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Save
+          Create
         </button>
       </div>
     </form>
+}
+    </>
   )
 }

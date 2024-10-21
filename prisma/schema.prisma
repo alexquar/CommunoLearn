@@ -100,7 +100,7 @@ model Todo {
 model Community {
     createdBy  User   @relation("CreatedByCommunity", fields: [userId], references: [id])
     id        Int      @id @default(autoincrement())
-    name      String
+    name      String @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     userId     String
