@@ -95,7 +95,6 @@ export default function NewCommunity() {
                 onChange = {(e) => setAboutCommunity(e.target.value)}
                   rows={3}
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
-                  defaultValue={''}
                 />
               </div>
               <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about your community.</p>
@@ -136,7 +135,6 @@ export default function NewCommunity() {
                 onChange = {(e) => setSloganCommunity(e.target.value)}
                   rows={2}
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
-                  defaultValue={''}
                 />
               </div>
               <p className="mt-3 text-sm leading-6 text-gray-600">Give your community a memorable sentence.</p>

@@ -13,17 +13,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
 
 // Necessary for Next auth
 model Account {
@@ -61,7 +50,6 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
     todos         Todo[] 
 
     Meetings Meeting[]
@@ -94,7 +82,9 @@ model Todo {
     userId     String
     stage     Stage @default(idea)
 
-    Project Project[]
+    Project Project @relation(fields: [projectId], references: [id])
+    projectId Int
+
 }
 
 model Community {
@@ -112,7 +102,7 @@ model Community {
     aboutCommunity String
     locationCommunity String
     sloganCommunity String
-    communityType String @default("Other")
+    communityType String
     private Boolean @default(false)
     numberOfMembers Int
 }
@@ -132,7 +122,11 @@ model Meeting {
     userId     String
     stage     Stage @default(idea)
 
-    AssociatedCommunity Community[]
+    AssociatedCommunity Community @relation(fields: [AssociatedCommunityId], references: [id])
+    AssociatedCommunityId Int
+
+    AssociatedProject Project @relation(fields: [AssociatedProjectId], references: [id])
+    AssociatedProjectId Int
 }
 
 model Project {
@@ -147,9 +141,15 @@ model Project {
     projectMembers User[] @relation("ProjectMembers")
     userId     String
     stage     Stage @default(idea)
+
     todos    Todo[]
 
-    associatedCommunity Community[]
+    Meetings Meeting[]
+
+
+
+    associatedCommunityId Int
+    AssociatedCommunity Community @relation(fields: [associatedCommunityId], references: [id])
 }
 
 //enum of all project stages

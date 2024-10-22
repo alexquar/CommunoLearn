@@ -1,5 +1,8 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { communityRouter } from "./routers/community";
+import { meetingRouter } from "./routers/meeting";
+import { projectRouter } from "./routers/project";
+import { todoRouter } from "./routers/todo";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +11,9 @@ import { communityRouter } from "./routers/community";
  */
 export const appRouter = createTRPCRouter({
   communities: communityRouter,
+  meetings: meetingRouter,
+  projects: projectRouter,
+  todos: todoRouter,
 });
 
 // export type definition of API

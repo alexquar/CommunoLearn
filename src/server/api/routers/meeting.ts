@@ -5,7 +5,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const communityRouter = createTRPCRouter({
+export const meetingRouter = createTRPCRouter({
   
   getCommunities: publicProcedure
     .query(async({ ctx }) => {
