@@ -15,7 +15,7 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-primaryBrand">
-              Learn Together
+              Do It Together
             </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-accentBrand sm:text-4xl">
               Your Ideal Environment for Group Progess

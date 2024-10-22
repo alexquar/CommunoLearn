@@ -71,7 +71,7 @@ export default function NewCommunity() {
             <div className="sm:col-span-4">
             <h1 className="text-lg font-bold leading-7 my-10 text-accentBrand">Basic Info</h1>
 
-              <label htmlFor="username" className="block text-sm font-medium leading-6 text-secondaryBrand">
+              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Community Name
               </label>
               <div className="mt-2">
@@ -86,11 +86,12 @@ export default function NewCommunity() {
             </div>
 
             <div className="col-span-full">
-              <label htmlFor="about" className="block text-sm font-medium leading-6 text-secondaryBrand">
+              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
                 About
               </label>
               <div className="mt-2">
                 <textarea
+                placeholder="What is your community about?"
                 value = {aboutCommunity}
                 onChange = {(e) => setAboutCommunity(e.target.value)}
                   rows={3}
@@ -108,7 +109,7 @@ export default function NewCommunity() {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
             <div className="sm:col-span-4">
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Server Contact Adress
               </label>
               <div className="mt-2">
@@ -118,7 +119,7 @@ export default function NewCommunity() {
                   type="email"
                   autoComplete="email"
                   placeholder="WhereToContactTheCommunity@gmail.com"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full px-2 rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -126,7 +127,7 @@ export default function NewCommunity() {
             
 
             <div className="col-span-4">
-              <label htmlFor="about" className="block text-sm font-medium leading-6 text-secondaryBrand">
+              <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Slogan
               </label>
               <div className="mt-2">
@@ -134,6 +135,7 @@ export default function NewCommunity() {
                 value = {sloganCommunity}
                 onChange = {(e) => setSloganCommunity(e.target.value)}
                   rows={2}
+                  placeholder="Here at CommunoLeanrn our's is: Do It Together "
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
@@ -141,7 +143,7 @@ export default function NewCommunity() {
             </div>
 
             <div className="sm:col-span-3">
-              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+              <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Community Type
               </label>
               <div className="mt-2">
@@ -149,9 +151,9 @@ export default function NewCommunity() {
                   value = {communityType}
                   onChange = {(e) => setCommunityType(e.target.value)}
                   autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option>Class</option>
+                  <option className="">Class</option>
                   <option>High School Club</option>
                   <option>University Club</option>
                   <option>Workplace</option>
@@ -165,7 +167,10 @@ export default function NewCommunity() {
             </div>
 
             <div className="sm:col-span-3">
-              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+              <label  className="block text-sm font-medium leading-6  text-secondaryBrand">
+                <span className="text-red-800 pe-1">
+                  *
+                </span>
                 Country
               </label>
               <div className="mt-2">
@@ -178,11 +183,28 @@ export default function NewCommunity() {
                   <option>United States</option>
                   <option>Canada</option>
                   <option>Mexico</option>
+                  <option>Australia</option>
+                  <option>New Zealand</option>
+                  <option>France</option>
+                  <option>United Kingdom</option>
+                  <option>Ireland</option>
+                  <option>Finland</option>
+                  <option>Sweden</option>
+                  <option>Germany</option>
+                  <option>Norway</option>
+                  <option>Other Country</option>
                 </select>
+                <p className="mt-2 sm:max-w-xs text-xs text-textBrand flex px-1">
+                <span
+                className="text-red-800 pe-1">
+                  *
+                </span>
+                Your country isn&apos;t represented? Let us know! CommunonoLearn is always growing and we&apos;d be happy to add your country to the list!
+                </p>
               </div>
             </div>
           </div>
-          <p className="mt-12 text-base font-bold leading-6 text-primaryBrand">More custom community info coming the future!</p>
+          <p className="mt-12 text-base font-bold leading-6 text-primaryBrand">More custom community info coming in the future!</p>
         </div>
 
         <div className="border-b border-gray-900/10 pb-12">
@@ -204,7 +226,7 @@ export default function NewCommunity() {
                     />
                   </div>
                   <div className="text-sm leading-6">
-                    <label htmlFor="comments" className="font-medium text-secondaryBrand">
+                    <label className="font-medium text-secondaryBrand">
                       Private Community?
                     </label>
                     <p className="text-gray-500">Will hide your community and require a password to join</p>
@@ -213,7 +235,7 @@ export default function NewCommunity() {
                 </div>
             {privateCommunity &&
               <section>
-                <label htmlFor="username" className="block text-sm font-medium leading-6 text-secondaryBrand">
+                <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Password
               </label>
               <div className="my-2">
@@ -226,7 +248,7 @@ export default function NewCommunity() {
                 />
               </div>
 
-              <label htmlFor="username" className="block text-sm font-medium leading-6 text-secondaryBrand">
+              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Confirm Password
               </label>
               <div className="mt-2">
