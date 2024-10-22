@@ -4,15 +4,16 @@
 "use client"
 import { useState } from "react"
 import { api } from "~/trpc/react"
-import Loading from "~/app/loading"
 import ErrorNotification from "~/app/_components/ErrorNotification"
 import { useRouter } from "next/navigation"
+import LoadingNotification from "~/app/_components/LoadingNotification"
 export default function NewCommunity() {
   //might get passed a name we will see
   const router = useRouter()
   const {mutate} = api.communities.newCommunity.useMutation({
     onSuccess: () => {
-      console.log("Community Created")
+      setError(null)
+      setLoading(false)
     },
     onError: (error) => {
       console.error(error)
@@ -36,29 +37,54 @@ export default function NewCommunity() {
       e.preventDefault()
       setLoading(true)
       setError(null)
-      if((password !== confirmPassword) && privateCommunity){
-        alert("Passwords do not match")
-        //set an error here
-        return
-      } 
+
+      // Basic form validation
+      if (!name) {
+      setError("Community name is required")
+      setLoading(false)
+      return
+      }
+      if (!aboutCommunity) {
+      setError("About section is required")
+      setLoading(false)
+      return
+      }
+      if (!email) {
+      setError("Email is required")
+      setLoading(false)
+      return
+      }
+      if (!communityType) {
+      setError("Community type is required")
+      setLoading(false)
+      return
+      }
+      if (!locationCommunity) {
+      setError("Location is required")
+      setLoading(false)
+      return
+      }
+      if (privateCommunity && (password !== confirmPassword)) {
+      setError("Passwords do not match")
+      setLoading(false)
+      return
+      }
 
       mutate({
-        name,
-        aboutCommunity,
-        locationCommunity,
-        ownerEmail:email,
-        sloganCommunity,
-        communityType,
-        private: privateCommunity,
-        password
+      name,
+      aboutCommunity,
+      locationCommunity,
+      ownerEmail: email,
+      sloganCommunity,
+      communityType,
+      private: privateCommunity,
+      password
       })
       setError(null)
       setLoading(false)
     }
 
   return (
-    <>
-    {loading ? <Loading /> :
    <form className="m-10 md:mx-auto md:w-3/4 lg:w-1/2">
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -98,14 +124,14 @@ export default function NewCommunity() {
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
-              <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about your community.</p>
+              <p className="mt-3 text-sm leading-6 text-textBrand">Write a few sentences about your community.</p>
             </div>
           </div>
         </div>
 
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Other Info</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">Other important information CommunoLearn users should now about your community.</p>
+          <h2 className="text-base font-semibold leading-7 text-accentBrand">Other Info</h2>
+          <p className="mt-1 text-sm leading-6 text-textBrand">Other important information CommunoLearn users should now about your community.</p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
             <div className="sm:col-span-4">
@@ -139,7 +165,7 @@ export default function NewCommunity() {
                   className="block w-full px-2 rounded-md border-0 py-1.5  text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
-              <p className="mt-3 text-sm leading-6 text-gray-600">Give your community a memorable sentence.</p>
+              <p className="mt-3 text-sm leading-6 text-textBrand">Give your community a memorable sentence.</p>
             </div>
 
             <div className="sm:col-span-3">
@@ -178,7 +204,7 @@ export default function NewCommunity() {
                   value = {locationCommunity}
                   onChange = {(e) => setLocationCommunity(e.target.value)}
                   autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand outline-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option>United States</option>
                   <option>Canada</option>
@@ -209,7 +235,7 @@ export default function NewCommunity() {
 
         <div className="border-b border-gray-900/10 pb-12">
           <h1 className="text-lg my-10 font-bold leading-7  text-accentBrand">Privacy</h1>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
+          <p className="mt-1 text-sm leading-6 text-textBrand">
             Would you like your community to be publicly viewable/joinable. (Communities are public by default)
           </p>
 
@@ -229,7 +255,7 @@ export default function NewCommunity() {
                     <label className="font-medium text-secondaryBrand">
                       Private Community?
                     </label>
-                    <p className="text-gray-500">Will hide your community and require a password to join</p>
+                    <p className="text-textBrand">Will hide your community and require a password to join</p>
                   </div>
                   
                 </div>
@@ -271,12 +297,15 @@ export default function NewCommunity() {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
+        {loading && 
+        <LoadingNotification/>
+        }
         {error &&
         <ErrorNotification message={error} />
 }
         <span
         onClick={() => router.push("/communities")}
-        className="text-sm font-semibold cursor-pointer hover:underline leading-6 text-gray-900">
+        className="text-sm font-bold cursor-pointer hover:underline leading-6 text-accentBrand">
           Cancel
         </span>
         <button
@@ -288,7 +317,5 @@ export default function NewCommunity() {
         </button>
       </div>
     </form>
-}
-    </>
   )
 }
