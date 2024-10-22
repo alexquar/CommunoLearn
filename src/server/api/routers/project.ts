@@ -6,7 +6,19 @@ import {
 } from "~/server/api/trpc";
 
 export const projectRouter = createTRPCRouter({
-  
+    
+    getProjects: publicProcedure.input(z.object({ projectId: z.number() })) 
+    .query(async({ ctx, input }) => {
+      return {
+        projects: await ctx.db.project.findUnique(
+            {
+                where: {
+                    id    : input.projectId
+                },
+            }
+        ),
+      };
+    }),
     
     newProject: publicProcedure
       .input(z.object({ 
@@ -28,7 +40,7 @@ export const projectRouter = createTRPCRouter({
                 createdBy: {
                     connect: { id: input.userId } // Replace 'someUserId' with the actual user ID
                 },
-                associatedCommunity:{
+                AssociatedCommunity:{
                     connect: { id: input.communityId  }
                 }
             }
