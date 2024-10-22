@@ -9,13 +9,20 @@ const people = [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   // More people...
-];
+]
+
 export default function Communities() {
   const [search, setSearch] = useState("");
 
+  const { data: community, refetch } = api.communities.getCommunityByName.useQuery(
+    { name: search },
+    { enabled: false }
+  );
+
   const searchCommunites = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    await refetch();
+    console.log(community);
   };
   return (
     <>
@@ -31,7 +38,9 @@ export default function Communities() {
                 communities right now!
               </p>
             </blockquote>
-            <form className="mx-auto mt-8 max-w-md">
+            <form
+            onSubmit={searchCommunites}
+            className="mx-auto mt-8 max-w-md">
               <label
                 htmlFor="default-search"
                 className="sr-only mb-2 text-sm font-medium text-textBrand"
@@ -67,7 +76,6 @@ export default function Communities() {
                 />
                 <button
                   type="submit"
-                  onClick = {()=> searchCommunites}
                   className="absolute bottom-2.5 end-2.5 rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/50 focus:outline-none focus:ring-4 focus:ring-secondaryBrand"
                 >
                   Search
@@ -115,6 +123,7 @@ export default function Communities() {
           </ul>
         </div>
       </div>
+      {community?.aboutCommunity}
     </>
   );
 }
