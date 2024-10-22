@@ -74,4 +74,17 @@ export const communityRouter = createTRPCRouter({
       })
     }),
 
+    getTopCommunities: publicProcedure
+    .query(async({ ctx }) => {
+      return {
+        communities: await ctx.db.community.findMany(
+            {
+              orderBy: {
+                numberOfMembers: 'desc'
+              },
+                take: 10
+            }
+        ),
+      };
+    })
 });
