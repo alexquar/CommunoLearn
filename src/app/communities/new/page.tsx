@@ -80,8 +80,6 @@ export default function NewCommunity() {
       private: privateCommunity,
       password
       })
-      setError(null)
-      setLoading(false)
     }
 
   return (
@@ -134,7 +132,7 @@ export default function NewCommunity() {
           <p className="mt-1 text-sm leading-6 text-textBrand">Other important information CommunoLearn users should now about your community.</p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
-            <div className="sm:col-span-4">
+            <div className="col-span-4">
               <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Server Contact Adress
               </label>
