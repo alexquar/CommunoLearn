@@ -15,7 +15,7 @@ export default function Communities() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
-  const { data: community, refetch } = api.communities.getCommunityByName.useQuery(
+  const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
   );

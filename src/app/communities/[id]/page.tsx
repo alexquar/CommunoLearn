@@ -1,12 +1,14 @@
 import { type RouterOutputs } from "~/trpc/react"
 import { api } from "~/trpc/server"
-type Community = RouterOutputs['communities']['getCommunity']
+import { type Community } from "@prisma/client"
+import { type Project } from "@prisma/client"
 import { notFound } from "next/navigation"
+import Blob from "~/app/_components/Blob"
 
 export default async function Community({params}:{params:{id:string}}) {
 const { id } = params
 
-let community: Community | undefined
+let community: Community | null
 const numericId = Number(id)
 if (isNaN(numericId)) {
     return notFound()
@@ -18,10 +20,48 @@ if (isNaN(numericId)) {
 }
 
   return (
-    <div>
-        {community && 
-        <h1>{community.name}</h1>
-}
+    <div className="py-24 sm:py-32">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto flex justify-between w-full lg:mx-0">
+        <div>
+        <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">{community.name}</h2>
+        <p className="mt-2 text-lg leading-8 text-textBrand">
+          {community.sloganCommunity}
+        </p>
+        <div className="mt-4">       
+          <Blob title={community.communityType}/>
+        </div>
+        </div>
+        <div className="text-textBrand me-2">
+        {community.aboutCommunity}
+      </div>
+      </div>
+    
+      <div className="mx-auto flex flex-col items-center sm:flex-row sm:justify-between mt-10 w-full gap-x-8 border-t border-gray-200 pt-8">
+        <div className="flex flex-col sm:flex-row gap-y-4 sm:gap-x-4">
+        <span>
+          {community.createdAt.toDateString()}
+        </span>
+        <span>
+          {community.locationCommunity}
+        </span>
+        <span>
+          {community.updatedAt.toDateString()}
+        </span>
+        <span>
+          {community.numberOfMembers}
+        </span>
+        <span>
+        {
+          community.ownerEmail
+        }
+        </span>
+        </div>
+        <span className="bg-secondaryBrand text-white py-2 px-4 mt-4 sm:mt-0 hover:bg-secondaryBrand/50 rounded-full">
+          Join Community
+        </span>
+      </div>
     </div>
+  </div>
   )
 }
