@@ -6,19 +6,25 @@ import CommunityCard from "../_components/CommunityCard";
 import { set } from "zod";
 import LoadingNotification from "../_components/LoadingNotification";
 import ErrorNotification from "../_components/ErrorNotification";
+import Modal from "../_components/Modal";
 
 
 
 export default function Communities() {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
   const { data: community, refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
   );
   const searchCommunites = async (e: React.FormEvent) => {
     e.preventDefault();
-    await refetch();
+    try {
+      await refetch();
+    } catch (error) {
+
+    }
     console.log(community);
   };
 
@@ -135,6 +141,19 @@ setError('An error occurred while fetching top communities :(');
 
 
         </div>
+
+        <div className="flex flex-col items-center mb-12 mt-24">
+          <h1 className="mb-4 text-4xl text-accentBrand font-bold">Looking for a private community?</h1>
+          <p className="font-semibold text-textBrand my-6">Click below to look for a private community! You must have the community name and password to view and potentially join the community.</p>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="text-white bg-gradient-to-r from-primaryBrand via-primaryBrand to-secondaryBrand hover:bg-gradient-to-bl  font-medium rounded-full text-sm px-10 py-5 text-center"
+          >
+            Red to Yellow
+          </button>
+        </div>
+        <Modal open={open} setOpen={setOpen} />
       </div>
     </>
   );
