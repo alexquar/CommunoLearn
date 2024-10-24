@@ -3,29 +3,42 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { type Community } from "@prisma/client";
 import CommunityCard from "../_components/CommunityCard";
-import { set } from "zod";
 import LoadingNotification from "../_components/LoadingNotification";
 import ErrorNotification from "../_components/ErrorNotification";
 import Modal from "../_components/Modal";
-
-
+import { useRouter } from "next/navigation";
 
 export default function Communities() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
   const { data: community, refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
   );
   const searchCommunites = async (e: React.FormEvent) => {
+    setSearchLoading(true);
+    setSearchError("");
     e.preventDefault();
     try {
-      await refetch();
+      const { data } = await refetch();
+      
+      if(data){
+          router.push(`/communities/${data.id}`);
+      } else {
+        setSearchError("No community found with that name :(");
+        setSearch("");
+      }
     } catch (error) {
-
+      console.log(error);
+      setSearchError("An error occurred while searching for communities :(");
+      setSearch("")
+    } finally{
+      setSearchLoading(false);
     }
-    console.log(community);
   };
 
   //get top communities on page load
@@ -99,6 +112,17 @@ setError('An error occurred while fetching top communities :(');
                   Search
                 </button>
               </div>
+              {searchError && 
+              <div className="mt-6">
+              <ErrorNotification message={searchError}/>
+              </div>
+              }
+              {
+                searchLoading && 
+                <div className="mt-6">
+                <LoadingNotification/>
+                </div>
+              }
             </form>
           </figure>
         </div>

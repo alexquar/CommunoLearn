@@ -87,7 +87,6 @@ export const communityRouter = createTRPCRouter({
     }
     );
     return {
-    loading: false,
     communities,
     };
   })
