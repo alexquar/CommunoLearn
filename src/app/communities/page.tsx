@@ -3,12 +3,15 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { type Community } from "@prisma/client";
 import CommunityCard from "../_components/CommunityCard";
+import { set } from "zod";
+import LoadingNotification from "../_components/LoadingNotification";
+import ErrorNotification from "../_components/ErrorNotification";
 
 
 
 export default function Communities() {
   const [search, setSearch] = useState("");
-
+  const [error, setError] = useState("");
   const { data: community, refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
@@ -21,10 +24,17 @@ export default function Communities() {
 
   //get top communities on page load
 let topCommunities: Community[] = [];
+try{
 const { data } = api.communities.getTopCommunities.useQuery();
 if(data){
   topCommunities = data.communities;
 }
+} catch (error) {
+console.log(error);
+setError('An error occurred while fetching top communities :(');
+}
+
+
 
   return (
     <>
@@ -88,28 +98,42 @@ if(data){
         </div>
       </section>
       <div className="py-12 sm:py-18">
+      
         <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
           <div className="max-w-xl">
             <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
               Join a popular community!
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Bellow are some of the communities that have the most members. See
+              Below are some of the communities that have the most members. See
               if there is something that interests you where you can try out our
               communities!
             </p>
           </div>
+
+
+        {error ? (
+          <ErrorNotification message={error} />
+        ) : topCommunities.length === 0 ? (
+          <div className="mx-auto">
+            <LoadingNotification />
+          </div>
+        ) : (
           <ul
             role="list"
             className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
           >
-          {topCommunities?.map((community) => (
+            {topCommunities?.map((community) => (
               <li key={community.id}>
                 <CommunityCard community={community} />
               </li>
-            ))
-          }
+            ))}
           </ul>
+        )}
+
+
+
+
         </div>
       </div>
     </>
