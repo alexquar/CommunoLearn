@@ -1,9 +1,8 @@
-import { type RouterOutputs } from "~/trpc/react"
 import { api } from "~/trpc/server"
 import { type Community } from "@prisma/client"
-import { type Project } from "@prisma/client"
 import { notFound } from "next/navigation"
 import Blob from "~/app/_components/Blob"
+import ButtonClient from "~/app/_components/Button"
 
 export default async function Community({params}:{params:{id:string}}) {
 const { id } = params
@@ -14,9 +13,15 @@ if (isNaN(numericId)) {
     return notFound()
 } else {
     community = await api.communities.getCommunity({ id: numericId })
+    console.log(community)
     if(!community){
         return notFound()
     }
+}
+
+
+const addToCommunity = async () => {
+console.log('add to community')
 }
 
   return (
@@ -32,7 +37,7 @@ if (isNaN(numericId)) {
           <Blob title={community.communityType}/>
         </div>
         </div>
-        <div className="text-textBrand me-2">
+        <div className="text-textBrand text-right w-1/2 break-words me-2">
         {community.aboutCommunity}
       </div>
       </div>
@@ -63,9 +68,7 @@ if (isNaN(numericId)) {
 }
         </span>
         </div>
-        <span className="bg-secondaryBrand text-white py-2 px-4 mt-4 sm:mt-0 hover:bg-secondaryBrand/50 rounded-full">
-          Join Community
-        </span>
+        <ButtonClient title="Join Community" funcOnClick={addToCommunity}  />
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-
+import type { Community } from "@prisma/client";
 
 
 export const communityRouter = createTRPCRouter({
@@ -29,7 +29,7 @@ export const communityRouter = createTRPCRouter({
     return await ctx.db.community.findUnique({
       where: {
         id: input.id
-      }
+      },
     })
   }),
 
@@ -59,6 +59,7 @@ export const communityRouter = createTRPCRouter({
         {
           connect: { id: 'cm2avbnnf0000buxc4t44yo3p' }
         },
+        
         ownerEmail: input.ownerEmail,
         communityType: input.communityType,
         //will need to do actual user eventually
@@ -89,7 +90,25 @@ export const communityRouter = createTRPCRouter({
     return {
     communities,
     };
-  })
+  }),
 
-  
-});
+  addUserToCommunity: publicProcedure
+  .input(z.object({ communityId: z.number(), userId: z.string() }))
+  .query(async({ ctx, input }) => {
+    return await ctx.db.community.update({
+      where: {
+      id: input.communityId
+      },
+      data: {
+      numberOfMembers: {
+        increment: 1
+      },
+      members: {
+        connect: { id: input.userId }
+      }
+      }
+    })
+  }
+),
+
+})

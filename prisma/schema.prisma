@@ -50,6 +50,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+
     todos         Todo[] 
 
     Meetings Meeting[]
@@ -64,7 +65,7 @@ model User {
 }
 
 model VerificationToken {
-    identifier String
+    identifier String 
     token      String   @unique
     expires    DateTime
 
@@ -94,8 +95,8 @@ model Community {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     userId     String
-    projects     Project[] @relation()
-    meetings Meeting[]  @relation()
+    projects     Project[]
+    meetings Meeting[]
     members User[] @relation("CommunityMembers")
     ownerEmail String?
     password String?
