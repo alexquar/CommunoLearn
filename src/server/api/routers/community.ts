@@ -9,6 +9,7 @@ import type { Community } from "@prisma/client";
 
 export const communityRouter = createTRPCRouter({
   
+  //get 10 communities 
   getCommunities: publicProcedure
   .query(async({ ctx }) => {
     return {
@@ -23,6 +24,7 @@ export const communityRouter = createTRPCRouter({
     };
   }),
 
+  //get a community by its id 
   getCommunity: publicProcedure
   .input(z.object({ id: z.number() }))
   .query(async({ ctx, input }) => {
@@ -33,6 +35,7 @@ export const communityRouter = createTRPCRouter({
     })
   }),
 
+  //create a new community
   newCommunity: publicProcedure
   .input(z.object({ 
     name: z.string().min(1), 
@@ -67,6 +70,7 @@ export const communityRouter = createTRPCRouter({
     })
   }),
 
+  //get a community by its name for the search bar
   getCommunityByName: publicProcedure
   .input(z.object({ name: z.string() }))
   .query(async({ ctx, input }) => {
@@ -77,6 +81,7 @@ export const communityRouter = createTRPCRouter({
     })
   }),
 
+  //get the top 10 communities for the home screen
   getTopCommunities: publicProcedure
   .query(async({ ctx }) => {
     const communities = await ctx.db.community.findMany(
@@ -92,6 +97,7 @@ export const communityRouter = createTRPCRouter({
     };
   }),
 
+  //add a user to a community
   addUserToCommunity: publicProcedure
   .input(z.object({ communityId: z.number(), userId: z.string() }))
   .query(async({ ctx, input }) => {
@@ -111,4 +117,32 @@ export const communityRouter = createTRPCRouter({
   }
 ),
 
+//get a community with all of its projects and meetings
+getCommunityWithRelation: publicProcedure
+.input(z.object({ id: z.number() }))
+.query(async({ ctx, input }) => {
+  return await ctx.db.community.findUnique({
+    where: {
+      id: input.id
+    },
+    include: {
+      projects: true,
+      meetings: true,
+      members: true
+    }
+  })}),
+
+  //delete a community by id
+  deleteCommunity: publicProcedure
+  .input(z.object({ id: z.number() }))
+  .mutation(async({ ctx, input }) => {
+    return await ctx.db.community.delete({
+      where: {
+        id: input.id
+      }
+    })
+  }),
+
 })
+
+
