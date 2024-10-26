@@ -143,6 +143,34 @@ getCommunityWithRelation: publicProcedure
     })
   }),
 
+  updateCommunityById: publicProcedure
+  .input(z.object({
+    id: z.number(),
+    name: z.string().min(1),
+    aboutCommunity: z.string().min(1),
+    private: z.boolean(),
+    password: z.string(),
+    locationCommunity: z.string().min(1),
+    sloganCommunity: z.string().min(1),
+    communityType: z.string().min(1),
+    ownerEmail: z.string().min(1)
+  }))
+  .mutation(async({ ctx, input }) => {
+    return await ctx.db.community.update({
+      where: {
+        id: input.id
+      },
+      data: {
+        name: input.name,
+        aboutCommunity: input.aboutCommunity,
+        private: input.private,
+        password: input.password,
+        locationCommunity: input.locationCommunity,
+        sloganCommunity: input.sloganCommunity,
+        communityType: input.communityType,
+        ownerEmail: input.ownerEmail
+      }
+    })
+  }),
+
 })
-
-
