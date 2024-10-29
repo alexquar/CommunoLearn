@@ -81,6 +81,17 @@ export const communityRouter = createTRPCRouter({
     })
   }),
 
+  getPrivateCommunityByName: publicProcedure
+  .input(z.object({ name: z.string() }))
+  .query(async({ ctx, input }) => {
+    return await ctx.db.community.findUnique({
+      where: {
+        name: input.name,
+        private:true
+      }
+    })
+  }),
+
   //get the top 10 communities for the home screen
   getTopCommunities: publicProcedure
   .query(async({ ctx }) => {
