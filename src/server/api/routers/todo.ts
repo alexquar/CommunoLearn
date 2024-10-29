@@ -78,5 +78,20 @@ export const todoRouter = createTRPCRouter({
       }
     })
   }),
+  //get to dos in a certain stage
+  getToDosInAStage: publicProcedure
+  .input(z.object({
+    id:z.number(),
+    stage:z.nativeEnum(Stage)
+  })
+)
+  .query(async({ctx,input})=>{
+    return await ctx.db.todo.findMany({
+      where:{
+        id:input.id,
+        stage:input.stage
+      }
+    })
+  }),
 
 });

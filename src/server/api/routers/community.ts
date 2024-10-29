@@ -118,7 +118,7 @@ export const communityRouter = createTRPCRouter({
 ),
 
 //get a community with all of its projects and meetings
-getCommunityWithRelation: publicProcedure
+getCommunityWithRelations: publicProcedure
 .input(z.object({ id: z.number() }))
 .query(async({ ctx, input }) => {
   return await ctx.db.community.findUnique({
@@ -126,8 +126,16 @@ getCommunityWithRelation: publicProcedure
       id: input.id
     },
     include: {
-      projects: true,
-      meetings: true,
+      projects: {
+        orderBy: {
+          createdAt: "desc"
+        }
+      },
+      meetings: {
+        orderBy:{
+          meetingTime:"desc"
+        }
+      },
       members: true
     }
   })}),

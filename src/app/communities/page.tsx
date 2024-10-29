@@ -7,7 +7,7 @@ import LoadingNotification from "../_components/LoadingNotification";
 import ErrorNotification from "../_components/ErrorNotification";
 import Modal from "../_components/Modal";
 import { useRouter } from "next/navigation";
-
+import React from "react";
 export default function Communities() {
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -56,7 +56,7 @@ setError('An error occurred while fetching top communities :(');
 
 
   return (
-    <>
+    <React.Fragment>
       <section className="relative isolate overflow-hidden px-6 pb-12 pt-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl lg:max-w-4xl">
           <h1 className="text-center text-3xl font-bold text-primaryBrand">
@@ -127,7 +127,7 @@ setError('An error occurred while fetching top communities :(');
           </figure>
         </div>
       </section>
-      <div className="py-12 sm:py-18">
+      <div className="py-12 mx-4 sm:mx-16 sm:py-18">
       
         <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
           <div className="max-w-xl">
@@ -174,11 +174,11 @@ setError('An error occurred while fetching top communities :(');
             onClick={() => setOpen(true)}
             className="text-white bg-gradient-to-r from-primaryBrand via-primaryBrand to-secondaryBrand hover:bg-gradient-to-bl  font-medium rounded-full text-sm px-10 py-5 text-center"
           >
-            Red to Yellow
+            Join a private community
           </button>
         </div>
         <Modal open={open} setOpen={setOpen} />
       </div>
-    </>
+    </React.Fragment>
   );
 }
