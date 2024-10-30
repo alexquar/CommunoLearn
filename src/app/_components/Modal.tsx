@@ -7,11 +7,13 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 
 export default function Modal(props: {
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const router =useRouter()
   const { open, setOpen } = props;
   const [communityName, setCommunityName] = useState("");
   const [communityPassword, setCommunityPassword] = useState("");
@@ -43,8 +45,15 @@ export default function Modal(props: {
     //try to join the community from the password we got 
 
     //if success display a success on the modal set a timeout then redirect to the communties screen with the id we have
+    router.push(`/communities/id`)
     //if failed set an errir
-    
+    setError('somethinb')
+  }
+
+  const back = () => {
+    setCommunityPassword('')
+    setCommunityName('')
+    setValidCommunityEntered(false)
   }
 
   return (
@@ -124,7 +133,7 @@ export default function Modal(props: {
                  Attempt to join {communityName || "the community"}
                 </button>
                      <button
-                     onClick={() => setValidCommunityEntered(false)}
+                     onClick={back}
                      type="button"
                      data-autofocus
                      className="mt-3 inline-flex w-full items-center justify-center rounded-xl border-accentBrand bg-white px-3 py-2 text-sm font-semibold text-accentBrand shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-accentBrand hover:text-white sm:mt-0 sm:w-auto"

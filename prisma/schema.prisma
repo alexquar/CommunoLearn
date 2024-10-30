@@ -66,6 +66,12 @@ model User {
     Projects Project[] @relation("ProjectMembers")
 
     Communities Community[] @relation("CommunityMembers")
+
+    Comments Comment[] @relation("commentedBy")
+
+    sentMessages Message[] @relation("messageSentBy")
+
+    recievedMessages Message[] @relation("recievedBy")
 }
 
 model VerificationToken {
@@ -163,4 +169,37 @@ enum Stage {
     inProgress
     planning
     idea
+}
+
+enum commentCategory {
+    suggestion
+    update 
+    //more to come
+}
+
+enum communityLocation {
+    Canada
+    USA
+    Mexio
+    //more to come 
+}
+
+model Comment{
+    id String @id @default(uuid())
+    text String
+    commentedBy User @relation("commentedBy", fields:[userId], references: [id])
+    userId String
+    commentCategory commentCategory
+    //will need to link to some time of content tbd
+}
+
+model Message{
+    id String @id @default(uuid())
+    text String 
+    sentTime DateTime @default(now())
+    modifiedTime DateTime @updatedAt
+    from User @relation("messageSentBy", fields:[fromId], references: [id])
+    fromId String
+    to User @relation("recievedBy", fields:[toId], references: [id])
+    toId String
 }
