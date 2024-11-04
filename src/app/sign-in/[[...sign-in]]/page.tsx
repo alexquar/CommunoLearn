@@ -1,10 +1,15 @@
-import React from 'react'
+'use client'
 import Image from 'next/image'
-import icon from '../../../public/plan-28.svg'
+import icon from '../../../../public/plan-28.svg'
 import Link from 'next/link'
+
+import * as Clerk from '@clerk/elements/common'
+import * as SignIn from '@clerk/elements/sign-in'
 export default function login() {
   return (
     <>
+    <SignIn.Root>
+    <SignIn.Step name='start'>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image
@@ -13,24 +18,20 @@ export default function login() {
           src={icon}
           className="mx-auto h-16 sm:h-20 w-auto"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primaryBrand">
-          Sign in to your account
-        </h2>
+        <Clerk.Connection name='google' className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primaryBrand">
+          Sign in with your email
+        </Clerk.Connection>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form action="#" method="POST" className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-textBrand">
+            <Clerk.Label htmlFor="email" className="block text-sm font-medium leading-6 text-textBrand">
               Email address
-            </label>
+            </Clerk.Label>
             <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
+              <Clerk.Input
+                name='identifier'
                 className="block w-full rounded-md border-0 py-1.5 px-1 outline-accentBrand text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
               />
             </div>
@@ -77,6 +78,8 @@ export default function login() {
         </p>
       </div>
     </div>
+    </SignIn.Step>
+    </SignIn.Root>
   </>
   )
 }

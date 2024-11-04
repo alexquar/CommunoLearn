@@ -24,6 +24,7 @@ export default async function Community({
     return notFound();
   }
 
+
   //if community has the current user in it switch to the special thing
   const inCommunity = false;
 
