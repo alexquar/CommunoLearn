@@ -19,13 +19,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ClerkProvider>
     <html lang="en" className={`${GeistSans.variable}`}>
+      <ClerkProvider>
       <body>
         <NavBar />
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
+      </ClerkProvider>
     </html>
-    </ClerkProvider>
   );
 }

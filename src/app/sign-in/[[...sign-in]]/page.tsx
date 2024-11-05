@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import icon from '../../../../public/plan-28.svg'
 import Link from 'next/link'
-
+import { signIn } from 'next-auth/react'
 import * as Clerk from '@clerk/elements/common'
 import * as SignIn from '@clerk/elements/sign-in'
 export default function login() {
