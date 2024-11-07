@@ -78,12 +78,6 @@ export default function Login() {
           </Link>
         </p>
       </div>
-    <button onClick={()=>setOpen(true)}>
-      hi
-    </button>
-    <GenericModal open={open} setOpen={setOpen}>
-    hello world
-    </GenericModal>
   </>
   )
 }

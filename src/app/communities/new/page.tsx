@@ -166,7 +166,7 @@ export default function NewCommunity() {
               <p className="mt-3 text-sm leading-6 text-textBrand">Give your community a memorable sentence.</p>
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="col-span-3">
               <label  className="block text-sm font-medium leading-6 text-secondaryBrand">
                 Community Type
               </label>
@@ -190,7 +190,7 @@ export default function NewCommunity() {
               </div>
             </div>
 
-            <div className="sm:col-span-3">
+            <div className="col-span-3">
               <label  className="block text-sm font-medium leading-6  text-secondaryBrand">
                 <span className="text-red-800 pe-1">
                   *
@@ -228,6 +228,7 @@ export default function NewCommunity() {
               </div>
             </div>
           </div>
+
           <p className="mt-12 text-base font-bold leading-6 text-primaryBrand">More custom community info coming in the future!</p>
         </div>
 

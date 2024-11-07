@@ -28,6 +28,7 @@ export default function JoinCommunityButton({id}: {id: number}) {
       setError("");
       mutate({
         communityId: id,
+        //take in actual id
         userId: "cm2avbnnf0000buxc4t44yo3p"
       });
     }

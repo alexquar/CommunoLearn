@@ -2,8 +2,6 @@ import { api } from "~/trpc/server";
 import { notFound } from "next/navigation";
 import Blob from "~/app/_components/Blob";
 import JoinCommunityButton from "~/app/_components/JoinCommunityButton";
-import ProjectCard from "~/app/_components/ProjectCard";
-import MeetingCard from "~/app/_components/MeetingCard";
 import ClientPage from "./clientPage";
 //this component will need to be switched to client
 export default async function Community({
@@ -27,7 +25,7 @@ export default async function Community({
 
 
   //if community has the current user in it switch to the special thing
-  const inCommunity = false;
+  const inCommunity = true;
 
 
   return (
