@@ -4,7 +4,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import type { User } from "@prisma/client";
 import { location } from "@prisma/client";
 export const userRouter = createTRPCRouter({
   
@@ -23,7 +22,7 @@ export const userRouter = createTRPCRouter({
     newUser: publicProcedure
     .input(z.object({ 
         email: z.string().min(1), 
-        name: z.string().min(1),
+        location: z.nativeEnum(location),
         firstName: z.string(),
         lastName: z.string(),
     }))
@@ -31,7 +30,7 @@ export const userRouter = createTRPCRouter({
         return await ctx.db.user.create({
             data: {
                 email: input.email,
-                name: input.name,
+                location: input.location,
                 firstName: input.firstName,
                 lastName: input.lastName,
             }
@@ -57,7 +56,6 @@ export const userRouter = createTRPCRouter({
                 id: input.id
             },
             data: {
-                name: input.name,
                 email: input.email,
                 dateOfBirth: input.dateOfBirth,
                 location: input.location,

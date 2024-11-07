@@ -5,29 +5,51 @@ import icon from "../../../public/plan-28.svg";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// const {mutate} = api.signup.createUser.useMutation();
+import { api } from "~/trpc/react";
+import type { location } from "@prisma/client";
+
 export default function Signup() {
 const router = useRouter();
 const [firstName, setFirstName] = useState("");
 const [lastName, setLastName] = useState("");
 const [email, setEmail] = useState("");
 const [password, setPassword] = useState("");
-const [country, setCountry] = useState("Canada");
+const [country, setCountry] = useState<keyof typeof location>("Canada");
+const [error, setError] = useState("");
+const  [loading, setLoading] = useState(false);
+
+//set up mutation
+const { mutate } = api.user.newUser.useMutation({
+  onSuccess: () => {
+    setError("");
+    setLoading(false);
+    router.push("/");
+  },
+  onError: (error) => {
+    console.error(error);
+    setError("Community could not be created!");
+    setLoading(false);
+  },
+})
+
+
 const handleSubmit = async (e: React.FormEvent) => {
+  //prep for call
+  setLoading(true);
+  setError("");
 e.preventDefault();
 //log user in 
 
 //update user context
 
-
-//create user doc
-const object = {
+//call mutation
+mutate({
+  email,
   firstName,
   lastName,
-  email,
-  country
-}
-// router.push("/")
+  location: country,
+});
+
 }
   return (
     <>
@@ -111,13 +133,13 @@ const object = {
             <label htmlFor="countries" className="block mb-2 text-sm font-medium text-textBrand">Country</label>
   <select 
   value={country}
-  onChange={(e) => setCountry(e.target.value)}
+  onChange={(e) => setCountry(e.target.value as keyof typeof location)}
   id="countries" className="bg-white border border-accentBrand outline-accentBrand text-textBrand text-sm rounded-lg focus:ring-accentBrand focus:border-accentBrand block w-full px-1 py-2.5 ">
-    <option selected>Canada</option>
-    <option value="US">United States</option>
-    <option value="CA">Mexio</option>
-    <option value="FR">France</option>
-    <option value="DE">Germany</option>
+    <option selected value="Canada">Canada</option>
+    <option value="USA">United States</option>
+    <option value="Mexico">Mexio</option>
+    <option value="France">France</option>
+    <option value="Germany">Germany</option>
   </select>
 
             </div>
