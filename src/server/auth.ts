@@ -48,14 +48,7 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER ?? "http://localhost:3000",
-        port: 587,
-        auth: {
-          user: "apikey",
-          pass: process.env.EMAIL_API_KEY,
-        },
-      },
+      server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM ?? "test@localhost.com",
 
       ...(process.env.NODE_ENV !== "production"

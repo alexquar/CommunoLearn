@@ -5,7 +5,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import logo from "../../../public/plan-28.svg"
-import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs"
 
 export default function NavBar(){
     const [dropdown, setDropdown] = useState(false)
@@ -17,7 +16,6 @@ export default function NavBar(){
         </span>
         <Link href="/" className="text-2xl md:ms-5 font-semibold hover:cursor-pointer whitespace-nowrap text-textBrand">CommunoLearn</Link>
     </div>
-    <SignedIn>
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
       <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
         <li>
@@ -36,18 +34,16 @@ export default function NavBar(){
           <Link href="#" className="block py-2 px-3 text-textBrand hover:text-accentBrand hover:font-bold underline rounded md:hover:bg-transparent md:p-0 ">Sign Out</Link>
         </li>
         <li>
-          <SignOutButton>Sign Out</SignOutButton>
+          
         </li>
       </ul>
     </div> 
-    </SignedIn>
 
 
-    <SignedOut>
     <div className="hidden w-full md:block md:w-auto" id="navbar-default">
     <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 ">
       <li>
-        <SignInButton >Sign In</SignInButton>
+        
       </li>
       <li>
         <Link href="/signup" className="block py-2 px-3 text-textBrand hover:underline rounded md:hover:bg-transparent md:p-0 ">Signup</Link>
@@ -57,7 +53,6 @@ export default function NavBar(){
       </li>
     </ul>
   </div>
-    </SignedOut>
 
     <div className="block md:hidden">
     <button onClick={()=>setDropdown(!dropdown)} id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="text-white bg-secondaryBrand border border-backgroundBrand hover:text-secondaryBrand hover:border-secondaryBrand hover:bg-backgroundBrand outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Options<svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -67,7 +62,6 @@ export default function NavBar(){
 </div>
 {dropdown &&
 <>
-    <SignedIn>
     <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                   <li>
@@ -84,8 +78,6 @@ export default function NavBar(){
                   <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Sign out</Link>
                 </div>
             </div>
-      </SignedIn>
-      <SignedOut>
         <div id="dropdownNavbar" className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
         <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
           <li>
@@ -98,7 +90,6 @@ export default function NavBar(){
         </ul>
   
     </div>
-    </SignedOut>  
     </> 
 }
 

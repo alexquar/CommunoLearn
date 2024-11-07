@@ -1,8 +1,34 @@
+"use client"
 import React from "react";
 import Image from "next/image";
 import icon from "../../../public/plan-28.svg";
 import Link from "next/link";
-export default function signup() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+// const {mutate} = api.signup.createUser.useMutation();
+export default function Signup() {
+const router = useRouter();
+const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [country, setCountry] = useState("Canada");
+const handleSubmit = async (e: React.FormEvent) => {
+e.preventDefault();
+//log user in 
+
+//update user context
+
+
+//create user doc
+const object = {
+  firstName,
+  lastName,
+  email,
+  country
+}
+// router.push("/")
+}
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -19,7 +45,7 @@ export default function signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
           <div>
               <label
                 htmlFor="firstName"
@@ -29,6 +55,8 @@ export default function signup() {
               </label>
               <div className="mt-2">
                 <input
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   id="firstName"
                   name="firstName"
                   type="text"
@@ -47,7 +75,9 @@ export default function signup() {
               </label>
               <div className="mt-2">
                 <input
-                  id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                id="lastName"
                   name="lastName"
                   type="text"
                   required
@@ -65,7 +95,9 @@ export default function signup() {
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                id="email"
                   name="email"
                   type="email"
                   required
@@ -77,7 +109,10 @@ export default function signup() {
 
             <div>
             <label htmlFor="countries" className="block mb-2 text-sm font-medium text-textBrand">Country</label>
-  <select id="countries" className="bg-white border border-accentBrand outline-accentBrand text-textBrand text-sm rounded-lg focus:ring-accentBrand focus:border-accentBrand block w-full px-1 py-2.5 ">
+  <select 
+  value={country}
+  onChange={(e) => setCountry(e.target.value)}
+  id="countries" className="bg-white border border-accentBrand outline-accentBrand text-textBrand text-sm rounded-lg focus:ring-accentBrand focus:border-accentBrand block w-full px-1 py-2.5 ">
     <option selected>Canada</option>
     <option value="US">United States</option>
     <option value="CA">Mexio</option>
@@ -106,12 +141,14 @@ export default function signup() {
               </div>
               <div className="mt-2">
                 <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   name="password"
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-textBrand outline-accentBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand outline-accentBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
             </div>

@@ -5,6 +5,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import type { User } from "@prisma/client";
+import { location } from "@prisma/client";
 export const userRouter = createTRPCRouter({
   
     //get a user by its id
@@ -23,12 +24,16 @@ export const userRouter = createTRPCRouter({
     .input(z.object({ 
         email: z.string().min(1), 
         name: z.string().min(1),
+        firstName: z.string(),
+        lastName: z.string(),
     }))
     .mutation(async({ ctx, input }) => {
         return await ctx.db.user.create({
             data: {
                 email: input.email,
                 name: input.name,
+                firstName: input.firstName,
+                lastName: input.lastName,
             }
         })
     }),
@@ -40,8 +45,9 @@ export const userRouter = createTRPCRouter({
         name: z.string().min(1),
         email: z.string().min(1),
         dateOfBirth: z.date().optional(),
-        location: z.string().optional(),
-        nickName: z.string().optional(),
+        location: z.nativeEnum(location),
+        firstName: z.string(),
+        lastName: z.string(),
         aboutMe: z.string().optional(),
         image: z.string().optional(),
     }))
@@ -55,7 +61,8 @@ export const userRouter = createTRPCRouter({
                 email: input.email,
                 dateOfBirth: input.dateOfBirth,
                 location: input.location,
-                nickName: input.nickName,
+                firstName: input.firstName,
+                lastName: input.lastName,
                 aboutMe: input.aboutMe,
                 image: input.image,
             }

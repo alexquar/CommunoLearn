@@ -47,8 +47,9 @@ model User {
     name          String
     email         String   @unique
     dateOfBirth   DateTime?
-    location      String?
-    nickName      String?
+    location      location @default(Canada)
+    firstName      String @default(" ")
+    lastName      String @default(" ")
     aboutMe       String?
     emailVerified DateTime?
     image         String?
@@ -177,10 +178,12 @@ enum commentCategory {
     //more to come
 }
 
-enum communityLocation {
+enum location {
     Canada
     USA
     Mexio
+    France 
+    Germany
     //more to come 
 }
 
