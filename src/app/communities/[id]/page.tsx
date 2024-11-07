@@ -1,9 +1,10 @@
 import { api } from "~/trpc/server";
 import { notFound } from "next/navigation";
 import Blob from "~/app/_components/Blob";
-import ButtonClient from "~/app/_components/Button";
+import JoinCommunityButton from "~/app/_components/JoinCommunityButton";
 import ProjectCard from "~/app/_components/ProjectCard";
 import MeetingCard from "~/app/_components/MeetingCard";
+import ClientPage from "./clientPage";
 //this component will need to be switched to client
 export default async function Community({
   params,
@@ -26,11 +27,8 @@ export default async function Community({
 
 
   //if community has the current user in it switch to the special thing
-  const inCommunity = true;
+  const inCommunity = false;
 
-  const addToCommunity = async () => {
-    console.log("add to community");
-  };
 
   return (
     <div className="h-[85vh] place-content-center py-24 sm:py-32">
@@ -78,30 +76,13 @@ export default async function Community({
           </div>
 
           {!inCommunity && (
-            <ButtonClient title="Join Community" funcOnClick={addToCommunity} />
+            <JoinCommunityButton id={numericId} />
           )}
         </div>
         {inCommunity &&
-        <section>
-          <ul>
-            {
-              community.projects.map((project) => (
-                <ProjectCard key={project.id} project={project}/>
-                                )
-              )
-            }
-          </ul>
-
-          <ul>
-            {
-              community.meetings.map((meeting) => (
-                <MeetingCard key={meeting.id} meeting={meeting}/>
-                                )
-              )
-            }
-          </ul>
-            {/* to dos will be rendered under the project themselves */}
-        </section>
+        <>
+          <ClientPage projects={community.projects} meetings={community.meetings} id={id}/>
+        </>
         }
       </div>
     </div>

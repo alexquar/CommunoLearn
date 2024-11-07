@@ -111,7 +111,7 @@ export const communityRouter = createTRPCRouter({
   //add a user to a community
   addUserToCommunity: publicProcedure
   .input(z.object({ communityId: z.number(), userId: z.string() }))
-  .query(async({ ctx, input }) => {
+  .mutation(async({ ctx, input }) => {
     return await ctx.db.community.update({
       where: {
       id: input.communityId
