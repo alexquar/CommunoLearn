@@ -11,7 +11,7 @@ export default async function Community({
   params: { id: string };
 }) {
   const { id } = params;
-
+  // const [newProject, setNewProject] = useState(false);
   const numericId = Number(id);
   if (isNaN(numericId)) {
     return notFound();
@@ -26,7 +26,7 @@ export default async function Community({
 
 
   //if community has the current user in it switch to the special thing
-  const inCommunity = false;
+  const inCommunity = true;
 
   const addToCommunity = async () => {
     console.log("add to community");

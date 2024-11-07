@@ -1,14 +1,17 @@
 'use client'
 import Image from 'next/image'
 import icon from '../../../public/plan-28.svg'
-
+import { useState } from 'react'
 import Link from 'next/link'
+import GenericModal from '../_components/genericModal'
 
-export default function login() {
+export default function Login() {
+  const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   return (
     <>
 
-    <form name='start'>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <Image
           alt="communolearn logo"
@@ -75,7 +78,12 @@ export default function login() {
           </Link>
         </p>
       </div>
-    </form>
+    <button onClick={()=>setOpen(true)}>
+      hi
+    </button>
+    <GenericModal open={open} setOpen={setOpen}>
+    hello world
+    </GenericModal>
   </>
   )
 }
