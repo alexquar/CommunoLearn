@@ -3,7 +3,7 @@ import Image from 'next/image'
 import icon from '../../../public/plan-28.svg'
 import { useState } from 'react'
 import Link from 'next/link'
-import GenericModal from '../_components/genericModal'
+import GenericModal from '../_components/NewProjectModal'
 
 export default function Login() {
   const [open, setOpen] = useState(false)
