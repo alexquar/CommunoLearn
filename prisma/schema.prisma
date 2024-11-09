@@ -160,6 +160,7 @@ model Project {
 
     associatedCommunityId Int
     AssociatedCommunity Community @relation(fields: [associatedCommunityId], references: [id])
+    @@unique([title, associatedCommunityId])
 }
 
 //enum of all project stages

@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
+import { set } from "zod";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -21,11 +22,13 @@ export default function NewProjectModal({
   const { mutate } = api.projects.newProject.useMutation({
     onSuccess: () => {
       console.log("Project created successfully");
+      setLoading(false);
       setOpen(false);
     },
     onError: (error) => {
+      setLoading(false);
       console.error(error);
-      setError("Project could not be created!");
+      setError("Error Occured");
     },
   });
 
@@ -80,7 +83,7 @@ export default function NewProjectModal({
                 </button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-5">
-                <div className="mb-4 grid grid-cols-2 gap-4">
+                <div className="mb-4 grid grid-cols-2 gap-12">
                   <div className="col-span-2">
                     <label className="mb-2 block text-sm font-medium text-accentBrand">
                       Project Name
