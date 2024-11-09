@@ -79,7 +79,7 @@ export default async function Community({
         </div>
         {inCommunity &&
         <>
-          <ClientPage projects={community.projects} meetings={community.meetings} id={id}/>
+          <ClientPage projects={community.projects} meetings={community.meetings} id={numericId}/>
         </>
         }
       </div>

@@ -9,7 +9,7 @@ export default function ClientPage({
   projects,
   meetings,
 }: {
-  id: string;
+  id: number;
   projects: Project[];
   meetings: Meeting[];
 }) {
@@ -36,7 +36,7 @@ export default function ClientPage({
       </ul>
       {/* to dos will be rendered under the project themselves */}
     </div>
-    <NewProjectModal open={projectModalOpen} setOpen={setProjectModalOpen} />
+    <NewProjectModal open={projectModalOpen} setOpen={setProjectModalOpen} communityId={id} />
     </>
   );
 }
