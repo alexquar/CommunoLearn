@@ -4,7 +4,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import type { Community } from "@prisma/client";
 
 
 export const communityRouter = createTRPCRouter({

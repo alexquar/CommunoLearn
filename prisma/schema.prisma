@@ -120,11 +120,10 @@ model Community {
 model Meeting {
     id        Int      @id @default(autoincrement())
     title     String
-    content   String?
+    content   String
     meetingTime DateTime
     meetingLocationOrLink String
-    online Boolean @default(false)
-    inPerson Boolean @default(true)
+    inPerson Boolean @default(false)
     meetingDocuments String[]
     done      Boolean  @default(false)
     createdAt DateTime @default(now())

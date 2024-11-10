@@ -3,7 +3,6 @@ import React from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
-import { set } from "zod";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -26,6 +25,7 @@ export default function NewProjectModal({
       setOpen(false);
     },
     onError: (error) => {
+      //
       setLoading(false);
       console.error(error);
       setError("Error Occured");
@@ -52,11 +52,11 @@ export default function NewProjectModal({
   return (
     <>
       {open && (
-        <div className="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-300/50">
-          <div className="relative max-h-full w-full max-w-md p-4">
-            <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
-              <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5 dark:border-gray-600">
-                <h3 className="text-lg font-bold text-accentBrand dark:text-white">
+        <div className="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-300/75">
+          <div className="relative max-h-full w-full max-w-xl p-4">
+            <div className="relative rounded-lg bg-white shadow ">
+              <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5 ">
+                <h3 className="text-lg font-bold text-accentBrand ">
                   Create New Project
                 </h3>
                 <button
@@ -128,7 +128,7 @@ export default function NewProjectModal({
                     Add project members and to dos after creation!
                   </div>
                 </div>
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-col gap-y-4 sm:flex-row justify-between items-center">
                 <button
                   type="submit"
                   className="inline-flex items-center rounded-lg bg-secondaryBrand px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-secondaryBrand/75"

@@ -37,20 +37,20 @@ export const meetingRouter = createTRPCRouter({
   createNewMeeting: publicProcedure
   .input(z.object({ 
     title: z.string().min(1), 
-    description: z.string().min(1), 
     meetingLocationOrLink: z.string().min(1),
     meetingTime: z.date(),
     createdBy: z.string().min(1),
     AssociatedCommunity: z.number(),
     AssociatedProject: z.number(),
     inPerson: z.boolean(),
-    meetingDocuments: z.array(z.string()).optional()
+    meetingDocuments: z.array(z.string()).optional(),
+    content: z.string().min(1),
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.meeting.create({
       data: {
         title: input.title,
-        content: input.description,
+        content: input.content,
         meetingLocationOrLink: input.meetingLocationOrLink,
         inPerson: input.inPerson,
         meetingTime: input.meetingTime,
