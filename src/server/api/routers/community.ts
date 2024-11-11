@@ -73,9 +73,12 @@ export const communityRouter = createTRPCRouter({
   getCommunityByName: publicProcedure
   .input(z.object({ name: z.string() }))
   .query(async({ ctx, input }) => {
-    return await ctx.db.community.findUnique({
+    return await ctx.db.community.findMany({
       where: {
-        name: input.name
+      name: {
+        contains: input.name,
+        mode: 'default'
+      }
       }
     })
   }),

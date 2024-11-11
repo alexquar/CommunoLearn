@@ -8,18 +8,28 @@ import ErrorNotification from "../_components/ErrorNotification";
 import Modal from "../_components/Modal";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 export default function Communities() {
+const searchParams = useSearchParams();
+const givenSearch = searchParams.get("search");
+
+
   const router = useRouter();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(givenSearch || "");
   const [error, setError] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
+  const [searchedCommunities, setSearchedCommunities] = useState<Community[]>([])
+  const [previousSearch, setPreviousSearch] = useState("");
   const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
   );
+
   const searchCommunites = async (e: React.FormEvent) => {
+    setPreviousSearch(search);
     setSearchLoading(true);
     setSearchError("");
     e.preventDefault();
@@ -27,9 +37,9 @@ export default function Communities() {
       const { data } = await refetch();
       
       if(data){
-          router.push(`/communities/${data.id}`);
+          setSearchedCommunities(data);
       } else {
-        setSearchError("No community found with that name :(");
+        setSearchError("No communities found with that name :(");
         setSearch("");
       }
     } catch (error) {
@@ -38,8 +48,17 @@ export default function Communities() {
       setSearch("")
     } finally{
       setSearchLoading(false);
+      setSearch("");
     }
   };
+
+  useEffect(() => {
+    if (givenSearch) {
+      const syntheticEvent = new Event('submit', { bubbles: true, cancelable: true });
+      const formEvent = syntheticEvent as unknown as React.FormEvent<HTMLFormElement>;
+      searchCommunites(formEvent);
+    }
+  }, [givenSearch]);
 
   //get top communities on page load
 let topCommunities: Community[] = [];
@@ -123,9 +142,27 @@ setError('An error occurred while fetching top communities :(');
                 <LoadingNotification/>
                 </div>
               }
+              
             </form>
           </figure>
         </div>
+        {
+                searchedCommunities.length > 0 && 
+                <div className="mt-6 max-w-7xl mx-auto">
+                  <blockquote className="my-8 font-bold text-2xl text-accentBrand">Results for: {previousSearch}...</blockquote>
+                <ul
+                role="list"
+                className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-y-16 xl:col-span-2"
+                >
+                  
+                  {searchedCommunities?.map((community) => (
+                    <li key={community.id}>
+                      <CommunityCard community={community} />
+                    </li>
+                  ))}
+                </ul>
+                </div>
+              }
       </section>
       <div className="py-12 mx-4 sm:mx-16 sm:py-18">
       

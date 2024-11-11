@@ -3,7 +3,7 @@ import { type Community } from '@prisma/client'
 export default function CommunityCard(props: {community: Community}) {
 const {community} = props;
   return (
-    <div className="max-w-sm p-6 bg-white border border-textBrand rounded-xl shadow-md shadow-primaryBrand ">
+    <div className="max-w-sm p-8 bg-white border border-primaryBrand rounded-3xl shadow-sm shadow-primaryBrand ">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-accentBrand">{community.name}</h5>
     <p className="mb-3 font-normal text-wrap break-words text-textBrand ">
     {community.aboutCommunity.length > 34 ? community.aboutCommunity.substring(0, 34) + '...' : community.aboutCommunity}
