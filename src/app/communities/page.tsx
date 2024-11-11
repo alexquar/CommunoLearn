@@ -5,7 +5,7 @@ import { type Community } from "@prisma/client";
 import CommunityCard from "../_components/CommunityCard";
 import LoadingNotification from "../_components/LoadingNotification";
 import ErrorNotification from "../_components/ErrorNotification";
-import Modal from "../_components/Modal";
+import Modal from "../_components/PrivateCommunitySearchModal";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSearchParams } from "next/navigation";

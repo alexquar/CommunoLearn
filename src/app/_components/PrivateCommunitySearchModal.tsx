@@ -8,7 +8,9 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useRouter } from "next/navigation";
-
+import { api } from "~/trpc/react";
+import type { Community } from "@prisma/client";
+import ErrorNotification from "./ErrorNotification";
 export default function Modal(props: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -20,39 +22,64 @@ export default function Modal(props: {
   const [validCommunityEntered, setValidCommunityEntered] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const searchByName = (e: React.FormEvent) => {
+  const [foundCommunity, setFoundCommunity] = useState<Community| null>(null);
+  const {refetch} = api.communities.getPrivateCommunityByName.useQuery({name:communityName})
+  const {mutate} = api.communities.addUserToCommunity.useMutation({
+    onSuccess: () => {
+      console.log("User added to community")
+      setLoading(false)
+      setOpen(false)
+      router.push(`/communities/${foundCommunity?.id}`) 
+    },
+    onError: (error) => {
+      console.error(error)
+      setError("Community could not be joined")
+      setLoading(false)
+    }
+  })
+  const searchByName = async (e: React.FormEvent) => {
     try {
       setLoading(true);
       setError("");
       e.preventDefault();
       console.warn("clicked");
       //make network req to see if there is a community that has that name and is private
-
-      //throw new error and deal with it special if that community is not private
-      setValidCommunityEntered(true);
+      const result = await refetch();
+      if(result.data){
+        setFoundCommunity(result.data)
+        setValidCommunityEntered(true);
+      } else {
+        setError("No community found with that name!")
+      }
     } catch (err) {
       console.error(err);
-      setError("Community name could not be validated");
+      setError("Community could not be validated");
     } finally {
       setLoading(false);
     }
   };
 
-  const joinPrivateCommunity =  (e:React.FormEvent) => {
+  const joinPrivateCommunity = async (e:React.FormEvent) => {
+    setLoading(true)
     e.preventDefault()
     setError('')
-    console.log(communityPassword)
-    //try to join the community from the password we got 
 
-    //if success display a success on the modal set a timeout then redirect to the communties screen with the id we have
-    router.push(`/communities/id`)
-    //if failed set an errir
-    setError('somethinb')
+      if(foundCommunity?.password === communityPassword){
+        mutate({
+          communityId: foundCommunity.id,
+          userId: "cm2awkpze0001buxcd7mh4bl3"
+        })
+      } else {
+   setLoading(false)
+  setError("Incorrect password for this community")
+      }
+
   }
 
   const back = () => {
     setCommunityPassword('')
     setCommunityName('')
+    setError('')
     setValidCommunityEntered(false)
   }
 
@@ -64,7 +91,7 @@ export default function Modal(props: {
       />
 
       <form
-        onSubmit={validCommunityEntered ? joinPrivateCommunity : searchByName}
+        onSubmit={foundCommunity ? joinPrivateCommunity : searchByName}
         className="fixed inset-0 z-10 w-screen overflow-y-auto"
       >
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -91,9 +118,10 @@ export default function Modal(props: {
                   </div>
                   <div className="mt-8">
                     {validCommunityEntered ? (
+                      <>
                       <label className="flex flex-col">
-                        <span className="flex flex-row justify-between sm:w-2/3 items-center">
-                          <p>
+                        <span className="flex flex-row justify-between sm:w-4/5 items-center">
+                          <p className="text-accentBrand">
                           Password
                           </p>
                         <Blob title="COMMUNITY EXISTS!"  />
@@ -103,20 +131,33 @@ export default function Modal(props: {
                           value={communityPassword}
                           onChange={(e)=>setCommunityPassword(e.target.value)}
                           placeholder="Enter a community password"
-                          className="mt-2 rounded-xl border border-accentBrand px-4 py-2 text-textBrand outline-accentBrand sm:w-2/3"
+                          className="mt-2 rounded-xl border border-accentBrand px-4 py-2 text-textBrand outline-accentBrand sm:w-4/5"
                         />
                       </label>
+                      {error && 
+                      <div className="sm:w-4/5 mt-2 ">
+                      <ErrorNotification message={error} />
+                      </div>
+                      }
+                      </>
                     ) : (
+                      <>
                       <label className="flex flex-col">
-                        <span>Community Name</span>
+                        <span className="text-accentBrand">Community Name</span>
                         <input
                         value={communityName}
                         onChange={(e)=>setCommunityName(e.target.value)}
                           type="text"
                           placeholder="Enter a community name"
-                          className="mt-2 rounded-xl border border-accentBrand px-4 py-2 text-textBrand outline-accentBrand sm:w-2/3"
+                          className="mt-2 rounded-xl border border-accentBrand px-4 py-2 text-textBrand outline-accentBrand sm:w-4/5"
                         />
                       </label>
+                      {error && 
+                      <div className="sm:w-4/5 mt-2 ">
+                      <ErrorNotification message={error} />
+                      </div>
+                      }
+                      </>
                     )}
                   </div>
                 </div>
@@ -127,10 +168,9 @@ export default function Modal(props: {
                 <>
                 <button
                   type="submit"
-                  onClick={searchByName}
                   className="inline-flex w-full justify-center rounded-xl border-2 border-primaryBrand bg-primaryBrand px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-primaryBrand sm:ml-3  sm:w-auto"
                 >
-                 Attempt to join {communityName || "the community"}
+                  {loading ? "Joining..." : `Attempt to join ${communityName || "the community"}`}
                 </button>
                      <button
                      onClick={back}
@@ -145,10 +185,9 @@ export default function Modal(props: {
                 <>
                 <button
                   type="submit"
-                  onClick={searchByName}
                   className="inline-flex w-full justify-center rounded-xl border-2 border-primaryBrand bg-primaryBrand px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-primaryBrand sm:ml-3 sm:w-auto"
                 >
-                  Check for a community
+                  {loading ? "Searching..." : "Check for a community"}
                 </button>
                   <button
                   onClick={() => setOpen(false)}
