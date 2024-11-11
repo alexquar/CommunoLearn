@@ -1,10 +1,9 @@
 "use client";
 import {useState} from "react";
 import type { Project, Meeting } from "@prisma/client";
-import ProjectCard from "~/app/_components/ProjectCard";
 import MeetingCard from "~/app/_components/MeetingCard";
 import NewProjectModal from "~/app/_components/NewProjectModal";
-import NewMeetingModal from "~/app/_components/NewMeetingModal";
+import ProjectList from "~/app/_components/ProjectList";
 export default function ClientPage({
   id,
   projects,
@@ -19,11 +18,7 @@ export default function ClientPage({
     <>
     <div>
     <section>
-      <ul>
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </ul>
+      <ProjectList projects={projects} />
       <button onClick={()=>setProjectModalOpen(true)} className="text-white my-3 rounded-3xl bg-secondaryBrand hover:bg-secondaryBrand/75 px-10 py-3">
         Add Project
       </button>
