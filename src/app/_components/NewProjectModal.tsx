@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
+import { useRouter } from "next/navigation";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -12,6 +13,7 @@ export default function NewProjectModal({
   setOpen: (open: boolean) => void;
   communityId: number;
 }) {
+  const router = useRouter();
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [completionDate, setCompletionDate] = useState("");
@@ -23,6 +25,7 @@ export default function NewProjectModal({
       console.log("Project created successfully");
       setLoading(false);
       setOpen(false);
+      router.refresh();
     },
     onError: (error) => {
       //

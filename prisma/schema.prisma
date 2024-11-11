@@ -147,7 +147,7 @@ model Project {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     createdBy  User   @relation("createdByProject", fields: [userId], references: [id])
-    projectMembers User[] @relation("ProjectMembers")
+    projectMembers User[] @relation("ProjectMembers") 
     userId     String
     stage     Stage @default(idea)
 

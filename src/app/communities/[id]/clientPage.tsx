@@ -1,17 +1,38 @@
 "use client";
 import {useState} from "react";
-import type { Project, Meeting } from "@prisma/client";
 import MeetingCard from "~/app/_components/MeetingCard";
 import NewProjectModal from "~/app/_components/NewProjectModal";
 import ProjectList from "~/app/_components/ProjectList";
+
+import { type Prisma } from "@prisma/client";
+
+type ProjectWithRelations = Prisma.ProjectGetPayload<{
+  include: { 
+    createdBy: {
+      select: { firstName: true, lastName:true, email: true, id: true },
+    },
+    projectMembers: {
+      select: { id: true, firstName: true, lastName: true, email: true },
+    },
+   };
+}>;
+
+
+type MeetingWithRelations = Prisma.MeetingGetPayload<{
+  include: {
+    createdBy: true,
+    AssociatedProject: true,
+  };
+}>;
+
 export default function ClientPage({
   id,
   projects,
   meetings,
 }: {
   id: number;
-  projects: Project[];
-  meetings: Meeting[];
+  projects: ProjectWithRelations[];
+  meetings: MeetingWithRelations[];
 }) {
     const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (

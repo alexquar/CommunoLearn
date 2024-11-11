@@ -2,8 +2,22 @@
 import idea from '../../../public/free_icon_1.svg'
 import Image from 'next/image'
  
-import type { Project } from "@prisma/client"
-  export default function ProjectList({projects}: {projects: Project[]}) {
+import { type Prisma } from "@prisma/client";
+
+type ProjectWithRelations = Prisma.ProjectGetPayload<{
+  include: { 
+    createdBy: {
+      select: { firstName: true, lastName:true, email: true, id: true },
+    },
+    projectMembers: {
+      select: { id: true, firstName: true, lastName: true, email: true },
+    },
+   };
+}>;
+
+
+
+  export default function ProjectList({projects}: {projects: ProjectWithRelations[]}) {
     return (
       <ul role="list" className="divide-y divide-gray-100">
         {projects.map((project) => (
@@ -12,7 +26,7 @@ import type { Project } from "@prisma/client"
               <Image alt={`${project.stage} stage image`} src={idea} className="h-12 w-12 flex-none rounded-full bg-gray-50" />
               <div className="min-w-0 flex-auto">
                 <p className="text-sm/6 font-semibold text-gray-900">{project.title}</p>
-                <p className="mt-1 truncate text-xs/5 text-gray-500">{project.description}</p>
+                <p className="mt-1 truncate text-xs/5 text-gray-500"> created by: {project.createdBy.firstName} {project.createdBy.lastName} </p>
               </div>
             </div>
             <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">

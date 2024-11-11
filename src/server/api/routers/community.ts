@@ -1,7 +1,6 @@
 import { z } from "zod";
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 
@@ -142,11 +141,33 @@ getCommunityWithRelations: publicProcedure
       projects: {
         orderBy: {
           createdAt: "desc"
+        },
+        include:{
+          createdBy: {
+            select:{
+              firstName: true,
+              lastName: true,
+              email: true,
+              id: true
+            }
+          },
+          projectMembers: {
+            select:{
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
+          },
         }
       },
       meetings: {
         orderBy:{
           meetingTime:"desc"
+        },
+        include:{
+          AssociatedProject: true,
+          createdBy: true,
         }
       },
       members: true
