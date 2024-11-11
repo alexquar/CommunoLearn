@@ -4,16 +4,14 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
-export default function NewProjectModal({
+export default function NewTodoModal({
   open,
   setOpen,
-  communityId,
   projectId
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  communityId: number;
-    projectId: number;
+  projectId: number;
 }) {
   const router = useRouter();
   const [meetingName, setMeetingName] = useState("");
@@ -27,7 +25,7 @@ export default function NewProjectModal({
   const [currentDocument, setCurrentDocument] = useState("");
   const { mutate } = api.meetings.createNewMeeting.useMutation({
     onSuccess: () => {
-      console.log("Meeting created successfully");
+      console.log("Todo created successfully");
       setLoading(false);
       setOpen(false);
       router.refresh();
@@ -46,17 +44,7 @@ export default function NewProjectModal({
     setError("");
     e.preventDefault();
     
-    mutate({
-        title: meetingName,
-        content: content,
-        meetingTime: new Date(meetingTime),
-        inPerson: inPerson,
-        meetingLocationOrLink: meetingLocationOrLink,
-        meetingDocuments: meetingDocuments,
-        AssociatedCommunity: communityId,
-        createdBy: "cm2avbnnf0000buxc4t44yo3p", // Replace with actual user ID
-        AssociatedProject: projectId, 
-      });
+    
   };
 
   return (
@@ -67,7 +55,7 @@ export default function NewProjectModal({
             <div className="relative max-h-[80vh] overflow-y-scroll rounded-lg bg-white shadow">
               <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
                 <h3 className="text-lg font-bold text-accentBrand">
-                  Create New Meeting
+                  Create New Todo
                 </h3>
                 <button
                   onClick={() => setOpen(false)}
@@ -263,7 +251,7 @@ export default function NewProjectModal({
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    {loading ? "Creating Meeting..." : "Add new meeting"}
+                    {loading ? "Creating todo..." : "Add new todo"}
                   </button>
                   <span>{error && <ErrorNotification message={error} />}</span>
                 </div>
