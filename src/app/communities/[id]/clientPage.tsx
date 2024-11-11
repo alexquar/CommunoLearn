@@ -14,7 +14,6 @@ export default function ClientPage({
   projects: Project[];
   meetings: Meeting[];
 }) {
-    const [meetingModalOpen, setMeetingModalOpen] = useState(false);
     const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <>
@@ -35,13 +34,9 @@ export default function ClientPage({
           <MeetingCard key={meeting.id} meeting={meeting} />
         ))}
       </ul>
-      <button onClick={()=>setMeetingModalOpen(true)} className="text-white my-3 rounded-3xl bg-secondaryBrand hover:bg-secondaryBrand/75 px-10 py-3">
-        Add Meeting
-      </button>
       {/* to dos will be rendered under the project themselves */}
     </div>
     <NewProjectModal open={projectModalOpen} setOpen={setProjectModalOpen} communityId={id} />
-    <NewMeetingModal open={meetingModalOpen} setOpen={setMeetingModalOpen} communityId={id} projectId={1} />
     </>
   );
 }
