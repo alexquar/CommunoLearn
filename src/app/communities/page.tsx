@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { api } from "~/trpc/react";
 import { type Community } from "@prisma/client";
 import CommunityCard from "../_components/CommunityCard";
@@ -16,7 +16,7 @@ const givenSearch = searchParams.get("search");
 
 
   const router = useRouter();
-  const [search, setSearch] = useState(givenSearch || "");
+  const [search, setSearch] = useState(givenSearch ?? "");
   const [error, setError] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
@@ -28,7 +28,7 @@ const givenSearch = searchParams.get("search");
     { enabled: false }
   );
 
-  const searchCommunites = async (e: React.FormEvent) => {
+  const searchCommunites = useCallback(async (e: React.FormEvent) => {
     setPreviousSearch(search);
     setSearchLoading(true);
     setSearchError("");
@@ -50,15 +50,16 @@ const givenSearch = searchParams.get("search");
       setSearchLoading(false);
       setSearch("");
     }
-  };
+  }, [search, refetch]);
 
   useEffect(() => {
     if (givenSearch) {
       const syntheticEvent = new Event('submit', { bubbles: true, cancelable: true });
       const formEvent = syntheticEvent as unknown as React.FormEvent<HTMLFormElement>;
-      searchCommunites(formEvent);
+      searchCommunites(formEvent).catch(console.error);
     }
-  }, [givenSearch]);
+  
+  }, [givenSearch, searchCommunites] );
 
   //get top communities on page load
 let topCommunities: Community[] = [];

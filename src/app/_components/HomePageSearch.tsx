@@ -24,7 +24,7 @@ export default function HomePageSearch() {
         type="submit"
         className="flex-none rounded-3xl border-2 border-accentBrand bg-accentBrand px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-backgroundBrand hover:text-accentBrand"
       >
-        Create
+        Search
       </button>
     </form>
   );
