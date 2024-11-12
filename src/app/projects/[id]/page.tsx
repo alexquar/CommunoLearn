@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import React from 'react'
 import ClientPage from './clientPage';
 import { api } from '~/trpc/server';
-import MeetingCard from '~/app/_components/MeetingCard';
+import MeetingCalendar from '~/app/_components/MeetingCalendar';
 export default async function Project({params}: {params: {id: string}}) {
   const id = params.id;
   const numericId = Number(id);
@@ -16,11 +16,7 @@ export default async function Project({params}: {params: {id: string}}) {
   return (
     <>
     <div>{project.title}</div>
-    <ul>
-        {project.Meetings.map((meeting) => (
-          <MeetingCard key={meeting.id} meeting={meeting} />
-        ))}
-      </ul>
+    <MeetingCalendar />
     <ClientPage projectId={numericId} communityId={project.associatedCommunityId}/>
     </>
   )

@@ -33,7 +33,7 @@ export default async function Community({
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto flex w-full justify-between lg:mx-0">
           <div>
-            <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            <h2 className="text-pretty text-4xl font-bold tracking-tight text-accentBrand sm:text-5xl">
               {community.name}
             </h2>
             <p className="mt-2 text-lg leading-8 text-textBrand">
@@ -48,7 +48,7 @@ export default async function Community({
           </div>
         </div>
 
-        <div className="mx-auto mt-10 flex w-full flex-col items-center gap-x-8 border-t border-gray-200 pt-8 sm:flex-row sm:justify-between">
+        <div className="mx-auto mt-10 flex w-full flex-col items-center gap-x-8 border-y border-gray-200 py-8 sm:flex-row sm:justify-between">
           <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-2">
             <span className="flex flex-col sm:hidden sm:flex-row sm:border-e sm:border-accentBrand sm:pe-2 md:flex">
               <p className="mb-2 sm:mb-0 sm:me-2">Created:</p>
@@ -66,11 +66,13 @@ export default async function Community({
               <p className="mb-2 sm:mb-0 sm:me-2"># Members:</p>
               {community.numberOfMembers}
             </span>
+            {community.ownerEmail &&
             <span className="flex flex-col sm:flex-row">
+              
               <p className="mb-2 sm:mb-0 sm:me-2">Contact Adress:</p>
-
               {community.ownerEmail}
             </span>
+}
           </div>
 
           {!inCommunity && (
