@@ -1,4 +1,3 @@
-import { use } from "react";
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -30,18 +29,22 @@ export const todoRouter = createTRPCRouter({
   }),
 
   //create a new todo
-  newTodo: protectedProcedure
+  newTodo: publicProcedure
   .input(z.object({ 
     title: z.string().min(1), 
     content: z.string().min(1), 
     userId: z.string().min(1),
-    projectId: z.number()
+    projectId: z.number(),
+    completionDate : z.date(),
+    projectStage: z.nativeEnum(Stage) 
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.todo.create({
       data: {
+        stage: input.projectStage,
         title: input.title,
         content: input.content,
+        completionDate: input.completionDate,
         createdBy: {
           connect: {
             id: input.userId

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import type { location } from "@prisma/client";
+import ErrorNotification from "../_components/ErrorNotification";
 
 export default function Signup() {
 const router = useRouter();
@@ -27,7 +28,7 @@ const { mutate } = api.user.newUser.useMutation({
   },
   onError: (error) => {
     console.error(error);
-    setError("Community could not be created!");
+    setError("Account could not be created!");
     setLoading(false);
   },
 })
@@ -47,7 +48,7 @@ mutate({
   email,
   firstName,
   lastName,
-  location: country,
+  location: country as location,
 });
 
 }
@@ -83,6 +84,7 @@ mutate({
                   name="firstName"
                   type="text"
                   required
+                  placeholder="John"
                   className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm ring-1 outline-accentBrand ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
@@ -103,6 +105,7 @@ mutate({
                   name="lastName"
                   type="text"
                   required
+                  placeholder="Doe"
                   className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
@@ -123,6 +126,7 @@ mutate({
                   name="email"
                   type="email"
                   required
+                  placeholder="JohnDoe@gmail.com"
                   autoComplete="email"
                   className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
@@ -170,6 +174,7 @@ mutate({
                   type="password"
                   required
                   autoComplete="current-password"
+                  placeholder="********"
                   className="block w-full rounded-md border-0 px-1 py-1.5 text-textBrand outline-accentBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
                 />
               </div>
@@ -180,8 +185,16 @@ mutate({
                 type="submit"
                 className="flex w-full justify-center rounded-md border-2 border-primaryBrand bg-primaryBrand px-3 py-1.5 text-sm font-semibold leading-6 text-backgroundBrand shadow-sm hover:bg-backgroundBrand hover:text-primaryBrand"
               >
-                Sign in
+                {loading ? "Signing in....":
+                'Sign in'}
               </button>
+            </div>
+            <div>
+              {error && (
+                <>
+                <ErrorNotification message={error} />
+                </>
+              )}
             </div>
           </form>
 
