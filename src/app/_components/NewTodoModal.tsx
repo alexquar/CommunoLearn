@@ -4,15 +4,21 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
-import { type Stage } from "@prisma/client";
+import { type Prisma, type Stage } from "@prisma/client";
+import Error from "./Error";
+type ProjectMembersShort = Prisma.UserGetPayload<{
+  select: { id: true, firstName: true, lastName: true, email: true }
+}>
 export default function NewTodoModal({
   open,
   setOpen,
   projectId,
+  projectMembers,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   projectId: number;
+  projectMembers: ProjectMembersShort[];
 }) {
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -21,7 +27,10 @@ export default function NewTodoModal({
   const [completionDate, setCompletionDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [memberId, setMemberId] = useState(projectMembers[0]?.id ?? "");
+  if(projectMembers.length === 0){
+    return <Error errorMessage="No members in project (This should never happen)" statusCode={500} redirectLink={`communities/${projectId}`} redirectPlace="Back to Project"   />
+  }
   const { mutate } = api.todos.newTodo.useMutation({
     onSuccess: () => {
       console.log("Project created successfully");
@@ -52,6 +61,7 @@ export default function NewTodoModal({
       projectId,
       completionDate: endDate,
       projectStage: stage as Stage,
+      assignedId: memberId,
     });
   };
 
@@ -89,7 +99,7 @@ export default function NewTodoModal({
                 </button>
               </div>
               <form onSubmit={handleSubmit} className="p-4 md:p-5">
-                <div className="mb-4 grid grid-cols-2 gap-12">
+                <div className="mb-8 grid grid-cols-2 gap-12">
                   <div className="col-span-2">
                     <label className="mb-2 block text-sm font-medium text-accentBrand">
                       Todo
@@ -146,6 +156,26 @@ export default function NewTodoModal({
                     <option value="inProgress">In Progress</option>
                     <option value="onHold">On Hold</option>
                     <option value="done">Done</option>
+                    </select>
+                  </div>
+
+                  <div className="col-span-2 sm:col-span-1">
+                    <label className="mb-2 block text-sm font-medium text-accentBrand">
+                      Todo Stage
+                    </label>
+                    <select
+                      className="block w-full rounded-lg border-2 border-primaryBrand bg-white p-2.5 text-sm text-textBrand placeholder-textBrand outline-primaryBrand"
+                      required
+                      value={memberId}
+                      onChange={(e) => setMemberId(e.target.value)}
+                    >
+                    {
+                      projectMembers.map((member) => (
+                        <option key={member.id} value={member.id}>
+                          {member.firstName} {member.lastName}
+                        </option>
+                      ))}
+                    
                     </select>
                   </div>
 

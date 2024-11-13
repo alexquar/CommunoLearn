@@ -36,7 +36,8 @@ export const todoRouter = createTRPCRouter({
     userId: z.string().min(1),
     projectId: z.number(),
     completionDate : z.date(),
-    projectStage: z.nativeEnum(Stage) 
+    projectStage: z.nativeEnum(Stage),
+    assignedId: z.string().min(1)
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.todo.create({
@@ -49,6 +50,11 @@ export const todoRouter = createTRPCRouter({
           connect: {
             id: input.userId
           }
+        },
+        assignedUser:{
+          connect:{
+            id:input.assignedId
+        }
         },
         Project: {
           connect: {

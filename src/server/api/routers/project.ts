@@ -110,6 +110,19 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                 endDate: input.endDate
             }
         })
+      }),
+
+    getAllUsersInProject: publicProcedure
+    .input(z.object({ projectId: z.number() }))
+    .query(async({ ctx, input }) => {
+      return await ctx.db.project.findUnique({
+          where: {
+              id: input.projectId
+          },
+          include: {
+              projectMembers: true
+          },
       })
+    })
 
 });
