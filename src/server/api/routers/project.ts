@@ -30,7 +30,11 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                     projectMembers: true,
                     createdBy: true,
                     Meetings: true,
-                    todos: true
+                    todos: {
+                      include:{
+                        assignedUser: true
+                      }
+                    }
                 }
             }
     );

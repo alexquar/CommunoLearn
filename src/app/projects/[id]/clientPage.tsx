@@ -19,7 +19,7 @@ export default function ClientPage({
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
   const [todoModalOpen, setTodoModalOpen] = useState(false);
   return (
-    <div>
+    <div className="flex flex-row gap-x-12">
       <button
         onClick={() => setMeetingModalOpen(true)}
         className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"

@@ -18,16 +18,31 @@ export default async function Project({ params }: { params: { id: string } }) {
     return notFound();
   }
   return (
-    <main  className="max-w-7xl mx-auto">
-      <div>{project.title}</div>
-      <h1>todos</h1>
-      <TodoList />
-      <MeetingCalendar />
+    <div className="mx-auto flex max-w-7xl flex-col gap-12 py-12">
+      <div className="flex flex-col gap-y-3">
+        <h1 className="text-5xl font-bold text-accentBrand">{project.title}</h1>
+        <p className="text-textBrand text-lg font-semibold">{project.description}</p>
+        <div className="flex text-textBrand flex-row gap-x-1">
+          <p className="border-e pe-1 border-textBrand">Stage:{project.stage}</p>
+          <p className="border-e pe-1 border-textBrand">Updated: {project.updatedAt.toDateString()}</p>
+          <p className="border-e pe-1 border-textBrand">Created: {project.createdAt.toDateString()}</p>
+          <p className="border-e pe-1 border-textBrand">Goal Completeion: {project.endDate.toDateString()}</p>
+          <p className="border-e pe-1 border-textBrand">Members:{project.projectMembers.length}</p>
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold text-accentBrand">Todos</h3>
+        <TodoList todos={project.todos} />
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold text-accentBrand">Meetings</h3>
+        <MeetingCalendar />
+      </div>
       <ClientPage
         projectId={numericId}
         communityId={project.associatedCommunityId}
         projectMembers={project.projectMembers}
       />
-    </main>
+    </div>
   );
 }

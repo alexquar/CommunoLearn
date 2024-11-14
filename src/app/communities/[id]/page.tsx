@@ -33,7 +33,7 @@ export default async function Community({
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto flex w-full justify-between lg:mx-0">
           <div>
-            <h2 className="text-pretty text-4xl font-bold tracking-tight text-accentBrand sm:text-5xl">
+            <h2 className="text-4xl font-bold text-accentBrand sm:text-5xl">
               {community.name}
             </h2>
             <p className="mt-2 text-lg leading-8 text-textBrand">

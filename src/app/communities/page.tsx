@@ -22,14 +22,12 @@ const givenSearch = searchParams.get("search");
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
   const [searchedCommunities, setSearchedCommunities] = useState<Community[]>([])
-  const [previousSearch, setPreviousSearch] = useState("");
   const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false }
   );
 
   const searchCommunites = useCallback(async (e: React.FormEvent) => {
-    setPreviousSearch(search);
     setSearchLoading(true);
     setSearchError("");
     e.preventDefault();
@@ -50,7 +48,7 @@ const givenSearch = searchParams.get("search");
       setSearchLoading(false);
       setSearch("");
     }
-  }, [search, refetch]);
+  }, [refetch]);
 
   useEffect(() => {
     if (givenSearch) {
@@ -150,7 +148,7 @@ setError('An error occurred while fetching top communities :(');
         {
                 searchedCommunities.length > 0 && 
                 <div className="mt-6 max-w-7xl mx-auto">
-                  <blockquote className="my-8 font-bold text-2xl text-accentBrand">Results for: {previousSearch}...</blockquote>
+                  <blockquote className="my-8 font-bold text-2xl text-accentBrand">Results...</blockquote>
                 <ul
                 role="list"
                 className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-y-16 xl:col-span-2"
