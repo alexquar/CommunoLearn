@@ -1,10 +1,6 @@
-import { getServerAuthSession } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
-import { db } from "~/server/db";
+import {  HydrateClient } from "~/trpc/server";
 export const dynamic = "force-dynamic";
-import { signIn } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
+
 import Link from "next/link";
 import HomePageSearch from "./_components/HomePageSearch";
 export default async function Home() {

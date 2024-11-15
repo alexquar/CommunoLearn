@@ -1,7 +1,6 @@
 import { z } from "zod";
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 import { Stage } from "@prisma/client";
@@ -18,7 +17,7 @@ export const todoRouter = createTRPCRouter({
   }),
 
   //delete a todo
-  deleteTodo: protectedProcedure
+  deleteTodo: publicProcedure
   .input(z.object({ id: z.number() }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.todo.delete({
@@ -66,7 +65,7 @@ export const todoRouter = createTRPCRouter({
   }),
 
   //update a todo
-  updateTodo: protectedProcedure
+  updateTodo: publicProcedure
   .input(z.object({ 
     id: z.number(),
     title: z.string().min(1), 

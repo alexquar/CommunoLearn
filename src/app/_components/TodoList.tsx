@@ -23,19 +23,19 @@ export default function TodoList({ todos }: { todos: TodoWithUser[] }) {
               className="flex-none rounded-full bg-gray-50"
             />
             <div className="min-w-0 flex-auto">
-              <p className="text-sm/6 font-semibold text-gray-900">
+              <p className="text-sm/6 font-bold text-accentBrand">
                 {todo.title}
               </p>
-              <p className="mt-1 truncate text-xs/5 text-gray-500">
+              <p className="mt-1 truncate text-xs/5 text-textBrand">
                 {todo.content}
               </p>
             </div>
           </div>
           <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm/6 text-gray-900">
+            <p className="text-sm/6 text-textBrand">
               Estimated Completion Date: {todo.completionDate.toDateString()}
             </p>
-            <p>
+            <p className="text-textBrand">
               Assigned to {todo.assignedUser?.firstName}{" "}
               {todo.assignedUser?.lastName}
             </p>

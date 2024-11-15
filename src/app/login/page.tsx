@@ -3,12 +3,25 @@ import Image from 'next/image'
 import icon from '../../../public/plan-28.svg'
 import { useState } from 'react'
 import Link from 'next/link'
-import GenericModal from '../_components/NewProjectModal'
-
+import useSignIn from '../hooks/useSignin'
+import { useRouter } from 'next/navigation'
 export default function Login() {
-  const [open, setOpen] = useState(false)
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { result, error } = await useSignIn(email, password)
+    if (error) {
+      console.log(error)
+    }
+    if (result) {
+      console.log(result)
+      router.push('/')
+    }
+  }
   return (
     <>
 
@@ -25,13 +38,15 @@ export default function Login() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="#" method="POST" className="space-y-6">
+        <form onSubmit={handleSignIn} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-textBrand">
               Email address
             </label>
             <div className="mt-2">
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 name='identifier'
                 className="block w-full rounded-md border-0 py-1.5 px-1 outline-accentBrand text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
               />
@@ -51,6 +66,8 @@ export default function Login() {
             </div>
             <div className="mt-2">
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 name="password"
                 type="password"

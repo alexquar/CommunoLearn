@@ -1,7 +1,6 @@
 import { z } from "zod";
 import {
   createTRPCRouter,
-  protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
 import { location } from "@prisma/client";
@@ -27,7 +26,7 @@ export const userRouter = createTRPCRouter({
         lastName: z.string(),
     }))
     .mutation(async({ ctx, input }) => {
-        return await ctx.db.user.create({
+        const res = await ctx.db.user.create({
             data: {
                 email: input.email,
                 location: input.location,
@@ -35,10 +34,12 @@ export const userRouter = createTRPCRouter({
                 lastName: input.lastName,
             }
         })
+        console.log(res)
+        return "success"
     }),
 
     //update a user
-    updateUser: protectedProcedure
+    updateUser: publicProcedure
     .input(z.object({ 
         id: z.string(),
         name: z.string().min(1),
@@ -69,7 +70,7 @@ export const userRouter = createTRPCRouter({
     
 
     //delete a user
-    deleteUser: protectedProcedure
+    deleteUser: publicProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async({ ctx, input }) => {
         return await ctx.db.user.delete({

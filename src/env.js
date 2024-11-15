@@ -11,20 +11,6 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    NEXTAUTH_SECRET:
-      process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
-    NEXTAUTH_URL: z.preprocess(
-      // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
-      // Since NextAuth.js automatically uses the VERCEL_URL if present.
-      (str) => process.env.VERCEL_URL ?? str,
-      // VERCEL_URL doesn't include `https` so it cant be validated as a URL
-      process.env.VERCEL ? z.string() : z.string().url()
-    ),
-    EMAIL_SERVER : z.string(),
-    EMAIL_FROM : z.string(),
-    EMAIL_API_KEY : z.string(),
     POSTGRES_PRISMA_URL: z.string(),
 POSTGRES_URL_NO_SSL: z.string(),
 POSTGRES_URL_NON_POOLING: z.string(),
@@ -32,7 +18,6 @@ POSTGRES_USER:  z.string(),
 POSTGRES_HOST: z.string(),
 POSTGRES_PASSWORD: z.string(),
 POSTGRES_DATABASE: z.string(),
-CLERK_SECRET_KEY:z.string()
   },
 
   /**
@@ -40,9 +25,15 @@ CLERK_SECRET_KEY:z.string()
    * isn't built with invalid env vars. To expose them to the client, prefix them with
    * `NEXT_PUBLIC_`.
    */
-  client: {
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
-  },
+client : {
+  NEXT_PUBLIC_APIKEY:z.string(),
+  NEXT_PUBLIC_AUTHDOMAIN:z.string(),
+  NEXT_PUBLIC_PROJECTID:z.string(),
+  NEXT_PUBLIC_STORAGEBUCKET:z.string(),
+  NEXT_PUBLIC_MESSAGINGSENDERID:z.string(),
+  NEXT_PUBLIC_APPID:z.string(),
+  NEXT_PUBLIC_MEASUREMENTID:z.string(),
+},
 
   /**
    * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
@@ -50,11 +41,6 @@ CLERK_SECRET_KEY:z.string()
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    EMAIL_SERVER : process.env.EMAIL_SERVER,
-    EMAIL_FROM : process.env.EMAIL_FROM,
-    EMAIL_API_KEY : process.env.EMAIL_API_KEY,
     POSTGRES_URL: process.env.POSTGRES_URL,
 POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
 POSTGRES_URL_NO_SSL: process.env.POSTGRES_URL_NO_SSL,
@@ -63,8 +49,13 @@ POSTGRES_USER: process.env.POSTGRES_USER,
 POSTGRES_HOST: process.env.POSTGRES_HOST,
 POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-CLERK_SECRET_KEY:process.env.CLERK_SECRET_KEY
+NEXT_PUBLIC_APIKEY: process.env.NEXT_PUBLIC_APIKEY,
+NEXT_PUBLIC_AUTHDOMAIN: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+NEXT_PUBLIC_PROJECTID: process.env.NEXT_PUBLIC_PROJECTID,
+NEXT_PUBLIC_STORAGEBUCKET: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+NEXT_PUBLIC_MESSAGINGSENDERID: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+NEXT_PUBLIC_APPID: process.env.NEXT_PUBLIC_APPID,
+NEXT_PUBLIC_MEASUREMENTID: process.env.NEXT_PUBLIC_MEASUREMENTID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

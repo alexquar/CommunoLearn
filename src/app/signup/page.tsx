@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 import React from "react";
 import Image from "next/image";
@@ -8,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import type { location } from "@prisma/client";
 import ErrorNotification from "../_components/ErrorNotification";
-
+import useSignUp from "../hooks/useSignup";
 export default function Signup() {
 const router = useRouter();
 const [firstName, setFirstName] = useState("");
@@ -40,15 +41,20 @@ const handleSubmit = async (e: React.FormEvent) => {
   setError("");
 e.preventDefault();
 //log user in 
-
+const {result, error} = await useSignUp(email, password);
 //update user context
-
+console.log(result);
+if(error){
+  setError("Account could not be created!");
+  setLoading(false);
+  return;
+}
 //call mutation
-mutate({
+ mutate({
   email,
   firstName,
   lastName,
-  location: country as location,
+  location: country,
 });
 
 }
