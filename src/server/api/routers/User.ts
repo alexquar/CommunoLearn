@@ -115,6 +115,44 @@ export const userRouter = createTRPCRouter({
             }
         })
     }),
+
+    getUserByEmailWithRelations: publicProcedure
+    .input(z.object({ email: z.string() }))
+    .query(async({ ctx, input }) => {
+        return await ctx.db.user.findUnique({
+            where: {
+                email: input.email
+            },
+            include: {
+                Projects: {
+                    where:{
+                        AssociatedCommunity:{
+                            private: false
+                        }
+                        }
+                    },
+                Meetings: {
+                    where:{
+                        AssociatedCommunity:{
+                            private: false
+                        }
+                    }
+                },
+                Communities: {
+                    where:{
+                        private: false
+                    }
+                },
+                OwnedCommunities: {
+                    where:{
+                        private: false
+                    }
+                }
+            }
+        })
+    }),
+
+
   
 
 });
