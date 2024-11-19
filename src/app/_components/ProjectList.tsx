@@ -2,7 +2,7 @@
 import { images } from "public/icons";
 
 import Image from "next/image";
-
+import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
 import Link from "next/link";
 
@@ -22,15 +22,23 @@ export default function ProjectList({
 }: {
   projects: ProjectWithRelations[];
 }) {
+  const {user} = useAuthContext();
+  const handleJoin = () => {
+    // join project
+    console.log(user)
+  };
+
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {projects.map((project) => (
-        <Link
-          href={`/projects/${project.id}`}
+
+        <div
           key={project.id}
           className="flex justify-between gap-x-6 py-5"
         >
-          <div className="flex min-w-0 gap-x-4">
+          <Link           
+          href={`/projects/${project.id}`}
+           className="flex min-w-0 gap-x-4">
             <Image
             width={48}
             height={48}
@@ -48,7 +56,11 @@ export default function ProjectList({
                 {project.createdBy.lastName}{" "}
               </p>
             </div>
-          </div>
+          </Link>
+          <div className="flex flex-row gap-x-8">
+            <button onClick={handleJoin} className="px-10 py-3 bg-white border-accentBrand text-accentBrand border rounded-3xl hover:text-white hover:bg-accentBrand">
+              Join Project
+            </button>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm/6 text-gray-900">
               Created: {project.createdAt.toLocaleDateString()}
@@ -64,7 +76,9 @@ export default function ProjectList({
               )}
             </p>
           </div>
-        </Link>
+          </div>
+          </div>
+     
       ))}
     </ul>
   );

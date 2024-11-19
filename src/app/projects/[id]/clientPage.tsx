@@ -19,7 +19,11 @@ export default function ClientPage({
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
   const [todoModalOpen, setTodoModalOpen] = useState(false);
   return (
-    <div className="flex flex-row gap-x-12">
+    <>
+       <h1 className="font-bold mt-12 text-accentBrand text-center text-2xl">
+      Update the community
+      </h1>
+    <div className="flex flex-row justify-center gap-x-4">
       <button
         onClick={() => setMeetingModalOpen(true)}
         className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"
@@ -34,6 +38,7 @@ export default function ClientPage({
         Add todo
       </button>
       
+   
       <NewMeetingModal
         open={meetingModalOpen}
         setOpen={setMeetingModalOpen}
@@ -47,5 +52,6 @@ export default function ClientPage({
         projectMembers={projectMembers}
       />
     </div>
+    </>
   );
 }
