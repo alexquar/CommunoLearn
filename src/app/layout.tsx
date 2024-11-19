@@ -9,15 +9,18 @@ export const metadata: Metadata = {
   description: "CommunoLearn Web, Communities getting things done!",
   icons: [{ rel: "icon", url: "/plan-28.svg" }],
 };
-
+import { AuthContextProvider } from "~/context/AuthContext";
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
+      <AuthContextProvider>
         <NavBar />
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        </AuthContextProvider>
+
       </body>
     </html>
   );
