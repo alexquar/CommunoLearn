@@ -10,7 +10,7 @@ const isProtectedRoute = (pathname: string) => {
   };
   
 export default function ProtectedContent({ children }: { children: React.ReactNode }) {
-    const { user } = useAuthContext();
+    const { user } = useAuthContext()
     const router = useRouter();
     const pathname = usePathname();
   

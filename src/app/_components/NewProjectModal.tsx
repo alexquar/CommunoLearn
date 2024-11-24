@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "~/context/AuthContext";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -13,6 +14,7 @@ export default function NewProjectModal({
   setOpen: (open: boolean) => void;
   communityId: number;
 }) {
+  const {user} = useAuthContext();
   const router = useRouter();
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -36,7 +38,6 @@ export default function NewProjectModal({
   });
 
   //get the current user
-
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
     setError("");
@@ -48,7 +49,7 @@ export default function NewProjectModal({
       description: projectDescription,
       endDate,
       communityId: communityId,
-      userId: "cm2avbnnf0000buxc4t44yo3p",
+      userId: user?.id ?? "",
     });
   };
 

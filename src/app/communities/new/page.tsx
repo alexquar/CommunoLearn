@@ -2,13 +2,14 @@
 
 
 "use client"
-import { useState } from "react"
+import { use, useState } from "react"
 import { api } from "~/trpc/react"
 import ErrorNotification from "~/app/_components/ErrorNotification"
 import { useRouter } from "next/navigation"
 import LoadingNotification from "~/app/_components/LoadingNotification"
+import { useAuthContext } from "~/context/AuthContext"
 export default function NewCommunity() {
-  //might get passed a name we will see
+  const {user} = useAuthContext()
   const router = useRouter()
   const {mutate} = api.communities.newCommunity.useMutation({
     onSuccess: () => {
@@ -70,6 +71,7 @@ export default function NewCommunity() {
       return
       }
 
+
       mutate({
       name,
       aboutCommunity,
@@ -78,7 +80,8 @@ export default function NewCommunity() {
       sloganCommunity,
       communityType,
       private: privateCommunity,
-      password
+      password,
+      createdById: user?.id ?? ""
       })
     }
 

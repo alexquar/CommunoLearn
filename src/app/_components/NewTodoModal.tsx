@@ -6,6 +6,7 @@ import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
 import { type Prisma, type Stage } from "@prisma/client";
 import Error from "./Error";
+import { useAuthContext } from "~/context/AuthContext";
 type ProjectMembersShort = Prisma.UserGetPayload<{
   select: { id: true, firstName: true, lastName: true, email: true }
 }>
@@ -28,6 +29,7 @@ export default function NewTodoModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [memberId, setMemberId] = useState(projectMembers[0]?.id ?? "");
+  const {user} = useAuthContext();
   if(projectMembers.length === 0){
     return <Error errorMessage="No members in project (This should never happen)" statusCode={500} redirectLink={`communities/${projectId}`} redirectPlace="Back to Project"   />
   }
@@ -57,7 +59,7 @@ export default function NewTodoModal({
     mutate({
       title,
       content,
-      userId: "cm2avbnnf0000buxc4t44yo3p", //add real thing here
+      userId: user?.id ?? "", //add real thing here
       projectId,
       completionDate: endDate,
       projectStage: stage as Stage,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "~/context/AuthContext";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -15,6 +16,7 @@ export default function NewProjectModal({
   communityId: number;
     projectId: number;
 }) {
+  const {user} = useAuthContext();
   const router = useRouter();
   const [meetingName, setMeetingName] = useState("");
   const [meetingTime, setMeetingTime] = useState("");
@@ -54,7 +56,7 @@ export default function NewProjectModal({
         meetingLocationOrLink: meetingLocationOrLink,
         meetingDocuments: meetingDocuments,
         AssociatedCommunity: communityId,
-        createdBy: "cm2avbnnf0000buxc4t44yo3p", // Replace with actual user ID
+        createdBy: user?.id ?? "",
         AssociatedProject: projectId, 
       });
   };

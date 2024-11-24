@@ -43,7 +43,8 @@ export const communityRouter = createTRPCRouter({
     password: z.string(),
     locationCommunity: z.string().min(1),
     sloganCommunity: z.string().min(1),
-    communityType: z.string().min(1)
+    communityType: z.string().min(1),
+    createdById: z.string().min(1)
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.community.create({
@@ -58,7 +59,7 @@ export const communityRouter = createTRPCRouter({
         //need a user here
         createdBy: 
         {
-          connect: { id: 'cm2avbnnf0000buxc4t44yo3p' }
+          connect: { id: input.createdById }
         },
         
         ownerEmail: input.ownerEmail,
