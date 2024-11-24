@@ -10,7 +10,6 @@ import { useAuthContext } from "~/context/AuthContext";
 import useSignout from "../hooks/useSignout";
 export default function NavBar() {
   const { user } =  useAuthContext();
-  console.log(user);
   const [dropdown, setDropdown] = useState(false);
   const handleSignout = async () => {
     await useSignout();
