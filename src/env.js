@@ -25,15 +25,6 @@ POSTGRES_DATABASE: z.string(),
    * isn't built with invalid env vars. To expose them to the client, prefix them with
    * `NEXT_PUBLIC_`.
    */
-client : {
-  NEXT_PUBLIC_APIKEY:z.string(),
-  NEXT_PUBLIC_AUTHDOMAIN:z.string(),
-  NEXT_PUBLIC_PROJECTID:z.string(),
-  NEXT_PUBLIC_STORAGEBUCKET:z.string(),
-  NEXT_PUBLIC_MESSAGINGSENDERID:z.string(),
-  NEXT_PUBLIC_APPID:z.string(),
-  NEXT_PUBLIC_MEASUREMENTID:z.string(),
-},
 
   /**
    * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
@@ -49,13 +40,6 @@ POSTGRES_USER: process.env.POSTGRES_USER,
 POSTGRES_HOST: process.env.POSTGRES_HOST,
 POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
-NEXT_PUBLIC_APIKEY: process.env.NEXT_PUBLIC_APIKEY,
-NEXT_PUBLIC_AUTHDOMAIN: process.env.NEXT_PUBLIC_AUTHDOMAIN,
-NEXT_PUBLIC_PROJECTID: process.env.NEXT_PUBLIC_PROJECTID,
-NEXT_PUBLIC_STORAGEBUCKET: process.env.NEXT_PUBLIC_STORAGEBUCKET,
-NEXT_PUBLIC_MESSAGINGSENDERID: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
-NEXT_PUBLIC_APPID: process.env.NEXT_PUBLIC_APPID,
-NEXT_PUBLIC_MEASUREMENTID: process.env.NEXT_PUBLIC_MEASUREMENTID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

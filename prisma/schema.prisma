@@ -24,8 +24,7 @@ model User {
     aboutMe       String?
     image         String?
 
-
-    todos         Todo[] 
+    createdTodos         Todo[] 
 
     Meetings Meeting[]
 

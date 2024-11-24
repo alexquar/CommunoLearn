@@ -88,30 +88,14 @@ export const userRouter = createTRPCRouter({
                 id: input.id
             },
             include: {
-                Projects: {
-                    where:{
-                        AssociatedCommunity:{
-                            private: false
-                        }
-                        }
-                    },
-                Meetings: {
-                    where:{
-                        AssociatedCommunity:{
-                            private: false
-                        }
-                    }
-                },
-                Communities: {
-                    where:{
-                        private: false
-                    }
-                },
-                OwnedCommunities: {
-                    where:{
-                        private: false
-                    }
-                }
+                Projects: true,
+                OwnedProjects: true,
+                Communities: true,
+                OwnedCommunities: true,
+                Meetings: true,
+                Comments: true,
+                createdTodos: true,
+                assignedTodos: true,
             }
         })
     }),
@@ -124,30 +108,14 @@ export const userRouter = createTRPCRouter({
                 email: input.email
             },
             include: {
-                Projects: {
-                    where:{
-                        AssociatedCommunity:{
-                            private: false
-                        }
-                        }
-                    },
-                Meetings: {
-                    where:{
-                        AssociatedCommunity:{
-                            private: false
-                        }
-                    }
-                },
-                Communities: {
-                    where:{
-                        private: false
-                    }
-                },
-                OwnedCommunities: {
-                    where:{
-                        private: false
-                    }
-                }
+                Projects: true,
+                OwnedProjects: true,
+                Communities: true,
+                OwnedCommunities: true,
+                Meetings: true,
+                Comments: true,
+                createdTodos: true,
+                assignedTodos: true,
             }
         })
     }),
