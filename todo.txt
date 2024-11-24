@@ -1,2 +1,13 @@
--custom error handling on proj
--adding correct user as owner in proj/meeting/todo
+-protect routes
+-auth in navbar
+-connect proper user when doing stuff
+-add user to project and community list when creating
+-api routes to check if something belongs to current user?
+-project screen
+-todo screen
+-project list 
+-todo list
+-calendar component?
+-meeting screen
+-messages 
+-comments

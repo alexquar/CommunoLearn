@@ -16,9 +16,9 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        <NavBar />
         <TRPCReactProvider>
         <AuthContextProvider>
+        <NavBar />
         {children}
         </AuthContextProvider>
         </TRPCReactProvider>

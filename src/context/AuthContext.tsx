@@ -5,8 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth_app } from "~/config";
 import { api } from "~/trpc/react";
 import type { UserWithRelations } from "../types/userTypes";
-
-// Create the Auth Context
+import Loading from "~/app/loading";
 export const AuthContext = createContext<{ user: UserWithRelations | null }>({ user: null });
 
 export const useAuthContext = () => useContext(AuthContext);
@@ -19,6 +18,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth_app, (firebaseUser) => {
+        setLoading(true);
       if (firebaseUser?.email) {
         trpc.user.getUserByEmailWithRelations.fetch({email:firebaseUser.email}) // Refetch with the email
           .then((result) => {
@@ -45,7 +45,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {!loading && children}
+      {!loading ? children : <Loading />}
     </AuthContext.Provider>
   );
 };
