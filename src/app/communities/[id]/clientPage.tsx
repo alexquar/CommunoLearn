@@ -16,6 +16,7 @@ type ProjectWithRelations = Prisma.ProjectGetPayload<{
   };
 }>;
 import type { MemberOf } from "~/types/userTypes";
+import UserList from "~/app/_components/UserList";
 
 type MeetingWithRelations = Prisma.MeetingGetPayload<{
   include: {
@@ -29,11 +30,13 @@ export default function ClientPage({
   projects,
   meetings,
   members,
+  ownerId,
 }: {
   id: number;
   projects: ProjectWithRelations[];
   meetings: MeetingWithRelations[];
   members: MemberOf[];
+  ownerId: string;
 }) {
   const {user} = useAuthContext();
   const [projectModalOpen, setProjectModalOpen] = useState(false);
@@ -43,6 +46,10 @@ export default function ClientPage({
     <>
       <div>
         <section className="my-8">
+        <h1 className="text-2xl font-bold text-accentBrand">Members</h1>
+          <div className="w-full mb-8">
+          <UserList members={members} ownerId={ownerId} />
+          </div>
           <h1 className="text-2xl font-bold text-accentBrand">Projects</h1>
           <ProjectList projects={projects} />
           <button

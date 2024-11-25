@@ -5,3 +5,11 @@
 body{
     @apply bg-backgroundBrand;
 }
+
+::-webkit-scrollbar {
+    @apply bg-backgroundBrand;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-accentBrand h-0  rounded-full;
+}

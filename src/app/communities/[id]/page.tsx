@@ -20,7 +20,7 @@ export default async function Community({
     id: numericId,
   });
   console.log(community);
-
+  
   if (!community) {
     return notFound();
   }
@@ -77,6 +77,7 @@ export default async function Community({
           meetings={community.meetings}
           id={numericId}
           members={community.members}
+          ownerId={community.createdBy.id}
         />
       </div>
     </div>

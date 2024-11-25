@@ -1,13 +1,13 @@
 -protect routes                                 *done
 -auth in navbar                                      *done
 -connect proper user when doing stuff                       *done
--add user to project and community list when creating        
+-add user to project and community list when creating        *done
 -conditionally show community based on ownership/membership   *done
--conditionally show project based on ownership/membership
--join project/community *done  
-    -show community members 
-    -show project members                                       
--project screen
+-conditionally show project based on ownership/membership               //next
+-join project/community                                     *done  
+    -show community members                                 *done
+    -show project members                                   *done                                   
+-project screen                                                           //next
 -todo screen
 -project list 
 -todo list
@@ -15,4 +15,7 @@
 -meeting screen
 -messages 
 -comments
+-user profile
 -better error and success handling?
+-responsiveness
+-uploading?

@@ -38,11 +38,12 @@ model User {
 
     Comments Comment[] @relation("commentedBy")
 
-    sentMessages Message[] @relation("messageSentBy")
+    messages Message[] @relation("messageSentBy")
 
-    recievedMessages Message[] @relation("recievedBy")
 
     assignedTodos Todo[] @relation("assignedUser")
+
+    Conversation Conversation[]
 }
 
 model VerificationToken {
@@ -178,6 +179,13 @@ model Message{
     modifiedTime DateTime @updatedAt
     from User @relation("messageSentBy", fields:[fromId], references: [id])
     fromId String
-    to User @relation("recievedBy", fields:[toId], references: [id])
-    toId String
+
+    Conversation Conversation @relation(fields: [conversationId], references: [id])
+    conversationId String
+}
+
+model Conversation{
+    id String @id @default(uuid())
+    participants User[]
+    messages Message[]
 }

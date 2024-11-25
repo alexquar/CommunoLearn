@@ -161,10 +161,11 @@ getCommunityWithRelations: publicProcedure
               firstName: true,
               lastName: true,
               email: true
-            }
+            },
           },
         }
       },
+      createdBy: true,
       meetings: {
         orderBy:{
           meetingTime:"desc"
