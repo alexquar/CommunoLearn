@@ -57,6 +57,9 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                 createdBy: {
                     connect: { id: input.userId }
                 },
+                projectMembers: {
+                    connect: { id: input.userId }
+                },
                 AssociatedCommunity:{
                     connect: { id: input.communityId  }
                 }

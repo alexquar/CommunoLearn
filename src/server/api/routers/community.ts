@@ -61,6 +61,9 @@ export const communityRouter = createTRPCRouter({
         {
           connect: { id: input.createdById }
         },
+        members: {
+          connect: { id: input.createdById }
+        },
         
         ownerEmail: input.ownerEmail,
         communityType: input.communityType,
