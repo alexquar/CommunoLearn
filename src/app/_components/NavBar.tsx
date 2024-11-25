@@ -62,7 +62,7 @@ export default function NavBar() {
             <li>
               <button
                 onClick={handleSignout}
-                className="block rounded px-3 py-2 text-textBrand underline hover:font-bold hover:text-accentBrand md:p-0 md:hover:bg-transparent"
+                className="block rounded px-3 py-2 text-textBrand underline md:p-0 md:hover:bg-transparent"
               >
                 Sign Out
               </button>
@@ -150,7 +150,7 @@ export default function NavBar() {
             <div className="py-1">
           <button
             onClick={handleSignout}
-            className="block w-full px-4 py-2 text-start text-sm text-gray-700 hover:bg-gray-100"
+            className="block w-full px-4 py-2 cursor-pointer text-start text-sm text-gray-700 hover:bg-gray-100"
           >
             Sign out
           </button>

@@ -163,7 +163,7 @@ export default function NewTodoModal({
 
                   <div className="col-span-2 sm:col-span-1">
                     <label className="mb-2 block text-sm font-medium text-accentBrand">
-                      Todo Stage
+                      Assigned Community Member
                     </label>
                     <select
                       className="block w-full rounded-lg border-2 border-primaryBrand bg-white p-2.5 text-sm text-textBrand placeholder-textBrand outline-primaryBrand"
