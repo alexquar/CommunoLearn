@@ -3,11 +3,11 @@
 -connect proper user when doing stuff                       *done
 -add user to project and community list when creating        *done
 -conditionally show community based on ownership/membership   *done
--conditionally show project based on ownership/membership               //next
+-conditionally show project based on ownership/membership      *done
 -join project/community                                     *done  
     -show community members                                 *done
     -show project members                                   *done                                   
--project screen                                                           //next
+-project screen                                             *done
 -todo screen
 -project list 
 -todo list

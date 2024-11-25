@@ -51,7 +51,7 @@ if(error){
 }
 //call mutation
  mutate({
-  email,
+  email: email.toLowerCase(),
   firstName,
   lastName,
   location: country,

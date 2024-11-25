@@ -4,14 +4,17 @@ import { api } from '~/trpc/react'
 import { useState } from 'react'
 import { useAuthContext } from '~/context/AuthContext'
 import type { MemberOf } from '~/types/userTypes'
+import { useRouter } from 'next/navigation'
 export default function JoinCommunityButton({id, members}: {id: number, members: MemberOf[]}) {
   const [loading, setLoading] = useState(false)
+  const {user} = useAuthContext()
   const [error, setError] = useState("")
-  const {user} = useAuthContext();
+  const router = useRouter()
   const { mutate } = api.communities.addUserToCommunity.useMutation({
     onSuccess: () => {
       setError("");
       setLoading(false);
+      router.refresh();
     },
     onError: (error) => {
       console.error(error);
@@ -27,7 +30,7 @@ export default function JoinCommunityButton({id, members}: {id: number, members:
       setError("");
       mutate({
         communityId: id,
-        userId: "cm2avbnnf0000buxc4t44yo3p"
+        userId: user?.id ?? ""
       });
     }
 

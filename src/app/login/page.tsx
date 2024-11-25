@@ -16,8 +16,7 @@ export default function Login() {
     const { result, error } = await useSignIn(email, password)
     if (error) {
       console.log(error)
-    }
-    if (result) {
+    } else {
       console.log(result)
       router.push('/')
     }
