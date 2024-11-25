@@ -43,7 +43,6 @@ export default function ClientPage({
             >
               Add todo
             </button>
-
             <NewMeetingModal
               open={meetingModalOpen}
               setOpen={setMeetingModalOpen}

@@ -6,6 +6,7 @@ import MeetingCalendar from "~/app/_components/MeetingCalendar";
 import TodoList from "~/app/_components/TodoList";
 import Link from "next/link";
 import JoinProjectButton from "~/app/_components/JoinProjectButton";
+import UserList from "~/app/_components/UserList";
 export default async function Project({ params }: { params: { id: string } }) {
   const id = params.id;
   const numericId = Number(id);
@@ -38,6 +39,10 @@ export default async function Project({ params }: { params: { id: string } }) {
         <span className="ms-auto">
             <JoinProjectButton projectId={project.id} members={project.projectMembers}  />
           </span>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold text-accentBrand">Description</h3>
+        <UserList members={project.projectMembers} ownerId={project.createdBy.id} />
       </div>
       <div>
         <h3 className="text-lg font-semibold text-accentBrand">Todos</h3>
