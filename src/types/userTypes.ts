@@ -12,3 +12,13 @@ export type UserWithRelations = Prisma.UserGetPayload<{
         assignedTodos: true,
     }
 }>;
+
+
+export type MemberOf = Prisma.UserGetPayload<{
+    select: {
+        id: true;
+        firstName: true;
+        lastName: true;
+        email: true;
+    }
+}>;

@@ -5,7 +5,9 @@ import Image from "next/image";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
 import Link from "next/link";
-
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -23,9 +25,28 @@ export default function ProjectList({
   projects: ProjectWithRelations[];
 }) {
   const {user} = useAuthContext();
-  const handleJoin = () => {
-    // join project
-    console.log(user)
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const {mutate} = api.projects.addProjectMemberById.useMutation(
+    {
+      onSuccess: () => {
+        console.log("Project joined successfully");
+        setLoading(false);
+        router.refresh();
+      },
+      onError: (error) => {
+        console.error(error);
+        setLoading(false);
+      },
+    }
+  );
+  const handleJoin = (projectId:number) => {
+    setLoading(true);
+    mutate({
+      projectId,
+      userId: user?.id ?? "",
+    });
+    
   };
 
   return (
@@ -58,9 +79,12 @@ export default function ProjectList({
             </div>
           </Link>
           <div className="flex flex-row gap-x-8">
-            <button onClick={handleJoin} className="px-10 py-3 bg-white border-accentBrand text-accentBrand border rounded-3xl hover:text-white hover:bg-accentBrand">
-              Join Project
+          {!project.projectMembers.some((member) => member.id === user?.id) &&
+            <button onClick={()=>handleJoin(project.id)} className="px-10 py-3 bg-white border-accentBrand text-accentBrand border rounded-3xl hover:text-white hover:bg-accentBrand">
+              {loading ? "Joining..." : "Join Project"}
             </button>
+}
+
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm/6 text-gray-900">
               Created: {project.createdAt.toLocaleDateString()}

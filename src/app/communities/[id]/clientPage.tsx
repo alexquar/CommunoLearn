@@ -2,10 +2,9 @@
 import { useState } from "react";
 import NewProjectModal from "~/app/_components/NewProjectModal";
 import ProjectList from "~/app/_components/ProjectList";
-
+import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
 import MeetingCalendar from "~/app/_components/MeetingCalendar";
-
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -16,6 +15,7 @@ type ProjectWithRelations = Prisma.ProjectGetPayload<{
     };
   };
 }>;
+import type { MemberOf } from "~/types/userTypes";
 
 type MeetingWithRelations = Prisma.MeetingGetPayload<{
   include: {
@@ -28,13 +28,18 @@ export default function ClientPage({
   id,
   projects,
   meetings,
+  members,
 }: {
   id: number;
   projects: ProjectWithRelations[];
   meetings: MeetingWithRelations[];
+  members: MemberOf[];
 }) {
+  const {user} = useAuthContext();
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
+    <>
+    {members.some((member) => member.id === user?.id) &&
     <>
       <div>
         <section className="my-8">
@@ -60,5 +65,7 @@ export default function ClientPage({
         communityId={id}
       />
     </>
+}
+</>
   );
 }

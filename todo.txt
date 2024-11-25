@@ -1,9 +1,12 @@
--protect routes *done
--auth in navbar *done
--connect proper user when doing stuff
--add user to project and community list when creating
--api routes to check if something belongs to current user?
--join project/community
+-protect routes                                 *done
+-auth in navbar                                      *done
+-connect proper user when doing stuff                       *done
+-add user to project and community list when creating        
+-conditionally show community based on ownership/membership   *done
+-conditionally show project based on ownership/membership
+-join project/community *done  
+    -show community members 
+    -show project members                                       
 -project screen
 -todo screen
 -project list 
@@ -12,3 +15,4 @@
 -meeting screen
 -messages 
 -comments
+-better error and success handling?

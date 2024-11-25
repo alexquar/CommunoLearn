@@ -16,17 +16,14 @@ export default async function Community({
     return notFound();
   }
   //switch to get with everything
-  const community = await api.communities.getCommunityWithRelations({ id: numericId });
+  const community = await api.communities.getCommunityWithRelations({
+    id: numericId,
+  });
   console.log(community);
 
   if (!community) {
     return notFound();
   }
-
-
-  //if community has the current user in it switch to the special thing
-  const inCommunity = true;
-
 
   return (
     <div className="h-[85vh] place-content-center py-24 sm:py-32">
@@ -66,24 +63,21 @@ export default async function Community({
               <p className="mb-2 sm:mb-0 sm:me-2"># Members:</p>
               {community.numberOfMembers}
             </span>
-            {community.ownerEmail &&
-            <span className="flex flex-col sm:flex-row">
-              
-              <p className="mb-2 sm:mb-0 sm:me-2">Contact Adress:</p>
-              {community.ownerEmail}
-            </span>
-}
+            {community.ownerEmail && (
+              <span className="flex flex-col sm:flex-row">
+                <p className="mb-2 sm:mb-0 sm:me-2">Contact Adress:</p>
+                {community.ownerEmail}
+              </span>
+            )}
           </div>
-
-          {!inCommunity && (
-            <JoinCommunityButton id={numericId} />
-          )}
+          <JoinCommunityButton id={numericId} members={community.members} />
         </div>
-        {inCommunity &&
-        <>
-          <ClientPage projects={community.projects} meetings={community.meetings} id={numericId}/>
-        </>
-        }
+        <ClientPage
+          projects={community.projects}
+          meetings={community.meetings}
+          id={numericId}
+          members={community.members}
+        />
       </div>
     </div>
   );
