@@ -41,19 +41,20 @@ export default async function Project({ params }: { params: { id: string } }) {
           </span>
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-accentBrand">Project Members</h3>
+        <h3 className="text-lg font-semibold mb-4 text-accentBrand">Project Members</h3>
         <UserList members={project.projectMembers} ownerId={project.createdBy.id} />
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-accentBrand">Todos</h3>
+        <h3 className="text-lg font-semibold mb-4 text-accentBrand">Todos</h3>
         <TodoList todos={project.todos} />
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-accentBrand">Meetings</h3>
+        <h3 className="text-lg font-semibold mb-4 text-accentBrand">Meetings</h3>
         <MeetingGrid meetings={project.Meetings} />
       </div>
       <ClientPage
         projectId={numericId}
+        project = {project}
         communityId={project.associatedCommunityId}
         projectMembers={project.projectMembers}
       />

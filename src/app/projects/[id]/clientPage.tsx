@@ -5,21 +5,26 @@ import NewMeetingModal from "~/app/_components/NewMeetingModal";
 import NewTodoModal from "~/app/_components/NewTodoModal";
 import type { Prisma } from "@prisma/client";
 import { useAuthContext } from "~/context/AuthContext";
+import NewProjectModal from "~/app/_components/NewProjectModal";
+import { type Project } from "@prisma/client";
 type ProjectMembersShort = Prisma.UserGetPayload<{
   select: { id: true; firstName: true; lastName: true; email: true };
 }>;
 export default function ClientPage({
   projectId,
+  project,
   communityId,
   projectMembers,
 }: {
   projectId: number;
+  project: Project;
   communityId: number;
   projectMembers: ProjectMembersShort[];
 }) {
   const { user } = useAuthContext();
   const [meetingModalOpen, setMeetingModalOpen] = useState(false);
   const [todoModalOpen, setTodoModalOpen] = useState(false);
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   return (
     <>
       {!projectMembers.some((member) => member.id === user?.id) ? (
@@ -27,9 +32,15 @@ export default function ClientPage({
       ) : (
         <>
           <h1 className="mt-12 text-center text-2xl font-bold text-accentBrand">
-            Update the community
+            Update the Project
           </h1>
           <div className="flex flex-row justify-center gap-x-4">
+          <button
+              onClick={() => setEditProjectModalOpen(true)}
+              className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"
+            >
+              Edit Project
+            </button>
             <button
               onClick={() => setMeetingModalOpen(true)}
               className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"
@@ -55,6 +66,17 @@ export default function ClientPage({
               projectId={projectId}
               projectMembers={projectMembers}
             />
+            <NewProjectModal
+              open={editProjectModalOpen}
+              setOpen={setEditProjectModalOpen}
+              isEdit
+              communityId={communityId}
+              name={project.title}
+              description={project?.description ?? ""}
+              completion={project?.endDate?.toISOString() ?? ""}
+              projectStage={project.stage}
+              projectId={projectId}
+              />
           </div>
         </>
       )}

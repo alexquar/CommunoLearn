@@ -7,11 +7,12 @@
 -join project/community                                     *done  
     -show community members                                 *done
     -show project members                                   *done                                   
--project screen                                           //next
+-project screen                                           *done
 -todo screen                                               //next
 -project list                                               *done
--todo list
--calendar cards
+-todo list                                                  //next
+-calendar cards                                             *done
+--empty states
 -meeting screen
 -messages 
 -comments

@@ -1,3 +1,4 @@
+import { Stage } from "@prisma/client";
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -103,7 +104,9 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
         id: z.number(),
         title: z.string().min(1),
         description: z.string().min(1),
-        endDate: z.date()
+        endDate: z.date(),
+        projectStage:z.nativeEnum(Stage),
+        done: z.boolean(),
       }))
       .mutation(async({ ctx, input }) => {
         return await ctx.db.project.update({
@@ -111,6 +114,8 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                 id: input.id
             },
             data: {
+                done: input.done,
+                stage: input.projectStage,
                 title: input.title,
                 description: input.description,
                 endDate: input.endDate

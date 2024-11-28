@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "~/context/AuthContext";
-export default function NewProjectModal({
+export default function NewMeetingModal({
   open,
   setOpen,
   communityId,
