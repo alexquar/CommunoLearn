@@ -2,11 +2,11 @@ import { notFound } from "next/navigation";
 import React from "react";
 import ClientPage from "./clientPage";
 import { api } from "~/trpc/server";
-import MeetingCalendar from "~/app/_components/MeetingCalendar";
 import TodoList from "~/app/_components/TodoList";
 import Link from "next/link";
 import JoinProjectButton from "~/app/_components/JoinProjectButton";
 import UserList from "~/app/_components/UserList";
+import MeetingGrid from "~/app/_components/MeetingGrid";
 export default async function Project({ params }: { params: { id: string } }) {
   const id = params.id;
   const numericId = Number(id);
@@ -41,7 +41,7 @@ export default async function Project({ params }: { params: { id: string } }) {
           </span>
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-accentBrand">Description</h3>
+        <h3 className="text-lg font-semibold text-accentBrand">Project Members</h3>
         <UserList members={project.projectMembers} ownerId={project.createdBy.id} />
       </div>
       <div>
@@ -50,7 +50,7 @@ export default async function Project({ params }: { params: { id: string } }) {
       </div>
       <div>
         <h3 className="text-lg font-semibold text-accentBrand">Meetings</h3>
-        <MeetingCalendar />
+        <MeetingGrid meetings={project.Meetings} />
       </div>
       <ClientPage
         projectId={numericId}

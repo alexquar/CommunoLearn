@@ -4,7 +4,7 @@ import NewProjectModal from "~/app/_components/NewProjectModal";
 import ProjectList from "~/app/_components/ProjectList";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
-import MeetingCalendar from "~/app/_components/MeetingCalendar";
+import MeetingCalendar from "~/app/_components/MeetingGrid";
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -61,8 +61,8 @@ export default function ClientPage({
         </section>
 
         <section className="my-8">
-          <h1 className="text-2xl font-bold text-accentBrand">Meetings</h1>
-          <MeetingCalendar />
+          <h1 className="text-2xl font-bold mb-8 text-accentBrand">Meetings</h1>
+          <MeetingCalendar meetings={meetings}/>
         </section>
 
       </div>

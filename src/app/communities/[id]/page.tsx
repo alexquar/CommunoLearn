@@ -26,7 +26,7 @@ export default async function Community({
   }
 
   return (
-    <div className="h-[85vh] place-content-center py-24 sm:py-32">
+    <div className="place-content-center py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto flex w-full justify-between lg:mx-0">
           <div>
