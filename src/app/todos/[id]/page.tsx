@@ -1,25 +1,47 @@
 "use client"
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { Suspense, useEffect } from "react";
 import Link from "next/link";
-import { api } from "~/trpc/react";
+import { api, RouterOutputs } from "~/trpc/react";
 import { useState } from "react";
 import NewTodoModal from "~/app/_components/NewTodoModal";
+import Loading from "~/app/loading";
+type TodoWithRelations = RouterOutputs["todos"]['getTodoByIdWithRelations'];
 export default function Todo({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
+  const [todo, setTodo] = useState<TodoWithRelations | null>(null);
   const id = params.id;
   const numericId = Number(id);
-  if (isNaN(numericId)) {
-    return notFound();
-  }
-  const {data:todo} = api.todos.getTodoByIdWithReltions.useQuery({
+
+  const {refetch} = api.todos.getTodoByIdWithRelations.useQuery({
     id: numericId,
   });
 
+  useEffect(() => {
+    refetch().then((result) => {
+      const data = result.data;
+      if (!data) {
+        notFound();
+      }
+      setTodo(data ?? null);
+    }).catch((error) => {
+      console.error("Failed to refetch todo:", error);
+    });
+  }, [refetch]);
+
+
+  if (isNaN(numericId)) {
+    return notFound();
+  }
+
+
   return (
+    <> {
+      todo?
     <div className="mx-auto flex max-w-7xl flex-col gap-12 py-12">
       <div className="flex flex-col gap-y-3">
         <div className="flex flex-row justify-between">
+
         <h1 className="text-5xl font-bold text-accentBrand">{todo?.title}</h1>
         <Link href={`/projects/${todo?.projectId}`} className="text-primaryBrand hover:underline font-semibold text-lg cursor-pointer">
           Back to Project
@@ -58,8 +80,10 @@ export default function Todo({ params }: { params: { id: string } }) {
       completion={todo?.completionDate.toDateString()}
       memberIdProp={todo?.assignedUser?.id ?? ''}
       stageProp={todo?.stage}
-      
     />
     </div>
+    : <Loading />
+}
+    </>
   );
 }

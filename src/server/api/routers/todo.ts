@@ -27,7 +27,7 @@ export const todoRouter = createTRPCRouter({
     })
   }),
 
-  getTodoByIdWithReltions: publicProcedure
+  getTodoByIdWithRelations: publicProcedure
   .input(z.object({ id: z.number() }))
   .query(async({ ctx, input }) => {
     return await ctx.db.todo.findUnique({
@@ -89,7 +89,9 @@ export const todoRouter = createTRPCRouter({
     title: z.string().min(1), 
     content: z.string().min(1), 
     stage: z.nativeEnum(Stage),
-    done: z.boolean()
+    done: z.boolean(),
+    completionDate: z.date(),
+    userId: z.string().min(1),
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.todo.update({
@@ -100,7 +102,13 @@ export const todoRouter = createTRPCRouter({
         title: input.title,
         content: input.content,
         stage: input.stage,
-        done: input.done
+        done: input.done,
+        completionDate: input.completionDate,
+        assignedUser:{
+          connect:{
+            id:input.userId
+          }
+        }
       }
     })
   }),

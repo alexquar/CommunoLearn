@@ -4,8 +4,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
-import { type Prisma, type Stage, type Todo } from "@prisma/client";
-import Error from "./Error";
+import { type Prisma, type Stage } from "@prisma/client";
 import { useAuthContext } from "~/context/AuthContext";
 type ProjectMembersShort = Prisma.UserGetPayload<{
   select: { id: true; firstName: true; lastName: true; email: true };
@@ -21,7 +20,7 @@ export default function NewTodoModal({
   stageProp = "idea",
   completion = "",
   memberIdProp = "",
-  todoId = 0
+  todoId = 0,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -49,27 +48,36 @@ export default function NewTodoModal({
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [memberId, setMemberId] = useState(
-    () => {
-      if (!memberIdProp) return projectMembers[0]?.id ?? "";
-      return memberIdProp
-    }
-  );
+  const [memberId, setMemberId] = useState(() => {
+    if (!memberIdProp) return projectMembers[0]?.id ?? "";
+    return memberIdProp;
+  });
   const [done, setDone] = useState(false);
   const { user } = useAuthContext();
 
   const { mutate } = api.todos.newTodo.useMutation({
     onSuccess: () => {
-      console.log("Project created successfully");
       setLoading(false);
       setOpen(false);
       router.refresh();
     },
     onError: (error) => {
-      //
+      console.error(error);
+      setLoading(false);
+      setError("Error Occured");
+    },
+  });
+
+  const { mutate: edit } = api.todos.updateTodo.useMutation({
+    onSuccess: () => {
+      setLoading(false);
+      setOpen(false);
+      router.refresh();
+    },
+    onError: (error) => {
       setLoading(false);
       console.error(error);
-      setError("Error Occured");
+      setError("Update Error Occured");
     },
   });
 
@@ -81,17 +89,28 @@ export default function NewTodoModal({
     e.preventDefault();
     const endDate = new Date(completionDate);
     //pass in correct user date here
-    mutate({
-      title,
-      content,
-      userId: user?.id ?? "", //add real thing here
-      projectId,
-      completionDate: endDate,
-      projectStage: stage as Stage,
-      assignedId: memberId,
-    });
+    if (isEdit) {
+      edit({
+        id: todoId,
+        title,
+        content,
+        stage: stage as Stage,
+        done,
+        userId: memberId,
+        completionDate: endDate,
+      });
+    } else {
+      mutate({
+        title,
+        content,
+        userId: user?.id ?? "", //add real thing here
+        projectId,
+        completionDate: endDate,
+        projectStage: stage as Stage,
+        assignedId: memberId,
+      });
+    }
   };
-
 
   return (
     <>
@@ -101,7 +120,7 @@ export default function NewTodoModal({
             <div className="relative rounded-lg bg-white shadow">
               <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
                 <h3 className="text-lg font-bold text-accentBrand">
-                  Create New Todo
+                  {isEdit ? "Edit todo" : "Create New Todo"}
                 </h3>
                 <button
                   onClick={() => setOpen(false)}
@@ -206,6 +225,23 @@ export default function NewTodoModal({
                       ))}
                     </select>
                   </div>
+                  {isEdit && (
+                    <div className="col-span-2 mb-4 flex items-center gap-x-2">
+                      <label
+                        htmlFor="mark-completed"
+                        className="text-sm font-medium text-accentBrand"
+                      >
+                        Mark Todo as Completed:
+                      </label>
+                      <input
+                        id="mark-completed"
+                        type="checkbox"
+                        className="rounded-lg border-2 border-primaryBrand p-2 accent-primaryBrand outline-none"
+                        checked={done}
+                        onChange={(e) => setDone(e.target.checked)}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col items-center justify-between gap-y-4 sm:flex-row">
                   <button
@@ -224,7 +260,13 @@ export default function NewTodoModal({
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    {loading ? "Creating Todo..." : "Add new Todo"}
+                    {loading
+                      ? isEdit
+                        ? "Updating Todo..."
+                        : "Creating Todo..."
+                      : isEdit
+                        ? "Update Todo"
+                        : "Add new Todo"}
                   </button>
                   <span>{error && <ErrorNotification message={error} />}</span>
                 </div>
