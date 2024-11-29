@@ -1,8 +1,8 @@
 "use client"
 import { notFound } from "next/navigation";
-import React, { Suspense, useEffect } from "react";
+import React, {  useEffect } from "react";
 import Link from "next/link";
-import { api, RouterOutputs } from "~/trpc/react";
+import { api, type RouterOutputs } from "~/trpc/react";
 import { useState } from "react";
 import NewTodoModal from "~/app/_components/NewTodoModal";
 import Loading from "~/app/loading";
@@ -38,7 +38,7 @@ export default function Todo({ params }: { params: { id: string } }) {
   return (
     <> {
       todo?
-    <div className="mx-auto flex max-w-7xl flex-col gap-12 py-12">
+    <div className="mx-auto flex max-w-7xl flex-col px-10 gap-12 py-12">
       <div className="flex flex-col gap-y-3">
         <div className="flex flex-row justify-between">
 
@@ -48,11 +48,11 @@ export default function Todo({ params }: { params: { id: string } }) {
         </Link>
         </div>
         <p className="text-textBrand text-lg font-semibold">{todo?.content}</p>
-        <div className="flex text-textBrand flex-row gap-x-1">
-          <p className="border-e pe-1 border-textBrand">Stage: {todo?.stage}</p>
-          <p className="border-e pe-1 border-textBrand">Updated: {todo?.updatedAt.toDateString()}</p>
-          <p className="border-e pe-1 border-textBrand">Created: {todo?.createdAt.toDateString()}</p>
-          <p className="border-e pe-1 border-textBrand">Goal Completion: {todo?.completionDate.toDateString()}</p>
+        <div className="flex text-textBrand flex-col md:flex-row gap-y-4 gap-x-1">
+          <p className="md:border-e pe-1 border-textBrand">Stage: {todo?.stage}</p>
+          <p className="md:border-e pe-1 border-textBrand">Updated: {todo?.updatedAt.toDateString()}</p>
+          <p className="md:border-e pe-1 border-textBrand">Created: {todo?.createdAt.toDateString()}</p>
+          <p className="md:border-e pe-1 border-textBrand">Goal Completion: {todo?.completionDate.toDateString()}</p>
         </div>
         <div className="flex mt-4 text-primaryBrand font-bold text-xl flex-col gap-y-8">
           <span>

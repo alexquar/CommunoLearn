@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
@@ -54,7 +54,26 @@ export default function NewTodoModal({
   });
   const [done, setDone] = useState(false);
   const { user } = useAuthContext();
-
+  useEffect(() => {
+    if (isEdit) {
+      setTitle(titleProp);
+      setContent(contentProp);
+      setStage(stageProp);
+      setCompletionDate(() => {
+        if (!completion) return ""; // Return empty if no date is provided
+        const d = new Date(completion);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      });
+      setMemberId(() => {
+        if (!memberIdProp) return projectMembers[0]?.id ?? "";
+        return memberIdProp;
+      });
+      setDone(false);
+    }
+  }, [completion, contentProp, isEdit, memberIdProp, open, projectMembers, stageProp, titleProp])
   const { mutate } = api.todos.newTodo.useMutation({
     onSuccess: () => {
       setLoading(false);

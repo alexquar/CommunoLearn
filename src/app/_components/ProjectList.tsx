@@ -51,6 +51,13 @@ export default function ProjectList({
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
+      {
+        projects.length === 0 && (
+          <div className="my-8">
+            <p className="text-textBrand">No projects found :(</p>
+          </div>
+        )
+      }
       {projects.map((project) => (
 
         <div

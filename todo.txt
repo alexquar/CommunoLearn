@@ -8,12 +8,14 @@
     -show community members                                 *done
     -show project members                                   *done                                   
 -project screen                                           *done
--todo screen                                               //next
+-todo screen                                               *done
 -project list                                               *done
--todo list                                                  //next
+-todo list                                                 *done
 -calendar cards                                             *done
---empty states
--meeting screen
+-empty states                                                *done
+-meeting screen                                                 //next
+-delete stuff                                       //next
+-community screen updates                       //done
 -messages 
 -comments
 -user profile

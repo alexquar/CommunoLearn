@@ -20,7 +20,7 @@ export default async function Project({ params }: { params: { id: string } }) {
     return notFound();
   }
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-12 py-12">
+    <div className="mx-auto flex max-w-7xl flex-col gap-12 px-10 py-12">
       <div className="flex flex-col gap-y-3">
         <div className="flex flex-row justify-between">
         <h1 className="text-5xl font-bold text-accentBrand">{project.title}</h1>
@@ -29,12 +29,12 @@ export default async function Project({ params }: { params: { id: string } }) {
         </Link>
         </div>
         <p className="text-textBrand text-lg font-semibold">{project.description}</p>
-        <div className="flex text-textBrand flex-row gap-x-1">
-          <p className="border-e pe-1 border-textBrand">Stage: {project.stage}</p>
-          <p className="border-e pe-1 border-textBrand">Updated: {project.updatedAt.toDateString()}</p>
-          <p className="border-e pe-1 border-textBrand">Created: {project.createdAt.toDateString()}</p>
-          <p className="border-e pe-1 border-textBrand">Goal Completeion: {project.endDate.toDateString()}</p>
-          <p className="border-e pe-1 border-textBrand">Members: {project.projectMembers.length}</p>
+        <div className="flex text-textBrand flex-col md:flex-row gap-y-4 gap-x-1">
+          <p className="md:border-e pe-1 border-textBrand">Stage: {project.stage}</p>
+          <p className="md:border-e pe-1 border-textBrand">Updated: {project.updatedAt.toDateString()}</p>
+          <p className="md:border-e pe-1 border-textBrand">Created: {project.createdAt.toDateString()}</p>
+          <p className="md:border-e pe-1 border-textBrand">Goal Completeion: {project.endDate.toDateString()}</p>
+          <p className="md:border-e pe-1 border-textBrand">Members: {project.projectMembers.length}</p>
         </div>
         <span className="ms-auto">
             <JoinProjectButton projectId={project.id} members={project.projectMembers}  />

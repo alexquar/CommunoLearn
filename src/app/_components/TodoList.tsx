@@ -10,6 +10,11 @@ import Link from "next/link";
 export default function TodoList({ todos }: { todos: TodoWithUser[] }) {
   return (
     <ul role="list" className="divide-y divide-gray-100">
+      {todos.length === 0 && (
+        <div>
+          <p className="text-textBrand">No todos found :(</p>
+        </div>
+      )}
       {todos.map((todo) => (
         <Link key={todo.id} href={`/todos/${todo.id}`}>
         <li  className="flex justify-between gap-x-6 py-5">

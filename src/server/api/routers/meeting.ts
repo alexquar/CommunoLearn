@@ -7,7 +7,7 @@ import {
 export const meetingRouter = createTRPCRouter({
   
   // get a meeting by its id
-  getMeetingsById: publicProcedure
+  getMeetingById: publicProcedure
   .input(z.object({ id: z.number() }))
   .query(async({ ctx, input }) => {
     return await ctx.db.meeting.findUnique({
