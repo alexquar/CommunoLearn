@@ -16,7 +16,7 @@ export default function MeetingCard({meeting}:{meeting: Meeting}) {
       <p className='text-sm text-semibold truncate text-textBrand'>
         When: {new Date(meeting.meetingTime.toISOString()).toLocaleString()}
       </p>
-    <Link href={`/meeting/${meeting.id}`} className='px-10 flex flex-row gap-x-1 hover:bg-primaryBrand/70 py-3 rounded-3xl bg-primaryBrand text-white w-fit'>
+    <Link href={`/meetings/${meeting.id}`} className='px-10 flex flex-row gap-x-1 hover:bg-primaryBrand/70 py-3 rounded-3xl bg-primaryBrand text-white w-fit'>
     <p>View More</p>
     <span className='my-auto'>
     <svg  className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

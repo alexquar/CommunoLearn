@@ -93,7 +93,8 @@ export const meetingRouter = createTRPCRouter({
     meetingLocationOrLink: z.string().min(1),
     meetingTime: z.date(),
     inPerson: z.boolean(),
-    meetingDocuments: z.array(z.string()).optional()
+    meetingDocuments: z.array(z.string()).optional(),
+    done: z.boolean(),
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.meeting.update({
@@ -107,6 +108,7 @@ export const meetingRouter = createTRPCRouter({
         inPerson: input.inPerson,
         meetingTime: input.meetingTime,
         meetingDocuments: input.meetingDocuments,
+        done: input.done
         }
       })
     })

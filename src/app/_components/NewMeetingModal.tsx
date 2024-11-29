@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "./ErrorNotification";
@@ -9,24 +9,53 @@ export default function NewMeetingModal({
   open,
   setOpen,
   communityId,
-  projectId
+  projectId,
+  isEdit = false,
+  meetingId = 0,
+  titleProp = "",
+  contentProp = "",
+  meetingTimeProp = "",
+  inPersonProp = false,
+  meetingLocationOrLinkProp = "",
+  meetingDocumentsProp = [],
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   communityId: number;
-    projectId: number;
+  projectId: number;
+  isEdit?: boolean;
+  meetingId?: number;
+  titleProp?: string;
+  contentProp?: string;
+  meetingTimeProp?: string;
+  inPersonProp?: boolean;
+  meetingLocationOrLinkProp?: string;
+  meetingDocumentsProp?: string[];
 }) {
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const router = useRouter();
-  const [meetingName, setMeetingName] = useState("");
-  const [meetingTime, setMeetingTime] = useState("");
+  const [meetingName, setMeetingName] = useState(titleProp);
+  const [meetingTime, setMeetingTime] = useState(() => {
+    if (!meetingTimeProp) return "";
+    const d = new Date(meetingTimeProp);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [meetingLocationOrLink, setMeetingLocationOrLink] = useState("");
-  const [inPerson, setInPerson] = useState(false);
-  const [content, setContent] = useState("");
-  const [meetingDocuments, setMeetingDocuments] = useState<string[]>([]);
+  const [meetingLocationOrLink, setMeetingLocationOrLink] = useState(
+    meetingLocationOrLinkProp,
+  );
+  const [inPerson, setInPerson] = useState(inPersonProp);
+  const [content, setContent] = useState(contentProp);
+  const [meetingDocuments, setMeetingDocuments] =
+    useState<string[]>(meetingDocumentsProp);
   const [currentDocument, setCurrentDocument] = useState("");
+  const [done, setDone] = useState(false);
   const { mutate } = api.meetings.createNewMeeting.useMutation({
     onSuccess: () => {
       console.log("Meeting created successfully");
@@ -41,14 +70,67 @@ export default function NewMeetingModal({
     },
   });
 
+  const { mutate: edit } = api.meetings.updateMeetingById.useMutation({
+    onSuccess: () => {
+      setLoading(false);
+      setOpen(false);
+      router.refresh();
+    },
+    onError: (error) => {
+      setLoading(false);
+      console.error(error);
+      setError("Error Updating Meeting");
+    },
+  });
+
+  useEffect(() => {
+    if (isEdit) {
+      setMeetingName(titleProp);
+      setContent(contentProp);
+      setMeetingTime(() => {
+        if (!meetingTimeProp) return "";
+        const d = new Date(meetingTimeProp);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+        const day = String(d.getDate()).padStart(2, "0");
+        const hours = String(d.getHours()).padStart(2, "0");
+        const minutes = String(d.getMinutes()).padStart(2, "0");
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+      });
+      setInPerson(inPersonProp);
+      setMeetingLocationOrLink(meetingLocationOrLinkProp);
+      setMeetingDocuments(meetingDocumentsProp);
+    }
+  }, [
+    contentProp,
+    inPersonProp,
+    isEdit,
+    meetingDocumentsProp,
+    meetingLocationOrLinkProp,
+    meetingTimeProp,
+    open,
+    titleProp,
+  ]);
+
   //get the current user
 
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
     setError("");
     e.preventDefault();
-    
-    mutate({
+    if (isEdit) {
+      edit({
+        title: meetingName,
+        description: content,
+        meetingTime: new Date(meetingTime),
+        inPerson: inPerson,
+        meetingLocationOrLink: meetingLocationOrLink,
+        meetingDocuments: meetingDocuments,
+        id: meetingId,
+        done,
+      });
+    } else {
+      mutate({
         title: meetingName,
         content: content,
         meetingTime: new Date(meetingTime),
@@ -57,8 +139,9 @@ export default function NewMeetingModal({
         meetingDocuments: meetingDocuments,
         AssociatedCommunity: communityId,
         createdBy: user?.id ?? "",
-        AssociatedProject: projectId, 
+        AssociatedProject: projectId,
       });
+    }
   };
 
   return (
@@ -69,7 +152,7 @@ export default function NewMeetingModal({
             <div className="relative max-h-[80vh] overflow-y-scroll rounded-lg bg-white shadow">
               <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
                 <h3 className="text-lg font-bold text-accentBrand">
-                  Create New Meeting
+                  {isEdit ? "Edit Meeting" : "Create New Meeting"}
                 </h3>
                 <button
                   onClick={() => setOpen(false)}
@@ -188,65 +271,86 @@ export default function NewMeetingModal({
                         setCurrentDocument("");
                       }}
                       type="button"
+                      disabled={!currentDocument}
                       className="block items-center rounded-lg bg-secondaryBrand px-4 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:bg-secondaryBrand/75"
                     >
                       Add to list
                     </button>
                   </div>
 
-                  <ul className="col-span-2 mb-6">
+                  <ul className="col-span-2">
                     <h1 className="mb-2 block text-lg font-medium text-accentBrand">
                       Documents
                     </h1>
-                    {meetingDocuments.length === 0 ? 
-                    <p className="font-bold text-sm text-textBrand">
+                    {meetingDocuments.length === 0 ? (
+                      <p className="text-sm font-bold text-textBrand">
                         No documents added yet
-                        </p>
-                        : 
-                        <>
-                    {meetingDocuments.map((doc, index) => (
-                      <li
-                        key={index}
-                        className="flex flex-row items-center gap-2 py-2"
-                      >
-                        <a
-                        target="_blank"
-                          className="align-middle text-sm font-medium text-accentBrand underline hover:cursor-pointer"
-                          href={doc}
-                        >
-                          {doc.length > 40 ? `${doc.substring(0, 40)}...` : doc}
-                        </a>
-                        <button
-                          onClick={() => {
-                            setMeetingDocuments(
-                              meetingDocuments.filter((_, i) => i !== index),
-                            );
-                          }}
-                          type="button"
-                          className="inline-flex items-center rounded-lg px-2 py-1.5 text-center text-sm font-medium text-accentBrand hover:cursor-pointer hover:bg-gray-100"
-                        >
-                          <svg
-                            className="h-3 w-3"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 14"
+                      </p>
+                    ) : (
+                      <>
+                        {meetingDocuments.map((doc, index) => (
+                          <li
+                            key={index}
+                            className="flex flex-row items-center gap-2 py-2"
                           >
-                            <path
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                            />
-                          </svg>
-                        </button>
-                      </li>
-                      
-                    ))}
-                    </>
-                    }
+                            <a
+                              target="_blank"
+                              className="align-middle text-sm font-medium text-accentBrand underline hover:cursor-pointer"
+                              href={doc}
+                            >
+                              {doc.length > 40
+                                ? `${doc.substring(0, 40)}...`
+                                : doc}
+                            </a>
+                            <button
+                              onClick={() => {
+                                setMeetingDocuments(
+                                  meetingDocuments.filter(
+                                    (_, i) => i !== index,
+                                  ),
+                                );
+                              }}
+                              type="button"
+                              className="inline-flex items-center rounded-lg px-2 py-1.5 text-center text-sm font-medium text-accentBrand hover:cursor-pointer hover:bg-gray-100"
+                            >
+                              <svg
+                                className="h-3 w-3"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 14 14"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                />
+                              </svg>
+                            </button>
+                          </li>
+                        ))}
+                      </>
+                    )}
                   </ul>
+                  {isEdit && (
+                    <div className="col-span-2 mb-6 flex items-center gap-x-2 sm:col-span-1">
+                      <label
+                        htmlFor="mark-completed"
+                        className="text-sm font-medium text-accentBrand"
+                      >
+                        Mark Meeting as Completed:
+                      </label>
+                      <input
+                        id="mark-completed"
+                        type="checkbox"
+                        className="rounded-lg border-2 border-primaryBrand p-2 accent-primaryBrand outline-none"
+                        checked={done}
+                        onChange={(e) => setDone(e.target.checked)}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-row items-center justify-between">
                   <button
@@ -265,7 +369,13 @@ export default function NewMeetingModal({
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    {loading ? "Creating Meeting..." : "Add new meeting"}
+                    {loading
+                      ? isEdit
+                        ? "Updating Meeting..."
+                        : "Creating Meeting..."
+                      : isEdit
+                        ? "Update Meeting"
+                        : "Add new meeting"}
                   </button>
                   <span>{error && <ErrorNotification message={error} />}</span>
                 </div>

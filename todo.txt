@@ -13,9 +13,9 @@
 -todo list                                                 *done
 -calendar cards                                             *done
 -empty states                                                *done
--meeting screen                                                 //next
+-meeting screen                                                 *done
 -delete stuff                                       //next
--community screen updates                       //done
+-community screen updates                       //next
 -messages 
 -comments
 -user profile
