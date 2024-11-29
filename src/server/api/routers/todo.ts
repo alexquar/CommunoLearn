@@ -27,6 +27,24 @@ export const todoRouter = createTRPCRouter({
     })
   }),
 
+  getTodoByIdWithReltions: publicProcedure
+  .input(z.object({ id: z.number() }))
+  .query(async({ ctx, input }) => {
+    return await ctx.db.todo.findUnique({
+      where: {
+        id: input.id
+      },
+      include:{
+        createdBy:true,
+        assignedUser:true,
+        Project:{
+          include:{
+            projectMembers:true
+          }
+        }}
+    })
+  }), 
+
   //create a new todo
   newTodo: publicProcedure
   .input(z.object({ 
