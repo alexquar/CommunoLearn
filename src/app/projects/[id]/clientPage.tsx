@@ -7,6 +7,7 @@ import type { Prisma } from "@prisma/client";
 import { useAuthContext } from "~/context/AuthContext";
 import NewProjectModal from "~/app/_components/NewProjectModal";
 import { type Project } from "@prisma/client";
+import { useRouter } from "next/navigation";
 type ProjectMembersShort = Prisma.UserGetPayload<{
   select: { id: true; firstName: true; lastName: true; email: true };
 }>;
@@ -15,16 +16,22 @@ export default function ClientPage({
   project,
   communityId,
   projectMembers,
+  isPrivate
 }: {
   projectId: number;
   project: Project;
   communityId: number;
   projectMembers: ProjectMembersShort[];
+  isPrivate: boolean;
 }) {
-  const { user } = useAuthContext();
-  const [meetingModalOpen, setMeetingModalOpen] = useState(false);
-  const [todoModalOpen, setTodoModalOpen] = useState(false);
-  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
+  const router = useRouter()
+  const { user } = useAuthContext()
+  const [meetingModalOpen, setMeetingModalOpen] = useState(false)
+  const [todoModalOpen, setTodoModalOpen] = useState(false)
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false)
+  if(isPrivate && !projectMembers.some((member) => member.id === user?.id)){
+    router.push("/communities")
+  }
   return (
     <>
       {!projectMembers.some((member) => member.id === user?.id) ? (

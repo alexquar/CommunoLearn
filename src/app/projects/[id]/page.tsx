@@ -57,6 +57,7 @@ export default async function Project({ params }: { params: { id: string } }) {
         project = {project}
         communityId={project.associatedCommunityId}
         projectMembers={project.projectMembers}
+        isPrivate={project.AssociatedCommunity.private}
       />
     </div>
   );

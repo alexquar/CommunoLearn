@@ -6,13 +6,14 @@ import { api, type RouterOutputs } from "~/trpc/react";
 import { useState } from "react";
 import NewTodoModal from "~/app/_components/NewTodoModal";
 import Loading from "~/app/loading";
+import { useAuthContext } from "~/context/AuthContext";
 type TodoWithRelations = RouterOutputs["todos"]['getTodoByIdWithRelations'];
 export default function Todo({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [todo, setTodo] = useState<TodoWithRelations | null>(null);
   const id = params.id;
   const numericId = Number(id);
-
+  const {user} = useAuthContext();
   const {refetch} = api.todos.getTodoByIdWithRelations.useQuery({
     id: numericId,
   });
@@ -21,7 +22,10 @@ export default function Todo({ params }: { params: { id: string } }) {
     refetch().then((result) => {
       const data = result.data;
       if (!data) {
-        notFound();
+        return notFound();
+      }
+      if(data.Project.AssociatedCommunity.private && !data.Project.projectMembers.some((member) => member.id === user?.id)){
+        return notFound();
       }
       setTodo(data ?? null);
     }).catch((error) => {
@@ -61,11 +65,13 @@ export default function Todo({ params }: { params: { id: string } }) {
           <span>
             Assigned to {todo?.assignedUser?.firstName ?? 'No Body'} {todo?.assignedUser?.lastName ?? ''}
           </span>
+          {(todo?.assignedUser?.id === user?.id || todo.createdBy.id === user?.id) &&
           <button 
           onClick={()=>setEdit(true)}
           className="w-fit text-base font-normal px-10 py-3 bg-secondaryBrand hover:bg-secondaryBrand/75 text-white rounded-3xl">
             Edit Todo
           </button>
+}
         </div>
     </div>
     <NewTodoModal 

@@ -6,10 +6,12 @@ import { api, type RouterOutputs } from "~/trpc/react";
 import { useState } from "react";
 import NewMeetingModal from "~/app/_components/NewMeetingModal";
 import Loading from "~/app/loading";
+import { useAuthContext } from "~/context/AuthContext";
 type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [meeting, setMeeting] = useState<MeetingWithRelations | null>(null);
+  const {user} = useAuthContext();
   const id = params.id;
   const numericId = Number(id);
 
@@ -22,7 +24,10 @@ export default function Meeting({ params }: { params: { id: string } }) {
       .then((result) => {
         const data = result.data;
         if (!data) {
-          notFound();
+          return notFound();
+        }
+        if(data.AssociatedCommunity.private && !data.AssociatedCommunity.members.some((member) => member.id === user?.id)){
+          return notFound();
         }
         setMeeting(data ?? null);
       })
@@ -34,6 +39,7 @@ export default function Meeting({ params }: { params: { id: string } }) {
   if (isNaN(numericId)) {
     return notFound();
   }
+
 
   return (
     <>
@@ -114,13 +120,15 @@ export default function Meeting({ params }: { params: { id: string } }) {
                   )}
                 </ul>
               </span>
-
+              {meeting.createdBy.id === user?.id && 
               <button
                 onClick={() => setEdit(true)}
                 className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
               >
                 Edit Meeting
               </button>
+}
+
             </div>
           </div>
           <NewMeetingModal

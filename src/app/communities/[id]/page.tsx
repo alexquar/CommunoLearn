@@ -82,18 +82,9 @@ export default async function Community({
           id={numericId}
           members={community.members}
           ownerId={community.createdBy.id}
+          isPrivate={community.private}
         />
-        <div className="flex justify-center flex-row">
-        <h1 className="mt-12 text-center text-2xl font-bold text-accentBrand">
-            Community Options
-          </h1>
-        </div>
-        <div className="mx-auto flex flex-row justify-center gap-x-8 mt-8">
-         <DeleteCommunity id={numericId} ownerId={community.createdBy.id} /> 
-         <Link href={`/communities/new?existing=${community.id}`} className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
-            Update Community
-         </Link> 
-         </div>
+
       </div>
     </div>
   );

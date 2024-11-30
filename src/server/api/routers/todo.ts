@@ -39,7 +39,12 @@ export const todoRouter = createTRPCRouter({
         assignedUser:true,
         Project:{
           include:{
-            projectMembers:true
+            projectMembers:true,
+            AssociatedCommunity:{
+              select:{
+                private:true
+              }
+            }
           }
         }}
     })

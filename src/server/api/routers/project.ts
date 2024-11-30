@@ -34,6 +34,11 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                       include:{
                         assignedUser: true
                       }
+                    },
+                    AssociatedCommunity:{
+                      select:{
+                        private: true
+                      }
                     }
                 }
             }

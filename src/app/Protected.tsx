@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "./loading";
-const protectedRoutes = ["/communities", "/myzone", "/meetings", "/profile", "/todos"];
+const protectedRoutes = ["/communities", "/user", "/meetings", "/projects", "/todos", "/messaging"];
 const isProtectedRoute = (pathname: string) => {
     return protectedRoutes.some((route) => pathname.startsWith(route));
   };

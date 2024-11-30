@@ -17,10 +17,11 @@
 -delete stuff                                                                          *BROKEN
 -community screen updates                                   *done
 -update a community                                           *done
--messages   
--comments
--user profile                                                       //next
--images                                                                                    *BROKEN
+-messages                                                                         //next
+-comments                                                             //next
+-user profile                                                       *done
+-images and update user                                                                                *BROKEN
 -security for private communities/updating only by owner/going to dynamic routes        //next
+-handledone states                                                                          //next
 -better error and success handling?
 -responsiveness

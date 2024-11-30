@@ -17,16 +17,15 @@ export const meetingRouter = createTRPCRouter({
       include: {
       createdBy: true,
       AssociatedCommunity: {
-        select: {
-        id: true,
-        name: true
-        }
+        include: {
+          members: true
       },
+    },
       AssociatedProject: {
         select: {
         id: true,
         title: true
-        }
+        },
       },
       }
     })
