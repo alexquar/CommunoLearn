@@ -3,7 +3,7 @@ import { communityRouter } from "./routers/community";
 import { meetingRouter } from "./routers/meeting";
 import { projectRouter } from "./routers/project";
 import { todoRouter } from "./routers/todo";
-import { userRouter } from "./routers/user";
+import { userRouter } from "./routers/User";
 
 /**
  * This is the primary router for your server.
