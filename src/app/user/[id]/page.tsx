@@ -104,7 +104,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
             <div className="gap-y-8">
               <h1 className="mb-8 text-2xl font-semibold text-accentBrand">
-                What you've got going on...
+                What you&apos;ve got going on...
               </h1>
               <div className="flex flex-col gap-y-8">
                 <div className="flex flex-row items-center gap-x-2">
@@ -382,7 +382,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 </div>
                 {todoOpen && <TodoList todos={user.assignedTodos} />}
                 <p className="text-textBrand font-small text-sm">
-                    You've also created {user.createdTodos.length} todos, {user.OwnedProjects.length} projects, {user.Meetings.length} meetings, and {user.OwnedCommunities.length} communities.
+                    You&apos;ve also created {user.createdTodos.length} todos, {user.OwnedProjects.length} projects, {user.Meetings.length} meetings, and {user.OwnedCommunities.length} communities.
                 </p>
               </div>
             </div>
