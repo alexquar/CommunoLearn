@@ -48,8 +48,8 @@ export default async function Community({
   
         </div>
 
-        <div className="mx-auto mt-4 flex w-full lg:justify-center lg:items-cennter flex-col items-start gap-y-8 gap-x-8 border-y border-gray-200 py-8 lg:flex-row">
-          <div className="flex flex-col justify-center gap-y-4 lg:flex-row sm:gap-x-2">
+        <div className="mx-auto mt-4 flex w-full lg:items-cennter flex-col items-start gap-y-8 gap-x-8 border-y border-gray-200 py-8 lg:flex-row">
+          <div className="flex flex-col gap-y-4 lg:flex-row sm:gap-x-2">
             <span className="flex flex-row lg:border-e border-accentBrand pe-2 ">
               <p className="mb-2 sm:mb-0 me-2">Created: </p>
               {community.createdAt.toDateString()}
@@ -90,7 +90,7 @@ export default async function Community({
         </div>
         <div className="mx-auto flex flex-row justify-center gap-x-8 mt-8">
          <DeleteCommunity id={numericId} ownerId={community.createdBy.id} /> 
-         <Link href="/community/new" className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
+         <Link href={`/communities/new?existing=${community.id}`} className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
             Update Community
          </Link> 
          </div>
