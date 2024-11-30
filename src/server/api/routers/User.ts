@@ -88,14 +88,23 @@ export const userRouter = createTRPCRouter({
                 id: input.id
             },
             include: {
-                Projects: true,
+                Projects: {
+                    include:{
+                        createdBy:true,
+                        projectMembers:true
+                    }
+                },
                 OwnedProjects: true,
                 Communities: true,
                 OwnedCommunities: true,
                 Meetings: true,
                 Comments: true,
                 createdTodos: true,
-                assignedTodos: true,
+                assignedTodos: {
+                    include:{
+                        assignedUser:true
+                    }
+                },
             }
         })
     }),

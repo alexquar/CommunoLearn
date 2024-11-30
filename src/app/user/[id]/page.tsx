@@ -6,6 +6,10 @@ import Error from "~/app/_components/Error";
 import Image from "next/image";
 import userIcon from "../../../../public/user.svg";
 import { formatDistanceToNow } from "date-fns";
+import CommunityCard from "~/app/_components/CommunityCard";
+import ProjectList from "~/app/_components/ProjectList";
+import MeetingCard from "~/app/_components/MeetingCard";
+import TodoList from "~/app/_components/TodoList";
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const [chosen, setChosen] = useState("communities");
@@ -159,6 +163,14 @@ export default function Page({ params }: { params: { id: string } }) {
                     {user.Communities.length}
                   </p>
                 </div>
+                {communityOpen &&
+                <div className="grid grid-cols-2 gap-4">
+                {user.Communities.map((community) => (
+                    <CommunityCard key={community.id} community
+                    ={community} />
+                ))}
+                </div>
+}
                 <div className="flex flex-row items-center gap-x-2">
                 <span
                     onClick={() => setProjectOpen((prev) => !prev)}
@@ -217,6 +229,9 @@ export default function Page({ params }: { params: { id: string } }) {
                     {user.Projects.length}
                   </p>
                 </div>
+                {projectOpen &&
+                <ProjectList projects={user.Projects} />
+}
                 <div className="flex flex-row items-center gap-x-2">
                 <span
                     onClick={() => setMeetingOpen((prev) => !prev)}
@@ -275,6 +290,13 @@ export default function Page({ params }: { params: { id: string } }) {
                     {user.Meetings.length}
                   </p>
                 </div>
+                {meetingOpen &&
+                <div className="grid grid-cols-2 gap-4">
+                {user.Meetings.map((meeting) => (
+                    <MeetingCard key={meeting.id} meeting={meeting} />
+                ))}
+                </div>
+                }
                 <div className="flex flex-row items-center gap-x-2">
                 <span
                     onClick={() => setTodoOpen((prev) => !prev)}
@@ -333,6 +355,9 @@ export default function Page({ params }: { params: { id: string } }) {
                     {user.assignedTodos.length}
                   </p>
                 </div>
+                {todoOpen &&
+                <TodoList todos={user.assignedTodos} />
+                }
               </div>
             </div>
           </div>
