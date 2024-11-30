@@ -60,6 +60,14 @@ export default function NavBar() {
               </Link>
             </li>
             <li>
+              <Link
+                href="/messaging"
+                className="block rounded px-3 py-2 text-textBrand hover:underline md:p-0 md:hover:bg-transparent"
+              >
+                Messaging
+              </Link>
+            </li>
+            <li>
               <button
                 onClick={handleSignout}
                 className="block rounded px-3 py-2 text-textBrand underline md:p-0 md:hover:bg-transparent"
@@ -144,6 +152,11 @@ export default function NavBar() {
           <li>
             <Link href={`user/${user.id}`} className="block px-4 py-2 hover:bg-gray-100">
               My Zone
+            </Link>
+          </li>
+          <li>
+            <Link href="/messaging" className="block px-4 py-2 hover:bg-gray-100">
+              Messaging
             </Link>
           </li>
             </ul>
