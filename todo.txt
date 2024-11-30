@@ -16,10 +16,11 @@
 -meeting screen                                                 *done
 -delete stuff                                       //next
 -community screen updates                       *done
--update a community                               //next
--messages 
+-update a community                               *done
+-messages   
 -comments
--user profile
+-user profile                                       //next
+-images                                                 //next
+-security for private communities/updating only by owner/going to dynamic routes //next
 -better error and success handling?
 -responsiveness
--uploading?
