@@ -14,13 +14,13 @@
 -calendar cards                                             *done
 -empty states                                                *done
 -meeting screen                                                 *done
--delete stuff                                       //next
--community screen updates                       *done
--update a community                               *done
+-delete stuff                                                                          *BROKEN
+-community screen updates                                   *done
+-update a community                                           *done
 -messages   
 -comments
--user profile                                       //next
--images                                                 //next
--security for private communities/updating only by owner/going to dynamic routes //next
+-user profile                                                       //next
+-images                                                                                    *BROKEN
+-security for private communities/updating only by owner/going to dynamic routes        //next
 -better error and success handling?
 -responsiveness

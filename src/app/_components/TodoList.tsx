@@ -36,11 +36,11 @@ export default function TodoList({ todos }: { todos: TodoWithUser[] }) {
               </p>
             </div>
           </div>
-          <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
+          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm/6 text-textBrand">
-              Estimated Completion Date: {todo.completionDate.toDateString()}
+              Completion: {todo.completionDate.toDateString()}
             </p>
-            <p className="text-textBrand">
+            <p className="text-textBrand truncate">
               Assigned to {todo.assignedUser?.firstName}{" "}
               {todo.assignedUser?.lastName}
             </p>

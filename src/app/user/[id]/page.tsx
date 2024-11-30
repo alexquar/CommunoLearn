@@ -12,17 +12,46 @@ import CommunityCard from "~/app/_components/CommunityCard";
 import ProjectList from "~/app/_components/ProjectList";
 import MeetingCard from "~/app/_components/MeetingCard";
 import TodoList from "~/app/_components/TodoList";
+import { useRouter } from "next/navigation";
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-  const [chosen, setChosen] = useState("communities");
+  const router = useRouter();
+  const [chosen, setChosen] = useState("messages");
   const [communityOpen, setCommunityOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const [projectOpen, setProjectOpen] = useState(false);
   const [meetingOpen, setMeetingOpen] = useState(false);
   const [todoOpen, setTodoOpen] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const { data: user, isFetching } = api.user.getUserByIdWithRelations.useQuery(
     { id },
   );
+
+  if(!isFetching){
+    console.log(user?.OwnedCommunities);
+  }
+
+  const { mutate: uploadImage } = api.user.updateUserIcon.useMutation({
+    onSuccess: () => {
+      console.log("Image uploaded successfully");
+      setLoading(false);
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error(error);
+      setUploadError("Error uploading image");
+      setLoading(false);
+    },
+  });
+
+  const handleUpload = () => {
+    if (!file) return;
+    setLoading(true);
+    console.log(file);
+    uploadImage({ icon: file as File, id });
+  };
 
   return (
     <>
@@ -47,18 +76,21 @@ export default function Page({ params }: { params: { id: string } }) {
             productive in your space.
           </p>
 
-          <div className="my-20 grid w-full grid-cols-2 gap-x-4">
+          <div className="my-20 grid w-full grid-cols-1 gap-y-16 md:grid-cols-2 gap-x-4">
             <div className="flex w-full flex-col gap-y-8">
               <div className="flex flex-row gap-x-8">
                 <Image
-                  src={userIcon}
+                  src={user?.image ?? userIcon}
                   width={100}
                   height={100}
                   className="rounded-full border border-primaryBrand"
                   alt="Profile Picture"
                 />
                 <div className="flex flex-col gap-y-4">
-                  <button className="rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75">
+                  <button
+                    onClick={handleUpload}
+                    className="rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75"
+                  >
                     Change Avatar
                   </button>
                   <p className="leading-6 text-accentBrand">
@@ -72,19 +104,19 @@ export default function Page({ params }: { params: { id: string } }) {
               <div className="grid grid-cols-2 gap-x-4 gap-y-8">
                 <div>
                   <h1 className="font-bold text-accentBrand">First Name</h1>
-                  <p className="mt-1 font-light text-textBrand">
+                  <p className="mt-1 truncate font-light text-textBrand">
                     {user.firstName}
                   </p>
                 </div>
                 <div>
                   <h1 className="font-bold text-accentBrand">Last Name</h1>
-                  <p className="mt-1 font-light text-textBrand">
+                  <p className="mt-1 truncate font-light text-textBrand">
                     {user.lastName}
                   </p>
                 </div>
                 <div>
                   <h1 className="font-bold text-accentBrand">Email</h1>
-                  <p className="mt-1 font-light text-textBrand">{user.email}</p>
+                  <p className="mt-1 truncate font-light text-textBrand">{user.email}</p>
                 </div>
                 <div>
                   <h1 className="font-bold text-accentBrand">Location</h1>
@@ -94,7 +126,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 </div>
                 <div>
                   <h1 className="font-bold text-accentBrand">Age</h1>
-                  <p className="mt-1 font-light text-textBrand">
+                  <p className="mt-1 truncate font-light text-textBrand">
                     {user.dateOfBirth
                       ? formatDistanceToNow(new Date(user.dateOfBirth))
                       : "Date of birth not provided"}
@@ -169,7 +201,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   </p>
                 </div>
                 {communityOpen && (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2 gap-4">
                     {user.Communities.map((community) => (
                       <CommunityCard key={community.id} community={community} />
                     ))}
@@ -311,7 +343,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   </p>
                 </div>
                 {meetingOpen && (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  xl:grid-cols-2 gap-4">
                     {user.Projects.flatMap((project) => project.Meetings).map(
                       (meeting) => (
                         <MeetingCard key={meeting.id} meeting={meeting} />
@@ -381,20 +413,23 @@ export default function Page({ params }: { params: { id: string } }) {
                   </p>
                 </div>
                 {todoOpen && <TodoList todos={user.assignedTodos} />}
-                <p className="text-textBrand font-small text-sm">
-                    You&apos;ve also created {user.createdTodos.length} todos, {user.OwnedProjects.length} projects, {user.Meetings.length} meetings, and {user.OwnedCommunities.length} communities.
+                <p className="font-small text-sm text-textBrand">
+                  You&apos;ve also created {user.createdTodos.length} todos,{" "}
+                  {user.OwnedProjects.length} projects, {user.Meetings.length}{" "}
+                  meetings, and {user.OwnedCommunities.length} communities.
                 </p>
               </div>
             </div>
           </div>
           {/* Navigation Buttons */}
+          
           <div className="mt-10 inline-flex justify-center divide-x divide-gray-300 rounded-md border border-gray-300 bg-white shadow-sm">
             {/* My Communities Button */}
             <button
               type="button"
-              onClick={() => setChosen("communities")}
+              onClick={() => setChosen("messages")}
               className={`inline-flex items-center rounded-l-md px-6 py-3 text-sm font-medium ${
-                chosen === "communities"
+                chosen === "messages"
                   ? "bg-primaryBrand text-white"
                   : "text-accentBrand hover:bg-primaryBrand hover:text-white"
               }`}
@@ -408,7 +443,7 @@ export default function Page({ params }: { params: { id: string } }) {
               >
                 <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
               </svg>
-              My Communities
+              My Messages
             </button>
 
             {/* My Projects Button */}
@@ -440,6 +475,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </button>
 
             {/* My Todos Button */}
+
             <button
               type="button"
               onClick={() => setChosen("todos")}

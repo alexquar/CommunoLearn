@@ -18,6 +18,7 @@ POSTGRES_USER:  z.string(),
 POSTGRES_HOST: z.string(),
 POSTGRES_PASSWORD: z.string(),
 POSTGRES_DATABASE: z.string(),
+BLOB_READ_WRITE_TOKEN: z.string(),
   },
 
   /**
@@ -40,6 +41,7 @@ POSTGRES_USER: process.env.POSTGRES_USER,
 POSTGRES_HOST: process.env.POSTGRES_HOST,
 POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
+BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
