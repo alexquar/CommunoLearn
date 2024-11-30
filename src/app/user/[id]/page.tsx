@@ -102,11 +102,12 @@ export default function Page({ params }: { params: { id: string } }) {
             </div>
             <div className="gap-y-8">
               <h1 className="mb-8 text-2xl font-semibold text-accentBrand">
-                What you've got goin on...
+                What you've got going on...
               </h1>
               <div className="flex flex-col gap-y-8">
                 <div className="flex flex-row items-center gap-x-2">
-                  <span
+                  <button
+                    disabled={user.Communities.length === 0}
                     onClick={() => setCommunityOpen((prev) => !prev)}
                     className="my-auto h-6 w-6"
                   >
@@ -157,22 +158,24 @@ export default function Page({ params }: { params: { id: string } }) {
                         </g>
                       </svg>
                     )}
-                  </span>
+                  </button>
                   <h1 className="font-bold text-accentBrand">Communities</h1>
-                  <p className="font-light text-textBrand">
+                  <p
+                    className={`rounded-full font-light ${user.Communities.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
+                  >
                     {user.Communities.length}
                   </p>
                 </div>
-                {communityOpen &&
-                <div className="grid grid-cols-2 gap-4">
-                {user.Communities.map((community) => (
-                    <CommunityCard key={community.id} community
-                    ={community} />
-                ))}
-                </div>
-}
+                {communityOpen && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {user.Communities.map((community) => (
+                      <CommunityCard key={community.id} community={community} />
+                    ))}
+                  </div>
+                )}
                 <div className="flex flex-row items-center gap-x-2">
-                <span
+                  <button
+                    disabled={user.Projects.length === 0}
                     onClick={() => setProjectOpen((prev) => !prev)}
                     className="my-auto h-6 w-6"
                   >
@@ -223,17 +226,21 @@ export default function Page({ params }: { params: { id: string } }) {
                         </g>
                       </svg>
                     )}
-                  </span>
+                  </button>
                   <h1 className="font-bold text-accentBrand">Projects</h1>
-                  <p className="font-light text-textBrand">
+                  <p
+                    className={`rounded-full font-light ${user.Projects.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
+                  >
                     {user.Projects.length}
                   </p>
                 </div>
-                {projectOpen &&
-                <ProjectList projects={user.Projects} />
-}
+                {projectOpen && <ProjectList projects={user.Projects} />}
                 <div className="flex flex-row items-center gap-x-2">
-                <span
+                  <button
+                    disabled={
+                      user.Projects.flatMap((project) => project.Meetings)
+                        .length === 0
+                    }
                     onClick={() => setMeetingOpen((prev) => !prev)}
                     className="my-auto h-6 w-6"
                   >
@@ -284,21 +291,35 @@ export default function Page({ params }: { params: { id: string } }) {
                         </g>
                       </svg>
                     )}
-                  </span>
+                  </button>
                   <h1 className="font-bold text-accentBrand">Meetings</h1>
-                  <p className="font-light text-textBrand">
-                    {user.Meetings.length}
+                  <p
+                    className={`rounded-full font-light ${
+                      user.Projects.map((project) => {
+                        return project.Meetings;
+                      }).length === 0
+                        ? "bg-textBrand"
+                        : "bg-primaryBrand"
+                    } flex h-8 w-8 items-center justify-center text-white`}
+                  >
+                    {
+                      user.Projects.flatMap((project) => project.Meetings)
+                        .length
+                    }
                   </p>
                 </div>
-                {meetingOpen &&
-                <div className="grid grid-cols-2 gap-4">
-                {user.Meetings.map((meeting) => (
-                    <MeetingCard key={meeting.id} meeting={meeting} />
-                ))}
-                </div>
-                }
+                {meetingOpen && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {user.Projects.flatMap((project) => project.Meetings).map(
+                      (meeting) => (
+                        <MeetingCard key={meeting.id} meeting={meeting} />
+                      ),
+                    )}
+                  </div>
+                )}
                 <div className="flex flex-row items-center gap-x-2">
-                <span
+                  <button
+                    disabled={user.assignedTodos.length === 0}
                     onClick={() => setTodoOpen((prev) => !prev)}
                     className="my-auto h-6 w-6"
                   >
@@ -349,15 +370,18 @@ export default function Page({ params }: { params: { id: string } }) {
                         </g>
                       </svg>
                     )}
-                  </span>
+                  </button>
                   <h1 className="font-bold text-accentBrand">Todos</h1>
-                  <p className="font-light text-textBrand">
+                  <p
+                    className={`rounded-full font-light ${user.assignedTodos.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
+                  >
                     {user.assignedTodos.length}
                   </p>
                 </div>
-                {todoOpen &&
-                <TodoList todos={user.assignedTodos} />
-                }
+                {todoOpen && <TodoList todos={user.assignedTodos} />}
+                <p className="text-textBrand font-small text-sm">
+                    You've also created {user.createdTodos.length} todos, {user.OwnedProjects.length} projects, {user.Meetings.length} meetings, and {user.OwnedCommunities.length} communities.
+                </p>
               </div>
             </div>
           </div>

@@ -91,7 +91,8 @@ export const userRouter = createTRPCRouter({
                 Projects: {
                     include:{
                         createdBy:true,
-                        projectMembers:true
+                        projectMembers:true,
+                        Meetings:true,
                     }
                 },
                 OwnedProjects: true,
