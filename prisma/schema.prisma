@@ -82,8 +82,8 @@ model Community {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     userId     String
-    projects     Project[]
-    meetings Meeting[]
+    projects     Project[] 
+    meetings Meeting[]  
     members User[] @relation("CommunityMembers")
     ownerEmail String?
     password String?
@@ -108,10 +108,10 @@ model Meeting {
     createdBy  User   @relation(fields: [userId], references: [id])
     userId     String
 
-    AssociatedCommunity Community @relation(fields: [AssociatedCommunityId], references: [id])
+    AssociatedCommunity Community @relation(fields: [AssociatedCommunityId], references: [id], onDelete: Cascade)
     AssociatedCommunityId Int
 
-    AssociatedProject Project @relation(fields: [AssociatedProjectId], references: [id])
+    AssociatedProject Project @relation(fields: [AssociatedProjectId], references: [id], onDelete: Cascade)
     AssociatedProjectId Int
 }
 
@@ -135,7 +135,7 @@ model Project {
 
 
     associatedCommunityId Int
-    AssociatedCommunity Community @relation(fields: [associatedCommunityId], references: [id])
+    AssociatedCommunity Community @relation(fields: [associatedCommunityId], references: [id], onDelete: Cascade)
     @@unique([title, associatedCommunityId])
 }
 

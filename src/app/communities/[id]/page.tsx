@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Blob from "~/app/_components/Blob";
 import JoinCommunityButton from "~/app/_components/JoinCommunityButton";
 import ClientPage from "./clientPage";
+import DeleteCommunity from "~/app/_components/DeleteCommunity";
+import Link from "next/link";
 //this component will need to be switched to client
 export default async function Community({
   params,
@@ -26,51 +28,53 @@ export default async function Community({
   }
 
   return (
-    <div className="place-content-center py-24 sm:py-32">
+    <div className="place-content-center py-10 md:py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto flex w-full justify-between lg:mx-0">
           <div>
             <h2 className="text-4xl font-bold text-accentBrand sm:text-5xl">
               {community.name}
             </h2>
-            <p className="mt-2 text-lg leading-8 text-textBrand">
+            <p className="mt-4 text-lg leading-8 text-textBrand">
               {community.sloganCommunity}
             </p>
             <div className="mt-4">
               <Blob title={community.communityType} />
             </div>
-          </div>
-          <div className="me-2 w-1/2 break-words text-right text-textBrand">
+            <div className="mt-4 text-textBrand">
             {community.aboutCommunity}
           </div>
+          </div>
+  
         </div>
 
-        <div className="mx-auto mt-10 flex w-full flex-col items-center gap-x-8 border-y border-gray-200 py-8 sm:flex-row sm:justify-between">
-          <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-2">
-            <span className="flex flex-col sm:hidden sm:flex-row sm:border-e sm:border-accentBrand sm:pe-2 md:flex">
-              <p className="mb-2 sm:mb-0 sm:me-2">Created:</p>
+        <div className="mx-auto mt-4 flex w-full lg:justify-center lg:items-cennter flex-col items-start gap-y-8 gap-x-8 border-y border-gray-200 py-8 lg:flex-row">
+          <div className="flex flex-col justify-center gap-y-4 lg:flex-row sm:gap-x-2">
+            <span className="flex flex-row lg:border-e border-accentBrand pe-2 ">
+              <p className="mb-2 sm:mb-0 me-2">Created: </p>
               {community.createdAt.toDateString()}
             </span>
-            <span className="flex flex-col sm:flex-row sm:border-e sm:border-accentBrand sm:pe-2">
-              <p className="mb-2 sm:mb-0 sm:me-2">Located in:</p>
+            <span className="flex flex-row lg:border-e border-accentBrand pe-2">
+              <p className="mb-2 sm:mb-0 me-2">Located in: </p>
               {community.locationCommunity}
             </span>
-            <span className="flex flex-col sm:hidden sm:flex-row sm:border-e sm:border-accentBrand sm:pe-2 lg:flex">
-              <p className="mb-2 sm:mb-0 sm:me-2">Last Change:</p>
+            <span className="flex  flex-row lg:border-e border-accentBrand pe-2">
+              <p className="mb-2 sm:mb-0 me-2">Last Change: </p>
               {community.updatedAt.toDateString()}
             </span>
-            <span className="flex flex-col sm:hidden sm:flex-row sm:border-e sm:border-accentBrand sm:pe-2 lg:flex">
-              <p className="mb-2 sm:mb-0 sm:me-2"># Members:</p>
+            <span className="flex flex-row lg:border-e border-accentBrand pe-2">
+              <p className="mb-2 sm:mb-0 me-2"># Members: </p>
               {community.numberOfMembers}
             </span>
-            {community.ownerEmail && (
-              <span className="flex flex-col sm:flex-row">
-                <p className="mb-2 sm:mb-0 sm:me-2">Contact Adress:</p>
-                {community.ownerEmail}
+  
+              <span className="flex flex-row">
+                <p className="mb-2 sm:mb-0 me-2">Contact Adress:</p>
+                {community.ownerEmail ?? "No Address"}
               </span>
-            )}
+        
           </div>
           <JoinCommunityButton id={numericId} members={community.members} />
+         
         </div>
         <ClientPage
           projects={community.projects}
@@ -79,6 +83,17 @@ export default async function Community({
           members={community.members}
           ownerId={community.createdBy.id}
         />
+        <div className="flex justify-center flex-row">
+        <h1 className="mt-12 text-center text-2xl font-bold text-accentBrand">
+            Community Options
+          </h1>
+        </div>
+        <div className="mx-auto flex flex-row justify-center gap-x-8 mt-8">
+         <DeleteCommunity id={numericId} ownerId={community.createdBy.id} /> 
+         <Link href="/community/new" className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
+            Update Community
+         </Link> 
+         </div>
       </div>
     </div>
   );

@@ -186,7 +186,7 @@ getCommunityWithRelations: publicProcedure
     return await ctx.db.community.delete({
       where: {
         id: input.id
-      }
+      },
     })
   }),
 

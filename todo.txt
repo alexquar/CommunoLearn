@@ -15,7 +15,8 @@
 -empty states                                                *done
 -meeting screen                                                 *done
 -delete stuff                                       //next
--community screen updates                       //next
+-community screen updates                       *done
+-update a community                               //next
 -messages 
 -comments
 -user profile
