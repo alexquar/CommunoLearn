@@ -73,6 +73,7 @@ model Todo {
     projectId Int
 
 @@unique([title, projectId])
+    Comment Comment[]
 }
 
 model Community {
@@ -184,6 +185,8 @@ model Comment{
     commentCategory commentCategory
     associatedMeeting Meeting? @relation(fields: [meetingId], references: [id])
     meetingId Int?
+    associatedTodo Todo? @relation(fields: [todoId], references: [id])
+    todoId Int?
     //will need to link to some time of content tbd
 }
 
