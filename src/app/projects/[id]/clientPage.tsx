@@ -48,6 +48,8 @@ export default function ClientPage({
             >
               Edit Project
             </button>
+            {!project.done && (
+              <>
             <button
               onClick={() => setMeetingModalOpen(true)}
               className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"
@@ -61,6 +63,9 @@ export default function ClientPage({
             >
               Add todo
             </button>
+            </>
+            )
+}
             <NewMeetingModal
               open={meetingModalOpen}
               setOpen={setMeetingModalOpen}
@@ -83,6 +88,7 @@ export default function ClientPage({
               completion={project?.endDate?.toISOString() ?? ""}
               projectStage={project.stage}
               projectId={projectId}
+              doneProp={project.done}
               />
           </div>
         </>

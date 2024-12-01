@@ -17,11 +17,11 @@
 -delete stuff                                                                          *BROKEN
 -community screen updates                                   *done
 -update a community                                           *done
--messages                                                                         //next
+-messages                                                                        ~leave for now
 -comments                                                             //next
 -user profile                                                       *done
 -images and update user                                                                                *BROKEN
--security for private communities/updating only by owner/going to dynamic routes        //next
--handledone states                                                                          //next
--better error and success handling?
--responsiveness
+-security for private communities/updating only by owner/going to dynamic routes        *done
+-handledone states                                                                          *done
+-responsiveness                                                                          *done
+-improve search                                                                         //next

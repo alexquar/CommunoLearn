@@ -7,6 +7,7 @@ import { useState } from "react";
 import NewMeetingModal from "~/app/_components/NewMeetingModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
+import Blob from "~/app/_components/Blob";
 type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
@@ -58,6 +59,11 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 Back to Project
               </Link>
             </div>
+            {meeting.done &&
+            <div className="inline-flex">
+              <Blob title="Done" />
+            </div>
+}
             <p className="text-lg font-semibold text-textBrand">
               {meeting?.content}
             </p>
@@ -144,6 +150,7 @@ export default function Meeting({ params }: { params: { id: string } }) {
             meetingDocumentsProp={meeting?.meetingDocuments}
             inPersonProp={meeting?.inPerson}
             meetingLocationOrLinkProp={meeting?.meetingLocationOrLink}
+            isDone={meeting?.done}
           />
         </div>
       ) : (

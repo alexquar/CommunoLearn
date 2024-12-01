@@ -21,6 +21,7 @@ export default function NewTodoModal({
   completion = "",
   memberIdProp = "",
   todoId = 0,
+  isDone = false,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -33,6 +34,7 @@ export default function NewTodoModal({
   completion?: string;
   memberIdProp?: string;
   todoId?: number;
+  isDone?: boolean;
 }) {
   const router = useRouter();
   const [title, setTitle] = useState(titleProp);
@@ -52,7 +54,7 @@ export default function NewTodoModal({
     if (!memberIdProp) return projectMembers[0]?.id ?? "";
     return memberIdProp;
   });
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(isDone);
   const { user } = useAuthContext();
   useEffect(() => {
     if (isEdit) {
@@ -71,9 +73,9 @@ export default function NewTodoModal({
         if (!memberIdProp) return projectMembers[0]?.id ?? "";
         return memberIdProp;
       });
-      setDone(false);
+      setDone(isDone);
     }
-  }, [completion, contentProp, isEdit, memberIdProp, open, projectMembers, stageProp, titleProp])
+  }, [completion, contentProp, isEdit, memberIdProp, open, isDone, projectMembers, stageProp, titleProp])
   const { mutate } = api.todos.newTodo.useMutation({
     onSuccess: () => {
       setLoading(false);

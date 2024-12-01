@@ -7,6 +7,7 @@ import Link from "next/link";
 import JoinProjectButton from "~/app/_components/JoinProjectButton";
 import UserList from "~/app/_components/UserList";
 import MeetingGrid from "~/app/_components/MeetingGrid";
+import Blob from "~/app/_components/Blob";
 export default async function Project({ params }: { params: { id: string } }) {
   const id = params.id;
   const numericId = Number(id);
@@ -28,6 +29,11 @@ export default async function Project({ params }: { params: { id: string } }) {
           Back to community
         </Link>
         </div>
+{project.done && (
+  <div className="inline-flex">
+  <Blob title="Done" />
+  </div>
+)}
         <p className="text-textBrand text-lg font-semibold">{project.description}</p>
         <div className="flex text-textBrand flex-col md:flex-row gap-y-4 gap-x-1">
           <p className="md:border-e pe-1 border-textBrand">Stage: {project.stage}</p>

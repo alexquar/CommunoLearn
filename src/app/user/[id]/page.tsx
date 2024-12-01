@@ -29,10 +29,6 @@ export default function Page({ params }: { params: { id: string } }) {
     { id },
   );
 
-  if(!isFetching){
-    console.log(user?.OwnedCommunities);
-  }
-
   const { mutate: uploadImage } = api.user.updateUserIcon.useMutation({
     onSuccess: () => {
       console.log("Image uploaded successfully");
@@ -46,11 +42,11 @@ export default function Page({ params }: { params: { id: string } }) {
     },
   });
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!file) return;
     setLoading(true);
-    console.log(file);
-    uploadImage({ icon: file as File, id });
+    const buffer = await file.arrayBuffer();
+    uploadImage({ icon: Buffer.from(buffer), id });
   };
 
   return (
@@ -424,6 +420,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <button className="px-10 mt-10 text-center py-3 hover:text-primaryBrand border hover:bg-backgroundBrand border-primaryBrand text-white bg-primaryBrand rounded-3xl">
             Update Profile
           </button>
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
         </main>
       )}
     </>

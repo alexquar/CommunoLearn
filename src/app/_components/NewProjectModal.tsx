@@ -15,7 +15,8 @@ export default function NewProjectModal({
   description = "",
   completion = "",
   projectStage = "idea",
-  projectId = 0
+  projectId = 0,
+  doneProp = false
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -25,7 +26,8 @@ export default function NewProjectModal({
   description?: string;
   completion?: string;
   projectStage?: Stage;
-  projectId?: number
+  projectId?: number;
+  doneProp?: boolean
 }) {
   const {user} = useAuthContext();
   const router = useRouter();
@@ -40,10 +42,26 @@ export default function NewProjectModal({
   return `${year}-${month}-${day}`;
   });
   const [stage, setStage] = useState(projectStage);
-  const [done, setDone] = useState(false)
+  const [done, setDone] = useState(doneProp);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
+  useEffect(() => {
+    if(isEdit){
+      setProjectName(name);
+      setProjectDescription(description);
+      setCompletionDate(()=>{
+        if (!completion) return ""; // Return empty if no date is provided
+      const d = new Date(completion);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+      })
+      setStage(projectStage);
+      setDone(doneProp);
+    }
+  }
+  , [open, isEdit, name, description, completion, projectStage])
   const { mutate } = api.projects.newProject.useMutation({
     onSuccess: () => {
       console.log("Project created successfully");

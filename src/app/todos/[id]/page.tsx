@@ -8,6 +8,7 @@ import NewTodoModal from "~/app/_components/NewTodoModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
 type TodoWithRelations = RouterOutputs["todos"]['getTodoByIdWithRelations'];
+import Blob from "~/app/_components/Blob";
 export default function Todo({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [todo, setTodo] = useState<TodoWithRelations | null>(null);
@@ -51,6 +52,12 @@ export default function Todo({ params }: { params: { id: string } }) {
           Back to Project
         </Link>
         </div>
+        {
+          todo.done &&
+          <div className="inline-flex">
+            <Blob title="Done" />
+          </div>
+        }
         <p className="text-textBrand text-lg font-semibold">{todo?.content}</p>
         <div className="flex text-textBrand flex-col md:flex-row gap-y-4 gap-x-1">
           <p className="md:border-e pe-1 border-textBrand">Stage: {todo?.stage}</p>
@@ -86,6 +93,7 @@ export default function Todo({ params }: { params: { id: string } }) {
       completion={todo?.completionDate.toDateString()}
       memberIdProp={todo?.assignedUser?.id ?? ''}
       stageProp={todo?.stage}
+      isDone={todo?.done}
     />
     </div>
     : <Loading />

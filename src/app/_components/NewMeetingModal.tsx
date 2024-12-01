@@ -18,6 +18,7 @@ export default function NewMeetingModal({
   inPersonProp = false,
   meetingLocationOrLinkProp = "",
   meetingDocumentsProp = [],
+  isDone = false,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -31,6 +32,7 @@ export default function NewMeetingModal({
   inPersonProp?: boolean;
   meetingLocationOrLinkProp?: string;
   meetingDocumentsProp?: string[];
+  isDone?: boolean;
 }) {
   const { user } = useAuthContext();
   const router = useRouter();
@@ -55,7 +57,7 @@ export default function NewMeetingModal({
   const [meetingDocuments, setMeetingDocuments] =
     useState<string[]>(meetingDocumentsProp);
   const [currentDocument, setCurrentDocument] = useState("");
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(isDone);
   const { mutate } = api.meetings.createNewMeeting.useMutation({
     onSuccess: () => {
       console.log("Meeting created successfully");
@@ -100,6 +102,7 @@ export default function NewMeetingModal({
       setInPerson(inPersonProp);
       setMeetingLocationOrLink(meetingLocationOrLinkProp);
       setMeetingDocuments(meetingDocumentsProp);
+      setDone(isDone);
     }
   }, [
     contentProp,
@@ -110,6 +113,7 @@ export default function NewMeetingModal({
     meetingTimeProp,
     open,
     titleProp,
+    isDone
   ]);
 
   //get the current user
