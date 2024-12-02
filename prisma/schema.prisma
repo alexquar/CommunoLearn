@@ -178,16 +178,15 @@ model Comment{
     commentedBy User @relation("commentedBy", fields:[userId], references: [id])
     userId String
     createdAt DateTime @default(now())
-    associatedProject Project? @relation(fields: [projectId], references: [id])
+    associatedProject Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
     projectId Int?
-    associatedCommunity Community? @relation(fields: [communityId], references: [id])
+    associatedCommunity Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
     communityId Int?
     commentCategory commentCategory
-    associatedMeeting Meeting? @relation(fields: [meetingId], references: [id])
+    associatedMeeting Meeting? @relation(fields: [meetingId], references: [id], onDelete: Cascade)
     meetingId Int?
-    associatedTodo Todo? @relation(fields: [todoId], references: [id])
+    associatedTodo Todo? @relation(fields: [todoId], references: [id], onDelete: Cascade)
     todoId Int?
-    //will need to link to some time of content tbd
 }
 
 model Message{

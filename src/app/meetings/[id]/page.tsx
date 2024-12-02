@@ -9,10 +9,13 @@ import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
 import Blob from "~/app/_components/Blob";
 import CommentSection from "~/app/_components/_comments/CommentSection";
+import { useRouter } from "next/navigation";
 type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [meeting, setMeeting] = useState<MeetingWithRelations | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const { user } = useAuthContext();
   const id = params.id;
   const numericId = Number(id);
@@ -20,6 +23,24 @@ export default function Meeting({ params }: { params: { id: string } }) {
   const { refetch } = api.meetings.getMeetingById.useQuery({
     id: numericId,
   });
+
+  const {mutate : deleteMeeting} = api.meetings.deleteMeetingById.useMutation({
+    onSuccess: () => {
+      setLoading(false);
+      router.push(`/projects/${meeting?.AssociatedProjectId}`);
+    },
+    onError: (error) => {
+      setLoading(false);
+      console.error(error);
+    },
+  });
+
+  const handleDelete = () => {
+    setLoading(true);
+    deleteMeeting({
+      id: numericId,
+    });
+  }
 
   useEffect(() => {
     refetch()
@@ -41,7 +62,7 @@ export default function Meeting({ params }: { params: { id: string } }) {
       .catch((error) => {
         console.error("Failed to refetch todo:", error);
       });
-  }, [refetch]);
+  }, [refetch, numericId, user]);
 
   if (isNaN(numericId)) {
     return notFound();
@@ -136,12 +157,20 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 </ul>
               </span>
               {meeting.createdBy.id === user?.id && (
+                <div className="flex flex-row gap-x-4">
                 <button
                   onClick={() => setEdit(true)}
                   className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
                 >
                   Edit Meeting
                 </button>
+                <button
+                  onClick={handleDelete}
+                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
+                >
+                  {loading ? "Deleting..." : "Delete Meeting"}
+                </button>
+                </div>
               )}
               <CommentSection
                 comments={meeting.Comment}

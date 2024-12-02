@@ -144,7 +144,7 @@ export default function CommentForm({
         <div className="flex flex-row gap-x-2">
           <button
             type="submit"
-            className="inline-flex w-fit items-center rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75"
+            className="inline-flex w-fit items-center font-normal text-base rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75"
           >
             {loading ? "Adding Comment..." : "Add Comment"}
           </button>

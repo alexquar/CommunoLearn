@@ -14,7 +14,7 @@
 -calendar cards                                             *done
 -empty states                                                *done
 -meeting screen                                                 *done
--delete stuff                                                                          *BROKEN
+
 -community screen updates                                   *done
 -update a community                                           *done
 -messages                                                                        ~leave for now
@@ -22,6 +22,7 @@
 -user profile                                                       *done
 
 `````````````
+-delete stuff                                                                          *BROKEN
 -images                                                                               *BROKEN
 -improve search                                                                         //next
 `````````

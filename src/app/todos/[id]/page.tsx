@@ -10,15 +10,36 @@ import { useAuthContext } from "~/context/AuthContext";
 type TodoWithRelations = RouterOutputs["todos"]["getTodoByIdWithRelations"];
 import CommentSection from "~/app/_components/_comments/CommentSection";
 import Blob from "~/app/_components/Blob";
+import { useRouter } from "next/navigation";
 export default function Todo({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [todo, setTodo] = useState<TodoWithRelations | null>(null);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const id = params.id;
   const numericId = Number(id);
   const { user } = useAuthContext();
   const { refetch } = api.todos.getTodoByIdWithRelations.useQuery({
     id: numericId,
   });
+
+  const {mutate: deleteTodo} = api.todos.deleteTodo.useMutation({
+    onSuccess: () => {
+      setLoading(false);
+      router.push(`/projects/${todo?.projectId}`);
+    },
+    onError: (error) => {
+      setLoading(false);
+      console.error(error);
+    },
+  });
+
+  const handleDelete = () => {
+    setLoading(true);
+    deleteTodo({
+      id: numericId,
+    });
+  }
 
   useEffect(() => {
     refetch()
@@ -38,7 +59,7 @@ export default function Todo({ params }: { params: { id: string } }) {
       .catch((error) => {
         console.error("Failed to refetch todo:", error);
       });
-  }, [refetch]);
+  }, [refetch, user]);
 
   if (isNaN(numericId)) {
     return notFound();
@@ -94,12 +115,20 @@ export default function Todo({ params }: { params: { id: string } }) {
               </Link>
               {(todo?.assignedUser?.id === user?.id ||
                 todo.createdBy.id === user?.id) && (
+                  <div className="flex flex-row gap-x-4">
                 <button
                   onClick={() => setEdit(true)}
                   className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
                 >
                   Edit Todo
                 </button>
+                <button
+                  onClick={handleDelete}
+                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
+                >
+                  {loading ? "Deleting..." : "Delete Todo"}
+                </button>
+                </div>
               )}
             </div>
             <CommentSection
