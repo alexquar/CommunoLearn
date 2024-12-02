@@ -162,6 +162,7 @@ setError('An error occurred while fetching top communities :(');
                 </ul>
                 </div>
               }
+              
       </section>
       <div className="py-12 mx-4 sm:mx-16 sm:py-18">
       

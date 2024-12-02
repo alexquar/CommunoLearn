@@ -44,8 +44,6 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        name: z.string().min(1),
-        email: z.string().min(1),
         dateOfBirth: z.date().optional(),
         location: z.nativeEnum(location),
         firstName: z.string(),
@@ -60,7 +58,6 @@ export const userRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          email: input.email,
           dateOfBirth: input.dateOfBirth,
           location: input.location,
           firstName: input.firstName,

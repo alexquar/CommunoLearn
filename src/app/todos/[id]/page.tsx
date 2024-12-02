@@ -84,14 +84,14 @@ export default function Todo({ params }: { params: { id: string } }) {
               </p>
             </div>
             <div className="mt-4 flex flex-col gap-y-8 text-xl font-bold text-primaryBrand">
-              <span>
+              <Link href={`/user/${todo?.createdBy.id}`}>
                 Created by {todo?.createdBy.firstName}{" "}
                 {todo?.createdBy.lastName}
-              </span>
-              <span>
+              </Link>
+              <Link href={`/user/${todo?.assignedUser?.id}`}>
                 Assigned to {todo?.assignedUser?.firstName ?? "No Body"}{" "}
                 {todo?.assignedUser?.lastName ?? ""}
-              </span>
+              </Link>
               {(todo?.assignedUser?.id === user?.id ||
                 todo.createdBy.id === user?.id) && (
                 <button

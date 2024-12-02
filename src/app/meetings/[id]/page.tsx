@@ -13,7 +13,7 @@ type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [meeting, setMeeting] = useState<MeetingWithRelations | null>(null);
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const id = params.id;
   const numericId = Number(id);
 
@@ -28,7 +28,12 @@ export default function Meeting({ params }: { params: { id: string } }) {
         if (!data) {
           return notFound();
         }
-        if(data.AssociatedCommunity.private && !data.AssociatedCommunity.members.some((member) => member.id === user?.id)){
+        if (
+          data.AssociatedCommunity.private &&
+          !data.AssociatedCommunity.members.some(
+            (member) => member.id === user?.id,
+          )
+        ) {
           return notFound();
         }
         setMeeting(data ?? null);
@@ -41,7 +46,6 @@ export default function Meeting({ params }: { params: { id: string } }) {
   if (isNaN(numericId)) {
     return notFound();
   }
-
 
   return (
     <>
@@ -60,11 +64,11 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 Back to Project
               </Link>
             </div>
-            {meeting.done &&
-            <div className="inline-flex">
-              <Blob title="Done" />
-            </div>
-}
+            {meeting.done && (
+              <div className="inline-flex">
+                <Blob title="Done" />
+              </div>
+            )}
             <p className="text-lg font-semibold text-textBrand">
               {meeting?.content}
             </p>
@@ -81,24 +85,28 @@ export default function Meeting({ params }: { params: { id: string } }) {
               <p className="border-textBrand pe-1 md:border-e">
                 Associated Project: {meeting.AssociatedProject.title}
               </p>
-              <p className="border-textBrand flex flex-row pe-1 md:border-e">
+              <p className="flex flex-row border-textBrand pe-1 md:border-e">
                 {meeting.inPerson ? "Location" : "Link"}:{" "}
-                {!meeting.inPerson ?
-                <a target="_blank" className="cursor-point underline ms-1" href={meeting.meetingLocationOrLink}>
-                  {meeting.meetingLocationOrLink.length > 15
-                  ? `${meeting.meetingLocationOrLink.substring(0, 15)}...`
-                  : meeting.meetingLocationOrLink}
-                </a>
-                :
-                meeting.meetingLocationOrLink
-              }
+                {!meeting.inPerson ? (
+                  <a
+                    target="_blank"
+                    className="cursor-point ms-1 underline"
+                    href={meeting.meetingLocationOrLink}
+                  >
+                    {meeting.meetingLocationOrLink.length > 15
+                      ? `${meeting.meetingLocationOrLink.substring(0, 15)}...`
+                      : meeting.meetingLocationOrLink}
+                  </a>
+                ) : (
+                  meeting.meetingLocationOrLink
+                )}
               </p>
             </div>
             <div className="mt-4 flex flex-col gap-y-8 text-xl font-bold text-primaryBrand">
-              <span>
+              <Link href={`/user/${meeting.createdBy.id}`}>
                 Created by {meeting.createdBy.firstName}{" "}
                 {meeting.createdBy.lastName}
-              </span>
+              </Link>
               <span>
                 <h3 className="mb-4 text-lg font-semibold text-accentBrand">
                   Meeting Documents
@@ -127,20 +135,19 @@ export default function Meeting({ params }: { params: { id: string } }) {
                   )}
                 </ul>
               </span>
-              {meeting.createdBy.id === user?.id && 
-              <button
-                onClick={() => setEdit(true)}
-                className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
-              >
-                Edit Meeting
-              </button>
-}
-<CommentSection
-              comments={meeting.Comment}
-              onId = {meeting.id}
-              commentOn="meeting"
+              {meeting.createdBy.id === user?.id && (
+                <button
+                  onClick={() => setEdit(true)}
+                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
+                >
+                  Edit Meeting
+                </button>
+              )}
+              <CommentSection
+                comments={meeting.Comment}
+                onId={meeting.id}
+                commentOn="meeting"
               />
-
             </div>
           </div>
           <NewMeetingModal

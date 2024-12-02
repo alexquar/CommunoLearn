@@ -18,13 +18,13 @@
 -community screen updates                                   *done
 -update a community                                           *done
 -messages                                                                        ~leave for now
--comments                                                             //next
+-comments                                                             *done
 -user profile                                                       *done
 -images and update user                                                                                *BROKEN
 -security for private communities/updating only by owner/going to dynamic routes        *done
 -handledone states                                                                          *done
 -responsiveness                                                                          *done
 -improve search                                                                         //next
--create a community link on community page                                              //next
--links to user page and only let stuff show when you are owner                          //next
+-edit user                                                                              *done
+-links to user page and only let stuff show when you are owner                          *done
 --change all to dropdowns????
