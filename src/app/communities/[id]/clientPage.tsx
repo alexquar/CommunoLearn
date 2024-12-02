@@ -8,6 +8,7 @@ import MeetingCalendar from "~/app/_components/MeetingGrid";
 import DeleteCommunity from "~/app/_components/DeleteCommunity";
 import Link from "next/link";
 import CommentSection from "~/app/_components/_comments/CommentSection";
+import { api } from "~/trpc/react";
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -48,10 +49,30 @@ export default function ClientPage({
   const router = useRouter();
   const { user } = useAuthContext();
   const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   if(isPrivate && !members.some((member) => member.id === user?.id)){
     router.push("/communities");
   }
-  return (
+
+  const {mutate:deleteCommunity} = api.communities.deleteCommunity.useMutation({
+    onSuccess: () => {
+      setLoading(false);
+      router.push("/communities")
+    },
+    onError: (error) => {
+      setLoading(false);
+      console.error(error)
+    }
+  })
+
+  const handleDelete = () => {
+    setLoading(true);
+    deleteCommunity({
+      id: id
+    })
+  }
+
+   return (
     <>
       {members.some((member) => member.id === user?.id) && (
         <>
@@ -91,10 +112,13 @@ export default function ClientPage({
         </div>
         
         <div className="mx-auto flex flex-row justify-center gap-x-8 mt-8">
-         <DeleteCommunity id={id} ownerId={ownerId} /> 
+         <DeleteCommunity id={id} ownerId={ownerId} />              
          <Link href={`/communities/new?existing=${id}`} className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
             Update Community
          </Link> 
+         <button onClick={handleDelete}  className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
+            {loading ? "Deleting Community..." : "Delete Community"}
+         </button> 
          </div>          
           </>}
           </div>
