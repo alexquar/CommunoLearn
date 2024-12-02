@@ -11,9 +11,8 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 export default function Communities() {
-const searchParams = useSearchParams();
-const givenSearch = searchParams.get("search");
-
+  const searchParams = useSearchParams();
+  const givenSearch = searchParams.get("search");
 
   const router = useRouter();
   const [search, setSearch] = useState(givenSearch ?? "");
@@ -21,57 +20,63 @@ const givenSearch = searchParams.get("search");
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
-  const [searchedCommunities, setSearchedCommunities] = useState<Community[]>([])
+  const [searchedCommunities, setSearchedCommunities] = useState<Community[]>(
+    [],
+  );
   const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
-    { enabled: false }
+    { enabled: false },
   );
 
-  const searchCommunites = useCallback(async (e: React.FormEvent) => {
-    setSearchLoading(true);
-    setSearchError("");
-    e.preventDefault();
-    try {
-      const { data } = await refetch();
-      
-      if(data){
+  const searchCommunites = useCallback(
+    async (e: React.FormEvent) => {
+      setSearchLoading(true);
+      setSearchError("");
+      e.preventDefault();
+      try {
+        const { data } = await refetch();
+
+        if (data) {
           setSearchedCommunities(data);
-      } else {
-        setSearchError("No communities found with that name :(");
+        } else {
+          setSearchError("No communities found with that name :(");
+          setSearch("");
+        }
+      } catch (error) {
+        console.log(error);
+        setSearchError("An error occurred while searching for communities :(");
+        setSearch("");
+      } finally {
+        setSearchLoading(false);
         setSearch("");
       }
-    } catch (error) {
-      console.log(error);
-      setSearchError("An error occurred while searching for communities :(");
-      setSearch("")
-    } finally{
-      setSearchLoading(false);
-      setSearch("");
-    }
-  }, [refetch]);
+    },
+    [refetch],
+  );
 
   useEffect(() => {
     if (givenSearch) {
-      const syntheticEvent = new Event('submit', { bubbles: true, cancelable: true });
-      const formEvent = syntheticEvent as unknown as React.FormEvent<HTMLFormElement>;
+      const syntheticEvent = new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      });
+      const formEvent =
+        syntheticEvent as unknown as React.FormEvent<HTMLFormElement>;
       searchCommunites(formEvent).catch(console.error);
     }
-  
-  }, [givenSearch, searchCommunites] );
+  }, [givenSearch, searchCommunites]);
 
   //get top communities on page load
-let topCommunities: Community[] = [];
-try{
-const { data } = api.communities.getTopCommunities.useQuery();
-if(data){
-  topCommunities = data.communities;
-}
-} catch (error) {
-console.log(error);
-setError('An error occurred while fetching top communities :(');
-}
-
-
+  let topCommunities: Community[] = [];
+  try {
+    const { data } = api.communities.getTopCommunities.useQuery();
+    if (data) {
+      topCommunities = data.communities;
+    }
+  } catch (error) {
+    console.log(error);
+    setError("An error occurred while fetching top communities :(");
+  }
 
   return (
     <React.Fragment>
@@ -87,9 +92,7 @@ setError('An error occurred while fetching top communities :(');
                 communities right now!
               </p>
             </blockquote>
-            <form
-            onSubmit={searchCommunites}
-            className="mx-auto mt-8 max-w-md">
+            <form onSubmit={searchCommunites} className="mx-auto mt-8 max-w-md">
               <label
                 htmlFor="default-search"
                 className="sr-only mb-2 text-sm font-medium text-textBrand"
@@ -125,47 +128,43 @@ setError('An error occurred while fetching top communities :(');
                 />
                 <button
                   type="submit"
-                  className="absolute bottom-2.5 end-2.5 rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/50 focus:outline-none focus:ring-4 focus:ring-secondaryBrand"
+                  className="absolute bottom-2.5 end-2.5 rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/75 focus:outline-none"
                 >
                   Search
                 </button>
               </div>
-              {searchError && 
-              <div className="mt-6">
-              <ErrorNotification message={searchError}/>
-              </div>
-              }
-              {
-                searchLoading && 
+              {searchError && (
                 <div className="mt-6">
-                <LoadingNotification/>
+                  <ErrorNotification message={searchError} />
                 </div>
-              }
-              
+              )}
+              {searchLoading && (
+                <div className="mt-6">
+                  <LoadingNotification />
+                </div>
+              )}
             </form>
           </figure>
         </div>
-        {
-                searchedCommunities.length > 0 && 
-                <div className="mt-6 max-w-7xl mx-auto">
-                  <blockquote className="my-8 font-bold text-2xl text-accentBrand">Results...</blockquote>
-                <ul
-                role="list"
-                className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-y-16 xl:col-span-2"
-                >
-                  
-                  {searchedCommunities?.map((community) => (
-                    <li key={community.id}>
-                      <CommunityCard community={community} />
-                    </li>
-                  ))}
-                </ul>
-                </div>
-              }
-              
+        {searchedCommunities.length > 0 && (
+          <div className="mx-auto mt-6 max-w-7xl">
+            <blockquote className="my-8 text-2xl font-bold text-accentBrand">
+              Results...
+            </blockquote>
+            <ul
+              role="list"
+              className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 lg:grid-cols-3 xl:col-span-2 xl:grid-cols-4"
+            >
+              {searchedCommunities?.map((community) => (
+                <li key={community.id}>
+                  <CommunityCard community={community} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
-      <div className="py-12 mx-4 sm:mx-16 sm:py-18">
-      
+      <div className="sm:py-18 mx-4 py-12 sm:mx-16">
         <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
           <div className="max-w-xl">
             <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
@@ -178,38 +177,39 @@ setError('An error occurred while fetching top communities :(');
             </p>
           </div>
 
-
-        {error ? (
-          <ErrorNotification message={error} />
-        ) : topCommunities.length === 0 ? (
-          <div className="mx-auto">
-            <LoadingNotification />
-          </div>
-        ) : (
-          <ul
-            role="list"
-            className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
-          >
-            {topCommunities?.map((community) => (
-              <li key={community.id}>
-                <CommunityCard community={community} />
-              </li>
-            ))}
-          </ul>
-        )}
-
-
-
-
+          {error ? (
+            <ErrorNotification message={error} />
+          ) : topCommunities.length === 0 ? (
+            <div className="mx-auto">
+              <LoadingNotification />
+            </div>
+          ) : (
+            <ul
+              role="list"
+              className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
+            >
+              {topCommunities?.map((community) => (
+                <li key={community.id}>
+                  <CommunityCard community={community} />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        <div className="flex flex-col items-center mb-12 mt-24">
-          <h1 className="mb-4 text-4xl text-accentBrand font-bold">Looking for a private community?</h1>
-          <p className="font-semibold text-textBrand my-6">Click below to look for a private community! You must have the community name and password to view and potentially join the community.</p>
+        <div className="mb-12 mt-24 flex flex-col items-center">
+          <h1 className="mb-4 text-4xl font-bold text-accentBrand">
+            Looking for a private community?
+          </h1>
+          <p className="my-6 font-semibold text-textBrand">
+            Click below to look for a private community! You must have the
+            community name and password to view and potentially join the
+            community.
+          </p>
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="text-white bg-gradient-to-r from-primaryBrand via-primaryBrand to-secondaryBrand hover:bg-gradient-to-bl  font-medium rounded-full text-sm px-10 py-5 text-center"
+            className="rounded-full bg-gradient-to-r from-primaryBrand via-primaryBrand to-secondaryBrand px-10 py-5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl"
           >
             Join a private community
           </button>

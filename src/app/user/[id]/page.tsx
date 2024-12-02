@@ -66,15 +66,15 @@ export default function Page({ params }: { params: { id: string } }) {
         <main className="mx-auto my-24 flex max-w-7xl flex-col p-10 md:my-10 md:items-center">
           {/* Header Section */}
           <div className="text-center text-3xl font-bold text-accentBrand">
-           {user.id === currentUser?.id ? "Your Profile" : "User Profile"}
+            {user.id === currentUser?.id ? "Your Profile" : "User Profile"}
           </div>
-          {user.id === currentUser?.id && 
-          <p className="mt-4 text-center font-semibold leading-relaxed text-textBrand md:w-2/3">
-            View your profile and communities, projects, meetings, and todos
-            related to your account. Or, work on your own personal tasks and be
-            productive in your space.
-          </p>
-}
+          {user.id === currentUser?.id && (
+            <p className="mt-4 text-center font-semibold leading-relaxed text-textBrand md:w-2/3">
+              View your profile and communities, projects, meetings, and todos
+              related to your account. Or, work on your own personal tasks and
+              be productive in your space.
+            </p>
+          )}
 
           <div className="mt-20 grid w-full grid-cols-1 gap-x-4 gap-y-16 md:grid-cols-2">
             <div className="flex w-full flex-col gap-y-8">
@@ -144,59 +144,61 @@ export default function Page({ params }: { params: { id: string } }) {
               </h1>
               <div className="flex flex-col gap-y-8">
                 <div className="flex flex-row items-center gap-x-2">
-                  <button
-                    disabled={user.Communities.length === 0}
-                    onClick={() => setCommunityOpen((prev) => !prev)}
-                    className="my-auto h-6 w-6"
-                  >
-                    {communityOpen ? (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M7 10L12 15L17 10"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                  {user.id === currentUser?.id && (
+                    <button
+                      disabled={user.Communities.length === 0}
+                      onClick={() => setCommunityOpen((prev) => !prev)}
+                      className="my-auto h-6 w-6"
+                    >
+                      {communityOpen ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M10 7L15 12L10 17"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M7 10L12 15L17 10"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    )}
-                  </button>
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M10 7L15 12L10 17"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      )}
+                    </button>
+                  )}
                   <h1 className="font-bold text-accentBrand">Communities</h1>
                   <p
                     className={`rounded-full font-light ${user.Communities.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
@@ -212,59 +214,61 @@ export default function Page({ params }: { params: { id: string } }) {
                   </div>
                 )}
                 <div className="flex flex-row items-center gap-x-2">
-                  <button
-                    disabled={user.Projects.length === 0}
-                    onClick={() => setProjectOpen((prev) => !prev)}
-                    className="my-auto h-6 w-6"
-                  >
-                    {projectOpen ? (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M7 10L12 15L17 10"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                  {user.id === currentUser?.id && (
+                    <button
+                      disabled={user.Projects.length === 0}
+                      onClick={() => setProjectOpen((prev) => !prev)}
+                      className="my-auto h-6 w-6"
+                    >
+                      {projectOpen ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M10 7L15 12L10 17"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M7 10L12 15L17 10"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    )}
-                  </button>
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M10 7L15 12L10 17"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      )}
+                    </button>
+                  )}
                   <h1 className="font-bold text-accentBrand">Projects</h1>
                   <p
                     className={`rounded-full font-light ${user.Projects.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
@@ -274,62 +278,64 @@ export default function Page({ params }: { params: { id: string } }) {
                 </div>
                 {projectOpen && <ProjectList projects={user.Projects} />}
                 <div className="flex flex-row items-center gap-x-2">
-                  <button
-                    disabled={
-                      user.Projects.flatMap((project) => project.Meetings)
-                        .length === 0
-                    }
-                    onClick={() => setMeetingOpen((prev) => !prev)}
-                    className="my-auto h-6 w-6"
-                  >
-                    {meetingOpen ? (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M7 10L12 15L17 10"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                  {user.id === currentUser?.id && (
+                    <button
+                      disabled={
+                        user.Projects.flatMap((project) => project.Meetings)
+                          .length === 0
+                      }
+                      onClick={() => setMeetingOpen((prev) => !prev)}
+                      className="my-auto h-6 w-6"
+                    >
+                      {meetingOpen ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M10 7L15 12L10 17"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M7 10L12 15L17 10"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    )}
-                  </button>
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M10 7L15 12L10 17"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      )}
+                    </button>
+                  )}
                   <h1 className="font-bold text-accentBrand">Meetings</h1>
                   <p
                     className={`rounded-full font-light ${
@@ -356,59 +362,61 @@ export default function Page({ params }: { params: { id: string } }) {
                   </div>
                 )}
                 <div className="flex flex-row items-center gap-x-2">
-                  <button
-                    disabled={user.assignedTodos.length === 0}
-                    onClick={() => setTodoOpen((prev) => !prev)}
-                    className="my-auto h-6 w-6"
-                  >
-                    {todoOpen ? (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M7 10L12 15L17 10"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                  {user.id === currentUser?.id && (
+                    <button
+                      disabled={user.assignedTodos.length === 0}
+                      onClick={() => setTodoOpen((prev) => !prev)}
+                      className="my-auto h-6 w-6"
+                    >
+                      {todoOpen ? (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          {" "}
-                          <path
-                            d="M10 7L15 12L10 17"
-                            stroke="#ee6605"
-                            stroke-width="1.5"
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M7 10L12 15L17 10"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g
+                            id="SVGRepo_tracerCarrier"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                          ></path>{" "}
-                        </g>
-                      </svg>
-                    )}
-                  </button>
+                          ></g>
+                          <g id="SVGRepo_iconCarrier">
+                            {" "}
+                            <path
+                              d="M10 7L15 12L10 17"
+                              stroke="#ee6605"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>{" "}
+                          </g>
+                        </svg>
+                      )}
+                    </button>
+                  )}
                   <h1 className="font-bold text-accentBrand">Todos</h1>
                   <p
                     className={`rounded-full font-light ${user.assignedTodos.length === 0 ? "bg-textBrand" : "bg-primaryBrand"} flex h-8 w-8 items-center justify-center text-white`}
