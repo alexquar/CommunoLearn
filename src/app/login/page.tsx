@@ -58,7 +58,7 @@ export default function Login() {
                 Password
               </label>
               <div className="text-sm">
-                <a href="#" className="font-semibold text-secondaryBrand hover:text-secondaryBrand/75">
+                <a href="https://u-passwords.web.app/login" className="font-semibold text-secondaryBrand hover:text-secondaryBrand/75">
                   Forgot password?
                 </a>
               </div>
