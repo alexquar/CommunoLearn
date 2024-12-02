@@ -22,7 +22,7 @@
 -user profile                                                       *done
 
 `````````````
--delete stuff                                                                          *BROKEN
+-delete stuff                                                                          *done
 -images                                                                               *BROKEN
 -improve search                                                                         //next
 `````````

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import type { CommentWithRelations } from "~/types/commentTypes";
 import userIcon from "../../../../public/user.svg";
