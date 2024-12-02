@@ -8,6 +8,7 @@ import JoinProjectButton from "~/app/_components/JoinProjectButton";
 import UserList from "~/app/_components/UserList";
 import MeetingGrid from "~/app/_components/MeetingGrid";
 import Blob from "~/app/_components/Blob";
+import CommentSection from "~/app/_components/_comments/CommentSection";
 export default async function Project({ params }: { params: { id: string } }) {
   const id = params.id;
   const numericId = Number(id);
@@ -58,6 +59,11 @@ export default async function Project({ params }: { params: { id: string } }) {
         <h3 className="text-lg font-semibold mb-4 text-accentBrand">Meetings</h3>
         <MeetingGrid meetings={project.Meetings} />
       </div>
+      <CommentSection
+              comments={project.Comments}
+              onId = {project.id}
+              commentOn="project"
+              />
       <ClientPage
         projectId={numericId}
         project = {project}

@@ -8,6 +8,7 @@ import NewMeetingModal from "~/app/_components/NewMeetingModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
 import Blob from "~/app/_components/Blob";
+import CommentSection from "~/app/_components/_comments/CommentSection";
 type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
@@ -134,6 +135,11 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 Edit Meeting
               </button>
 }
+<CommentSection
+              comments={meeting.Comment}
+              onId = {meeting.id}
+              commentOn="meeting"
+              />
 
             </div>
           </div>

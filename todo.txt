@@ -25,3 +25,6 @@
 -handledone states                                                                          *done
 -responsiveness                                                                          *done
 -improve search                                                                         //next
+-create a community link on community page                                              //next
+-links to user page and only let stuff show when you are owner                          //next
+--change all to dropdowns????

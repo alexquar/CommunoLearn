@@ -83,6 +83,7 @@ export default async function Community({
           members={community.members}
           ownerId={community.createdBy.id}
           isPrivate={community.private}
+          comments={community.Comments}
         />
 
       </div>

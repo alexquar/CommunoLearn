@@ -2,12 +2,12 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { commentCategory } from "@prisma/client";
 import { Comment } from "@prisma/client";
-export const userRouter = createTRPCRouter({
+export const commentRouter = createTRPCRouter({
   //get a user by its id
   createNewComment: publicProcedure
     .input(z.object({ 
         userId: z.string(),
-        text: z.string(),
+        text: z.string().min(1),
         commentCategory: z.nativeEnum(commentCategory),
         projectId: z.number().optional(),
         meetingId: z.number().optional(),
@@ -81,6 +81,16 @@ export const userRouter = createTRPCRouter({
         }
         throw new Error("Please provide a valid project, meeting, community or todo id");
      
+    }),
+
+    deleteCommentById: publicProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+        return await ctx.db.comment.delete({
+            where: {
+                id: input.id
+            }
+        })
     }),
 
 

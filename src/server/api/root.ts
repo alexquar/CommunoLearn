@@ -4,6 +4,7 @@ import { meetingRouter } from "./routers/meeting";
 import { projectRouter } from "./routers/project";
 import { todoRouter } from "./routers/todo";
 import { userRouter } from "./routers/User";
+import { commentRouter } from "./routers/comments";
 
 /**
  * This is the primary router for your server.
@@ -15,7 +16,8 @@ export const appRouter = createTRPCRouter({
   meetings: meetingRouter,
   projects: projectRouter,
   todos: todoRouter,
-  user: userRouter
+  user: userRouter,
+  comments: commentRouter
 });
 
 // export type definition of API

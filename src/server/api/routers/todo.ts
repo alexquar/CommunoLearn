@@ -46,7 +46,16 @@ export const todoRouter = createTRPCRouter({
               }
             }
           }
-        }}
+        },
+        Comment:{
+          include: {
+            commentedBy: true
+          },
+          orderBy:{
+            createdAt:"desc"
+          }
+        }
+      }
     })
   }), 
 

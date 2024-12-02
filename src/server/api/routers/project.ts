@@ -39,6 +39,14 @@ getProjectByIdWithRelations: publicProcedure.input(z.object({ projectId: z.numbe
                       select:{
                         private: true
                       }
+                    },
+                    Comments:{
+                      include:{
+                        commentedBy: true
+                      },
+                      orderBy:{
+                        createdAt: "desc"
+                      }
                     }
                 }
             }

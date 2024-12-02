@@ -7,6 +7,7 @@ import { type Prisma } from "@prisma/client";
 import MeetingCalendar from "~/app/_components/MeetingGrid";
 import DeleteCommunity from "~/app/_components/DeleteCommunity";
 import Link from "next/link";
+import CommentSection from "~/app/_components/_comments/CommentSection";
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -26,21 +27,23 @@ type MeetingWithRelations = Prisma.MeetingGetPayload<{
     AssociatedProject: true;
   };
 }>;
-
+import type { CommentWithRelations } from "~/types/commentTypes";
 export default function ClientPage({
   id,
   projects,
   meetings,
   members,
   ownerId,
-  isPrivate
+  isPrivate,
+  comments
 }: {
   id: number;
   projects: ProjectWithRelations[];
   meetings: MeetingWithRelations[];
   members: MemberOf[];
   ownerId: string;
-  isPrivate: boolean
+  isPrivate: boolean;
+  comments: CommentWithRelations[];
 }) {
   const router = useRouter();
   const { user } = useAuthContext();
@@ -74,6 +77,11 @@ export default function ClientPage({
               </h1>
               <MeetingCalendar meetings={meetings} />
             </section>
+            <CommentSection
+              comments={comments}
+              onId = {id}
+              commentOn="community"
+              />
         {user?.id === ownerId &&
         <>
             <div className="flex justify-center flex-row">

@@ -165,6 +165,14 @@ getCommunityWithRelations: publicProcedure
           },
         }
       },
+      Comments:{
+        include:{
+          commentedBy: true
+        },
+        orderBy:{
+          createdAt: "desc"
+        }
+      },
       createdBy: true,
       meetings: {
         orderBy:{

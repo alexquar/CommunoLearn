@@ -27,6 +27,14 @@ export const meetingRouter = createTRPCRouter({
         title: true
         },
       },
+      Comment:{
+        include:{
+          commentedBy: true
+        },
+        orderBy:{
+          createdAt: "desc"
+        }
+      }
       }
     })
   }),
