@@ -5,6 +5,17 @@
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    images: {
+    domains: ["4xncq3cvtijkuxxr.public.blob.vercel-storage.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "4xncq3cvtijkuxxr.public.blob.vercel-storage.com",
+        pathname: "/**",
+      },
+    ],
+  },
+};
 
 export default config;

@@ -35,6 +35,6 @@
 
 
 improve search 
-fix icons 
-messages
+fix icons         *done
+messages    
 new features?

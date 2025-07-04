@@ -20,5 +20,6 @@ export type MemberOf = Prisma.UserGetPayload<{
         firstName: true;
         lastName: true;
         email: true;
+        image: true;
     }
 }>;

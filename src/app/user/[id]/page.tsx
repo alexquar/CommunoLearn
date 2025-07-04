@@ -85,17 +85,17 @@ export default function Page({ params }: { params: { id: string } }) {
 
           <div className="mt-20 grid w-full grid-cols-1 gap-x-4 gap-y-16 md:grid-cols-2">
             <div className="flex w-full flex-col gap-y-8">
-              <div className="flex flex-row gap-x-8">
+                <div className="flex flex-row gap-x-8">
                 <Image
                   src={user?.image ?? userIcon}
                   width={96}
                   height={96}
-                  className="rounded-full max-h-24 border border-primaryBrand"
+                  className="h-24 w-24 rounded-full border border-primaryBrand object-cover"
                   alt="Profile Picture"
                 />
                 {user.id === currentUser?.id && (
-                  <div className="flex flex-col gap-y-4">
-                  <input
+                    <div className="flex flex-col gap-y-4">
+                    <input
                     type="file"
                     accept="image/jpeg,image/png,image/gif"
                     onChange={(e) => setFile(e.target.files?.[0] ?? null)}
@@ -105,25 +105,25 @@ export default function Page({ params }: { params: { id: string } }) {
                     file:text-sm file:font-semibold
                     file:bg-secondaryBrand file:text-white
                     hover:file:bg-secondaryBrand/75"
-                  />
-                  {file && (
+                    />
+                    {file && (
                     <button
                     onClick={handleUpload}
                     disabled={loading}
                     className="rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75 disabled:opacity-50"
                     >
-                    {loading ? 'Uploading...' : 'Upload Avatar'}
+                    {loading ? 'Uploading...' : 'Choose New Icon'}
                     </button>
-                  )}
-                  {uploadError && (
+                    )}
+                    {uploadError && (
                     <p className="text-red-500">{uploadError}</p>
-                  )}
-                  <p className="leading-6 text-accentBrand">
+                    )}
+                    <p className="leading-6 text-accentBrand">
                     JPG, GIF or PNG. 1MB Max Size
-                  </p>
-                  </div>
+                    </p>
+                    </div>
                 )}
-              </div>
+                </div>
               <p className="w-11/12 py-4 font-semibold leading-8 text-textBrand">
                 {user.aboutMe ?? "No bio provided"}
               </p>
