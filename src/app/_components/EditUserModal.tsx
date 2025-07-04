@@ -36,7 +36,7 @@ export default function EditUserModal({
     return `${year}-${month}-${day}`;
   });
   const [loc, setLoc] = useState(location);
-  const [abtMe, setAbtMe] = useState("");
+  const [abtMe, setAbtMe] = useState(aboutMe);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -149,12 +149,12 @@ export default function EditUserModal({
 
                   <div className="col-span-2">
                     <label className="mb-2 block text-sm font-medium text-accentBrand">
-                      About Me
+                      About Me (Bio)
                     </label>
                     <textarea
                       rows={3}
                       className="block w-full rounded-lg border-2 border-primaryBrand bg-white p-2.5 text-sm text-textBrand placeholder-textBrand outline-primaryBrand"
-                      placeholder="All about this project"
+                      placeholder="All about me"
                       required
                       value={abtMe}
                       onChange={(e) => setAbtMe(e.target.value)}

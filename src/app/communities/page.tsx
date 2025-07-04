@@ -20,9 +20,7 @@ export default function Communities() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
-  const [searchedCommunities, setSearchedCommunities] = useState<Community[]>(
-    [],
-  );
+  const [searchedCommunities, setSearchedCommunities] = useState<Community[] | null>(null);
   const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false },
@@ -146,11 +144,19 @@ export default function Communities() {
             </form>
           </figure>
         </div>
-        {searchedCommunities.length > 0 && (
+        {(searchedCommunities != null && searchedCommunities.length >0) && (
           <div className="mx-auto mt-6 max-w-7xl">
-            <blockquote className="my-8 text-2xl font-bold text-accentBrand">
+            <div className="flex items-center justify-between">
+              <blockquote className="my-8 text-2xl font-bold text-accentBrand">
               Results...
-            </blockquote>
+              </blockquote>
+              <button
+              onClick={() => router.push('/communities/new')}
+              className="rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/75 focus:outline-none"
+              >
+              Create New Community
+              </button>
+            </div>
             <ul
               role="list"
               className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 lg:grid-cols-3 xl:col-span-2 xl:grid-cols-4"
@@ -161,13 +167,21 @@ export default function Communities() {
                 </li>
               ))}
             </ul>
-          </div>
-        )}
+          </div> )}
+          {
+            (searchedCommunities !== null && searchedCommunities.length === 0) && (
+            <div className="mt-6 w-fit max-w-2xl mx-auto">
+            <ErrorNotification message={
+              "No communities found with that name :("
+            } />
+            </div>
+        )
+          }
       </section>
       <div className="sm:py-18 mx-4 py-12 sm:mx-16">
         <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
           <div className="max-w-xl">
-            <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-pretty text-3xl font-semibold tracking-tight text-accentBrand sm:text-4xl">
               Join a popular community!
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">

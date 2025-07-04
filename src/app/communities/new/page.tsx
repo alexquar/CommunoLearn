@@ -155,7 +155,7 @@ export default function NewCommunity() {
           <p className="mt-1 text-base leading-6 text-textBrand">
             {existingCommunityId
               ? "Please edit your communities exisiting information here. You will be returned to your communities page upon completion"
-              : "You&apos;ve decided to make a community? That is amazing! Let&apos;s begin by filling out the form below so we can get you some members and get you started."}
+              : "You've decided to make a community? That is amazing! Let's begin by filling out the form below so we can get you some members and get you started."}
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

@@ -2,8 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { location } from "@prisma/client";
 import { put } from "@vercel/blob";
-import { Community } from "@prisma/client";
-import { Readable } from "stream";
 export const userRouter = createTRPCRouter({
   //get a user by its id
   getUserById: publicProcedure
@@ -130,10 +128,10 @@ export const userRouter = createTRPCRouter({
     }),
 
   updateUserIcon: publicProcedure
-    .input(z.object({ id: z.string(), icon: z.instanceof(Buffer) }))
+    .input(z.object({ id: z.string(), icon: z.string() }))
     .mutation(async ({ ctx, input }) => {
-        
-        const blob = await put(`user/${input.id}`, input.icon, {
+        const buffer = Buffer.from(input.icon, "base64");
+        const blob = await put(`user/${input.id}`, buffer, {
             access: "public",
         });
 

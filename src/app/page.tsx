@@ -4,8 +4,6 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import HomePageSearch from "./_components/HomePageSearch";
 export default async function Home() {
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return (
     <HydrateClient>
       <div className="py-24 sm:py-32">

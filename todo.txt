@@ -32,3 +32,9 @@
 -responsiveness                                                                          *done
 -edit user                                                                              *done
 -links to user page and only let stuff show when you are owner                          *done
+
+
+improve search 
+fix icons 
+messages
+new features?

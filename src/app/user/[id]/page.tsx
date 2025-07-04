@@ -45,10 +45,17 @@ export default function Page({ params }: { params: { id: string } }) {
   });
 
   const handleUpload = async () => {
-    if (!file) return;
-    setLoading(true);
-    const buffer = await file.arrayBuffer();
-    uploadImage({ icon: Buffer.from(buffer), id });
+  if (!file || !id) return;
+  setLoading(true);
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    const base64String = reader.result?.toString().split(",")[1]; // strip the `data:*/*;base64,` prefix
+    if (base64String) {
+      uploadImage({ icon: base64String, id });
+    }
+  };
+  reader.readAsDataURL(file); // triggers `onloadend`
   };
 
   return (
@@ -81,22 +88,39 @@ export default function Page({ params }: { params: { id: string } }) {
               <div className="flex flex-row gap-x-8">
                 <Image
                   src={user?.image ?? userIcon}
-                  width={100}
-                  height={100}
-                  className="rounded-full border border-primaryBrand"
+                  width={96}
+                  height={96}
+                  className="rounded-full max-h-24 border border-primaryBrand"
                   alt="Profile Picture"
                 />
                 {user.id === currentUser?.id && (
                   <div className="flex flex-col gap-y-4">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/gif"
+                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                    className="block w-full text-sm text-slate-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-secondaryBrand file:text-white
+                    hover:file:bg-secondaryBrand/75"
+                  />
+                  {file && (
                     <button
-                      onClick={handleUpload}
-                      className="rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75"
+                    onClick={handleUpload}
+                    disabled={loading}
+                    className="rounded-3xl bg-secondaryBrand px-10 py-3 text-center text-white hover:bg-secondaryBrand/75 disabled:opacity-50"
                     >
-                      Change Avatar
+                    {loading ? 'Uploading...' : 'Upload Avatar'}
                     </button>
-                    <p className="leading-6 text-accentBrand">
-                      JPG, GIF or PNG. 1MB Max Size
-                    </p>
+                  )}
+                  {uploadError && (
+                    <p className="text-red-500">{uploadError}</p>
+                  )}
+                  <p className="leading-6 text-accentBrand">
+                    JPG, GIF or PNG. 1MB Max Size
+                  </p>
                   </div>
                 )}
               </div>
@@ -428,7 +452,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 <p className="font-small text-sm text-textBrand">
                   Created {user.createdTodos.length} todos,{" "}
                   {user.OwnedProjects.length} projects, {user.Meetings.length}{" "}
-                  meetings, and {user.OwnedCommunities.length} communities.
+                  meetings, {user.Comments.length} comments and {user.OwnedCommunities.length} communities.
                 </p>
               </div>
             </div>

@@ -5,17 +5,20 @@ import { useState } from 'react'
 import Link from 'next/link'
 import useSignIn from '../hooks/useSignin'
 import { useRouter } from 'next/navigation'
+import ErrorNotification from '../_components/ErrorNotification'
 export default function Login() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [error, setError] = useState('')
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { result, error } = await useSignIn(email, password)
     if (error) {
       console.log(error)
+      setError('Invalid email or password')
+      setPassword('')
     } else {
       console.log(result)
       router.push('/')
@@ -72,7 +75,7 @@ export default function Login() {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md border-0 py-1.5 px-1 outline-accentBrand text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 py-1.5 px-1 outline-accentBrand text-textBrand shadow-sm ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand ${error && "ring-red-500 outline-red-500"} sm:text-sm sm:leading-6`}
               />
             </div>
           </div>
@@ -86,6 +89,16 @@ export default function Login() {
             </button>
           </div>
         </form>
+
+        {
+          error && (
+            <div className="mt-4">
+            <ErrorNotification
+              message={error}
+              />
+              </  div>
+          )
+        }
 
         <p className="mt-10 text-center text-sm text-gray-500">
           Not a member?{' '}

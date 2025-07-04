@@ -45,14 +45,6 @@ export default function NavBar() {
             </li>
             <li>
               <Link
-                href="/"
-                className="block rounded px-3 py-2 text-textBrand hover:underline md:p-0 md:hover:bg-transparent"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
                 href={`/user/${user.id}`}
                 className="block rounded px-3 py-2 text-textBrand hover:underline md:p-0 md:hover:bg-transparent"
               >
