@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import {getAuth, GoogleAuthProvider} from "firebase/auth";
+import {getAuth, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
 const firebaseConfig = {
     apiKey: "AIzaSyBThxRGSeg7gru1XH9UNAS2UFYHVUhvtbo",
     authDomain: "communolearn.firebaseapp.com",
@@ -15,3 +15,4 @@ const firebaseConfig = {
 export const firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth_app = getAuth(firebase_app);
 export const provider = new GoogleAuthProvider();
+export const githubProvider = new GithubAuthProvider();

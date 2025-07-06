@@ -86,6 +86,24 @@ export const communityRouter = createTRPCRouter({
     })
   }),
 
+  getSomeCommunitiesByName: publicProcedure
+  .input(z.object({ name: z.string() }))
+  .query(async({ ctx, input }) => {
+    return await ctx.db.community.findMany({
+      where: {
+        name: {
+          contains: input.name,
+          mode: 'default'
+        },
+        private: false
+      },
+      take: 10,
+      orderBy:{
+        numberOfMembers: 'desc'
+      }
+    })
+  }),
+
   getPrivateCommunityByName: publicProcedure
   .input(z.object({ name: z.string() }))
   .query(async({ ctx, input }) => {
