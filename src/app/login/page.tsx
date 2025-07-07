@@ -7,6 +7,7 @@ import useSignIn from '../hooks/useSignin'
 import { useRouter } from 'next/navigation'
 import ErrorNotification from '../_components/ErrorNotification'
 import useSignInWithGoogle from '../hooks/useSigninWithGoogle'
+import useResetPassword from '../hooks/useResetPassword'
 import useSignInWithGithub from '../hooks/useSigninWithGithub'
 export default function Login() {
   const router = useRouter()
@@ -53,25 +54,38 @@ export default function Login() {
     }
   }
 
+  const handleResetPassword = async () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { result, error } = await useResetPassword(email)
+    if (error) {
+      console.log(error)
+      setError('Could not reset password!')
+    } else {
+      console.log(result)
+      window.alert('Password reset for the email you entered has been sent! Please check your inbox before proceeding.')
+    }
+  }
+    
+
 
 
   return (
     <>
 
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <Image
-          alt="communolearn logo"
+      <Image
+        alt="communolearn logo"
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={icon}
           className="mx-auto h-16 sm:h-20 w-auto"
         />
         <p className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-primaryBrand">
-          Sign in with your email
+          Sign in to your Account
         </p>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSignIn} className="space-y-6">
+      <div className="px-6 lg:px-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSignIn}  className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-textBrand">
               Email address
@@ -92,9 +106,9 @@ export default function Login() {
                 Password
               </label>
               <div className="text-sm">
-                <a href="https://u-passwords.web.app/login" className="font-semibold text-secondaryBrand hover:text-secondaryBrand/75">
-                  Forgot password?
-                </a>
+                <p onClick={handleResetPassword} className="font-semibold hover:underline cursor-pointer text-secondaryBrand hover:text-secondaryBrand/75">
+                  Reset password
+                </p>
               </div>
             </div>
             <div className="mt-2">

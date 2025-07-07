@@ -93,6 +93,24 @@ export const commentRouter = createTRPCRouter({
         })
     }),
 
+    editCommentById: publicProcedure
+    .input(z.object({
+        id: z.string().min(1),
+        text: z.string().min(1),
+        commentCategory: z.nativeEnum(commentCategory)
+    }))
+    .mutation(async ({ ctx, input }) => {
+        return await ctx.db.comment.update({
+            where: {
+                id: input.id
+            },
+            data: {
+                text: input.text,
+                commentCategory: input.commentCategory
+            }
+        })
+    }),
+
 
 
 

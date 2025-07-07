@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { set } from "date-fns";
+import Link from "next/link";
 export default function Communities() {
   const searchParams = useSearchParams();
   const givenSearch = searchParams.get("search");
@@ -21,10 +23,42 @@ export default function Communities() {
   const [searchError, setSearchError] = useState("");
   const [open, setOpen] = useState(false);
   const [searchedCommunities, setSearchedCommunities] = useState<Community[] | null>(null);
+  const [searchedSomeCommunities, setSearchedSomeCommunities] = useState<Community[]>([]);
   const { refetch } = api.communities.getCommunityByName.useQuery(
     { name: search },
     { enabled: false },
   );
+
+  const { refetch: getSomeCommunities} = api.communities.getSomeCommunitiesByName.useQuery(
+    { name: search },
+    { enabled: false },
+  );
+
+  const searchSomeCommunities = useCallback(
+    async () => {
+      try {
+        const { data } = await getSomeCommunities();
+        console.log("Searched some communities:", data);
+        if(data){
+        setSearchedSomeCommunities(data);
+        } else {
+          setSearchedSomeCommunities([]);
+        }
+      } catch (error) {
+        console.log(error);
+      } 
+    },
+    [getSomeCommunities],
+  );
+
+  useEffect(() => {
+    if (search.length > 0) {
+      searchSomeCommunities().catch(console.error);
+    } else {
+      setSearchedSomeCommunities([]);
+    }
+  }
+  , [search, searchSomeCommunities]);
 
   const searchCommunites = useCallback(
     async (e: React.FormEvent) => {
@@ -90,7 +124,7 @@ export default function Communities() {
                 communities right now!
               </p>
             </blockquote>
-            <form onSubmit={searchCommunites} className="mx-auto mt-8 max-w-md">
+            <form onSubmit={searchCommunites} className="mx-auto overflow-visible z-10 mt-8 max-w-md">
               <label
                 htmlFor="default-search"
                 className="sr-only mb-2 text-sm font-medium text-textBrand"
@@ -122,7 +156,9 @@ export default function Communities() {
                   placeholder="Search Communities..."
                   required
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={ async (e) => {
+                    setSearch(e.target.value)
+                  }}
                 />
                 <button
                   type="submit"
@@ -130,6 +166,25 @@ export default function Communities() {
                 >
                   Search
                 </button>
+                {searchedSomeCommunities.length > 0 && (
+                    <div className="absolute mt-1 w-full rounded-lg border border-accentBrand bg-white z-50">
+                    <ul className="rounded-lg max-h-40 overflow-y-auto">
+                      {searchedSomeCommunities.map((community) => (
+                        <li 
+                        key={community.id}
+                        className="px-4 flex rounded-lg align-items-center items-center py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                        <Link className="min-w-0 shrink-0 cursor-pointer font-bold text-textBrand" href={`/communities/${community.id}`}>
+                          {community.name}
+                        </Link>
+                        <span className="text-sm text-textBrand truncate ml-2 flex-1">
+                          {community.sloganCommunity ? community.sloganCommunity : "No slogan available"}:
+                        </span>
+                        </li>
+                      ))}
+                    </ul>
+                    </div>
+                )}
               </div>
               {searchError && (
                 <div className="mt-6">
@@ -209,6 +264,24 @@ export default function Communities() {
               ))}
             </ul>
           )}
+        </div>
+
+        <div className="mb-12 mt-24 flex flex-col items-center">
+          <h1 className="mb-4 text-4xl font-bold text-accentBrand">
+            Want to start your own community?
+          </h1>
+          <p className="my-6 font-semibold text-textBrand">
+            Click below to look create your own community! You can create a
+            public or private community, and you can also choose to make it
+            visible to everyone or only to those who have the link.
+          </p>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-full bg-gradient-to-l from-primaryBrand via-primaryBrand to-secondaryBrand px-10 py-5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl"
+          >
+            Create a new community
+          </button>
         </div>
 
         <div className="mb-12 mt-24 flex flex-col items-center">

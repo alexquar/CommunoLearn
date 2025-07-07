@@ -184,7 +184,7 @@ export default function NewTodoModal({
 
                   <div className="col-span-2">
                     <label className="mb-2 block text-sm font-medium text-accentBrand">
-                      What Todo ;)
+                      What Todo
                     </label>
                     <textarea
                       rows={3}

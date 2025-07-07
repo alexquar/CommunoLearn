@@ -9,6 +9,7 @@ import { useAuthContext } from "~/context/AuthContext";
 import Blob from "../Blob";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import CommentEditModal from "./CommentEdit";
 export default function Comment({
   comment,
 }: {
@@ -18,6 +19,7 @@ export default function Comment({
   const { user } = useAuthContext();
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const {mutate:deteleComment} = api.comments.deleteCommentById.useMutation({
         onSuccess: () => {
@@ -42,7 +44,7 @@ export default function Comment({
 
   return (
     <article className="rounded-lg py-3 text-base">
-      <footer className="relative mb-2 flex items-center justify-between">
+      <div className="relative mb-2 flex items-center justify-between">
         <div className="flex items-center">
           <p className="mr-3 inline-flex items-center text-sm font-bold text-accentBrand">
             <Image
@@ -90,16 +92,17 @@ export default function Comment({
                 </p>
               </li>
               <li>
-                <p className="block px-4 py-2 hover:bg-secondaryBrand hover:text-white active:bg-secondaryBrand/75">
-                  Edit Coming Soon
+                <p onClick={()=>setEditOpen(true)} className="block px-4 py-2 hover:bg-secondaryBrand hover:text-white active:bg-secondaryBrand/75">
+                  Edit
                 </p>
               </li>
             </ul>
           </div>
         )}
-      </footer>
+      </div>
       <p className="font-semibold my-2 w-11/12 text-textBrand">{comment.text}</p>
       <Blob title={comment.commentCategory} color="textBrand" />
+      <CommentEditModal open={editOpen} setOpen={setEditOpen} comment={comment}/>
     </article>
   );
 }

@@ -89,6 +89,7 @@ export const communityRouter = createTRPCRouter({
   getSomeCommunitiesByName: publicProcedure
   .input(z.object({ name: z.string() }))
   .query(async({ ctx, input }) => {
+    console.log("Searching for communities with name:", input.name);
     return await ctx.db.community.findMany({
       where: {
         name: {
@@ -97,7 +98,7 @@ export const communityRouter = createTRPCRouter({
         },
         private: false
       },
-      take: 10,
+      take: 5,
       orderBy:{
         numberOfMembers: 'desc'
       }

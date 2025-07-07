@@ -48,7 +48,7 @@ export default function NavBar() {
                 href={`/user/${user.id}`}
                 className="block rounded px-3 py-2 text-textBrand hover:underline md:p-0 md:hover:bg-transparent"
               >
-                My Zone
+                My Account
               </Link>
             </li>
             <li>
@@ -143,7 +143,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link href={`user/${user.id}`} className="block px-4 py-2 hover:bg-gray-100">
-              My Zone
+              My Account
             </Link>
           </li>
           <li>

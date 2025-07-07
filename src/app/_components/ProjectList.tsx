@@ -75,10 +75,10 @@ export default function ProjectList({
               className="h-12 w-12 flex-none rounded-full bg-gray-50"
             />
             <div className="min-w-0 flex-auto">
-              <p className="text-sm/6 font-semibold text-gray-900">
+              <p className="text-sm/6 font-bold text-textBrand">
                 {project.title}
               </p>
-              <p className="mt-1 truncate text-xs/5 text-gray-500">
+              <p className="mt-1 truncate text-xs/5 text-accentBrand">
                 {" "}
                 created by: {project.createdBy.firstName}{" "}
                 {project.createdBy.lastName}{" "}
@@ -87,17 +87,17 @@ export default function ProjectList({
           </Link>
           <div className="flex flex-row gap-x-8">
           {!project.projectMembers.some((member) => member.id === user?.id) &&
-            <button onClick={()=>handleJoin(project.id)} className="px-10 py-3 bg-white border-accentBrand text-accentBrand border rounded-3xl hover:text-white hover:bg-accentBrand">
+            <button onClick={()=>handleJoin(project.id)} className="px-10 py-3 bg-primaryBrand border-primaryBrand text-white border rounded-3xl hover:text-primaryBrand hover:bg-white">
               {loading ? "Joining..." : "Join Project"}
             </button>
 }
 
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm/6 text-gray-900">
+            <p className="text-sm/6 text-accentBrand">
               Created: {project.createdAt.toLocaleDateString()}
             </p>
 
-            <p className="mt-1 text-xs/5 text-gray-500">
+            <p className="mt-1 text-xs/5 text-textBrand">
               {project.done ? (
                 <span>Project has been completed!</span>
               ) : (

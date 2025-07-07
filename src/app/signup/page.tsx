@@ -191,8 +191,8 @@ if(error){
                 type="submit"
                 className="flex w-full justify-center rounded-md border-2 border-primaryBrand bg-primaryBrand px-3 py-1.5 text-sm font-semibold leading-6 text-backgroundBrand shadow-sm hover:bg-backgroundBrand hover:text-primaryBrand"
               >
-                {loading ? "Signing in....":
-                'Sign in'}
+                {loading ? "Signing up....":
+                'Sign up'}
               </button>
             </div>
             <div>
