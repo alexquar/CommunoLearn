@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import LoadingNotification from "~/app/_components/LoadingNotification";
 import { useAuthContext } from "~/context/AuthContext";
 import Loading from "~/app/loading";
+import GenerateCommunityModal from "~/app/_components/GenerateCommunityModal";
 
 export default function NewCommunity() {
   const { user } = useAuthContext();
@@ -50,7 +51,7 @@ export default function NewCommunity() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const [open, setOpen] = useState(false);
   // Fetch existing community data if `existingCommunityId` is present
   const { data, isLoading: isFetching } =
     api.communities.getCommunityWithRelations.useQuery(
@@ -140,7 +141,7 @@ export default function NewCommunity() {
   }
 
   return (
-    <form className="m-10 md:mx-auto md:my-24 md:w-3/4 lg:w-1/2">
+    <div className="m-10 md:mx-auto md:my-24 md:w-3/4 lg:w-1/2">
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           {existingCommunityId ? (
@@ -158,7 +159,24 @@ export default function NewCommunity() {
               : "You've decided to make a community? That is amazing! Let's begin by filling out the form below so we can get you some members and get you started."}
           </p>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          {!existingCommunityId && (
+            <p className="mt-8 text-sm leading-6 text-textBrand">
+              {"Need help ironing out the details for a new community? Give us your idea and we'll to the rest! "}
+              <span
+                onClick={() => setOpen(true)}
+                className="cursor-pointer text-secondaryBrand hover:underline"
+              >
+                Generate Community
+              </span>
+              <GenerateCommunityModal
+                open={open}
+                setOpen={setOpen}
+              />
+            
+            </p>
+          )}
+
+          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
                 Basic Info
@@ -258,15 +276,15 @@ export default function NewCommunity() {
                   autoComplete="country-name"
                   className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option className="">Class</option>
-                  <option>High School Club</option>
-                  <option>University Club</option>
-                  <option>Workplace</option>
-                  <option>Friend Group</option>
-                  <option>Event Planning</option>
-                  <option>Team</option>
-                  <option>Commitee</option>
-                  <option>Other</option>
+                  Class
+                  High School Club
+                  University Club
+                  Workplace
+                  Friend Group
+                  Event Planning
+                  Team
+                  Commitee
+                  Other
                 </select>
               </div>
             </div>
@@ -401,12 +419,12 @@ export default function NewCommunity() {
         </span>
         <button
           onClick={handleSubmit}
-          type="submit"
+          type="button"
           className="rounded-3xl border border-primaryBrand bg-primaryBrand px-10 py-3 text-base font-semibold text-white shadow-sm hover:bg-backgroundBrand hover:text-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           {existingCommunityId ? loading? "Updating...":"Update Community" : loading? "Creationg":"Create Community"}
         </button>
       </div>
-    </form>
+    </div>
   );
 }

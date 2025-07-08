@@ -1,5 +1,6 @@
 import { initializeApp, getApps } from "firebase/app";
 import {getAuth, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
+import {getAI, getGenerativeModel, GoogleAIBackend} from "firebase/ai";
 const firebaseConfig = {
     apiKey: "AIzaSyBThxRGSeg7gru1XH9UNAS2UFYHVUhvtbo",
     authDomain: "communolearn.firebaseapp.com",
@@ -16,3 +17,10 @@ export const firebase_app = getApps().length === 0 ? initializeApp(firebaseConfi
 export const auth_app = getAuth(firebase_app);
 export const provider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
+
+const ai = getAI(firebase_app, {
+  backend: new GoogleAIBackend()
+});
+export const model = getGenerativeModel(ai, {
+  model: "gemini-1.5-flash"
+})

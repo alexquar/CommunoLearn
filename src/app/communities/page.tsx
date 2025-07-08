@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { set } from "date-fns";
 import Link from "next/link";
 export default function Communities() {
   const searchParams = useSearchParams();
@@ -277,7 +276,9 @@ export default function Communities() {
           </p>
           <button
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              router.push("/communities/new");
+            }}
             className="rounded-full bg-gradient-to-l from-primaryBrand via-primaryBrand to-secondaryBrand px-10 py-5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl"
           >
             Create a new community
