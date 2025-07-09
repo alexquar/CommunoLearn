@@ -1,6 +1,6 @@
 # CommunoLearn
 
-A modern learning management platform built with the T3 Stack.
+A modern productivity management platform built with the T3 Stack.
 
 ## Tech Stack (Major tools)
 
