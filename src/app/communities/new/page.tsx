@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import ErrorNotification from "~/app/_components/ErrorNotification";
 import { useRouter, useSearchParams } from "next/navigation";
-import LoadingNotification from "~/app/_components/LoadingNotification";
 import { useAuthContext } from "~/context/AuthContext";
 import Loading from "~/app/loading";
 import GenerateCommunityModal from "~/app/_components/GenerateCommunityModal";
+import Image from "next/image";
 
 export default function NewCommunity() {
   const { user } = useAuthContext();
@@ -15,10 +15,10 @@ export default function NewCommunity() {
   const existingCommunityId = searchParams.get("existing");
 
   const { mutate: create } = api.communities.newCommunity.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       setError(null);
       setLoading(false);
-      router.push("/communities"); // Navigate to the communities page on success
+      router.push(`/communities/${data.id}`);
     },
     onError: (error) => {
       console.error(error);
@@ -39,7 +39,7 @@ export default function NewCommunity() {
       setLoading(false);
     },
   });
-
+  const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [aboutCommunity, setAboutCommunity] = useState("");
   const [locationCommunity, setLocationCommunity] = useState("");
@@ -109,6 +109,48 @@ export default function NewCommunity() {
       setLoading(false);
       return;
     }
+    if(!file && !existingCommunityId) {
+      setError("Community icon is required");
+      setLoading(false);
+      return;
+    }
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result?.toString().split(",")[1]; // strip the `data:*/*;base64,` prefix
+      if (base64String) {
+        if (existingCommunityId) {
+          update({
+            id: Number(existingCommunityId),
+            name,
+            aboutCommunity,
+            locationCommunity,
+            ownerEmail: email,
+            sloganCommunity,
+            communityType,
+            private: privateCommunity,
+            icon: base64String,
+            password,
+          });
+        } else {
+          create({
+            name,
+            aboutCommunity,
+            locationCommunity,
+            ownerEmail: email,
+            sloganCommunity,
+            communityType,
+            private: privateCommunity,
+            password,
+            icon: base64String,
+            createdById: user?.id ?? "",
+          });
+        }
+      }
+    };
+    reader.readAsDataURL(file); // triggers `onloadend`
+    return 
+  } else {
     if (existingCommunityId) {
       update({
         id: Number(existingCommunityId),
@@ -121,19 +163,9 @@ export default function NewCommunity() {
         private: privateCommunity,
         password,
       });
-    } else {
-      create({
-        name,
-        aboutCommunity,
-        locationCommunity,
-        ownerEmail: email,
-        sloganCommunity,
-        communityType,
-        private: privateCommunity,
-        password,
-        createdById: user?.id ?? "",
-      });
     }
+  }
+    
   };
 
   if (isFetching) {
@@ -176,7 +208,7 @@ export default function NewCommunity() {
             </p>
           )}
 
-          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-8 border-t border-gray-900/10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
                 Basic Info
@@ -276,15 +308,15 @@ export default function NewCommunity() {
                   autoComplete="country-name"
                   className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  Class
-                  High School Club
-                  University Club
-                  Workplace
-                  Friend Group
-                  Event Planning
-                  Team
-                  Commitee
-                  Other
+                  <option>Class</option>
+                  <option>High School Club</option>
+                  <option>University Club</option>
+                  <option>Workplace</option>
+                  <option>Friend Group</option>
+                  <option>Event Planning</option>
+                  <option>Team</option>
+                  <option>Commitee</option>
+                  <option>Other</option>
                 </select>
               </div>
             </div>
@@ -402,11 +434,68 @@ export default function NewCommunity() {
                     </div>
                   </section>
                 )}
+                
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div className="border-b border-gray-900/10 pb-12">
+          <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
+            Media
+          </h1>
+          {!existingCommunityId ? (
+            <p className="mt-1 leading-6 text-textBrand">
+              Choose an icon for your community.
+            </p>
+          ) : (
+            <p className="mt-1 text-sm leading-6 text-textBrand">
+             Modiy your community&apos;s icon. 
+            </p>
+          )}
+
+            <div className="mt-10 space-y-10">
+            <fieldset>
+              <div className="mt-6 space-y-6">
+              <div className="relative flex gap-x-3">
+                <div className="text-sm leading-6 md:flex md:items-center">
+                <input
+                type="file"
+                accept="image/jpeg,image/png,image/gif"
+                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                className="block w-full text-sm text-slate-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-secondaryBrand file:text-white
+                hover:file:bg-secondaryBrand/75"
+                />
+                {
+                file && (
+                <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:mt-0">
+                  <p className="text-secondaryBrand whitespace-nowrap">Community Icon Preview:</p>
+                  <div className="rounded-full min-w-24 min-h-24 max-w-24 max-h-24 overflow-hidden flex items-center justify-center bg-gray-100">
+                  <Image
+                  width={96}
+                  height={96}
+                  src={URL.createObjectURL(file)}
+                  alt="Community Icon Preview"
+                  className="object-contain"
+                  />
+                  </div>
+                </div>
+                )
+                }
+              </div>
+                
+                </div>
               </div>
             </fieldset>
           </div>
         </div>
       </div>
+
+      
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
        
@@ -422,7 +511,7 @@ export default function NewCommunity() {
           type="button"
           className="rounded-3xl border border-primaryBrand bg-primaryBrand px-10 py-3 text-base font-semibold text-white shadow-sm hover:bg-backgroundBrand hover:text-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          {existingCommunityId ? loading? "Updating...":"Update Community" : loading? "Creationg":"Create Community"}
+          {existingCommunityId ? loading? "Updating...":"Update Community" : loading? "Creating...":"Create Community"}
         </button>
       </div>
     </div>

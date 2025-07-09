@@ -1,3 +1,4 @@
+import { put } from "@vercel/blob";
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -44,9 +45,14 @@ export const communityRouter = createTRPCRouter({
     locationCommunity: z.string().min(1),
     sloganCommunity: z.string().min(1),
     communityType: z.string().min(1),
-    createdById: z.string().min(1)
+    createdById: z.string().min(1),
+    icon: z.string().min(1)
   }))
   .mutation(async({ ctx, input }) => {
+    const buffer = Buffer.from(input.icon, "base64");
+    const blob = await put(`community/${input.name}/${input.createdById}`, buffer, {
+                access: "public",
+            });
     return await ctx.db.community.create({
       data: {
         name: input.name,
@@ -56,7 +62,7 @@ export const communityRouter = createTRPCRouter({
         locationCommunity: input.locationCommunity,
         sloganCommunity: input.sloganCommunity,
         numberOfMembers: 1,
-        //need a user here
+        icon: blob.url,
         createdBy: 
         {
           connect: { id: input.createdById }
@@ -227,9 +233,15 @@ getCommunityWithRelations: publicProcedure
     locationCommunity: z.string().min(1),
     sloganCommunity: z.string().min(1),
     communityType: z.string().min(1),
-    ownerEmail: z.string().min(1)
+    ownerEmail: z.string().min(1),
+    icon: z.string().optional()
   }))
   .mutation(async({ ctx, input }) => {
+    if(input.icon){
+    const buffer = Buffer.from(input.icon, "base64");
+    const blob = await put(`community/${input.name}/${input.id}`, buffer, {
+                access: "public",
+            });
     return await ctx.db.community.update({
       where: {
         id: input.id
@@ -242,9 +254,25 @@ getCommunityWithRelations: publicProcedure
         locationCommunity: input.locationCommunity,
         sloganCommunity: input.sloganCommunity,
         communityType: input.communityType,
-        ownerEmail: input.ownerEmail
+        ownerEmail: input.ownerEmail,
+        icon: blob.url,
       }
     })
-  }),
-
+    }
+    return await ctx.db.community.update({
+      where: {
+        id: input.id
+      },
+      data: {
+        name: input.name,
+        aboutCommunity: input.aboutCommunity,
+        private: input.private,
+        password: input.password,
+        locationCommunity: input.locationCommunity,
+        sloganCommunity: input.sloganCommunity,
+        communityType: input.communityType,
+        ownerEmail: input.ownerEmail,
+      }
+    })
+  })
 })

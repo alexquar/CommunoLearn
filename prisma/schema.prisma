@@ -94,8 +94,9 @@ model Community {
     communityType String
     private Boolean @default(false)
     numberOfMembers Int
-
+    icon String?
     Comments Comment[]
+
 }
 model Meeting {
     id        Int      @id @default(autoincrement())

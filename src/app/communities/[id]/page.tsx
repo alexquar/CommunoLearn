@@ -5,6 +5,7 @@ import JoinCommunityButton from "~/app/_components/JoinCommunityButton";
 import ClientPage from "./clientPage";
 import DeleteCommunity from "~/app/_components/DeleteCommunity";
 import Link from "next/link";
+import Image from "next/image";
 //this component will need to be switched to client
 export default async function Community({
   params,
@@ -32,9 +33,21 @@ export default async function Community({
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto flex w-full justify-between lg:mx-0">
           <div>
-            <h2 className="text-4xl font-bold text-accentBrand sm:text-5xl">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:gap-4">
+              {community.icon &&
+              <Image
+              className="h-16 w-16 rounded-full border border-primaryBrand
+              sm:h-20 sm:w-20"
+              src={community.icon ? String(community.icon) : "/default-community-icon.png"}
+              alt="Community Icon"
+              width={80}
+              height={80}
+              />
+}
+              <h2 className="mt-4 sm:mt-0 text-4xl font-bold text-accentBrand sm:text-5xl">
               {community.name}
-            </h2>
+              </h2>
+            </div>
             <p className="mt-4 text-lg leading-8 text-textBrand">
               {community.sloganCommunity}
             </p>

@@ -1,7 +1,4 @@
 "use client";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { type CommentWithRelations } from "~/types/commentTypes";
 import CommentForm from "./CommentForm";
 export default function CommentEditModal({
@@ -13,7 +10,6 @@ export default function CommentEditModal({
     setOpen: (open: boolean) => void;
     comment: CommentWithRelations;
 }) {
-  const router = useRouter();
 
   return (
     <>
