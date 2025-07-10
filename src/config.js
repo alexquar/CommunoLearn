@@ -17,8 +17,8 @@ const firebaseConfig = {
 export const firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 export const auth_app = getAuth(firebase_app);
 export const provider = new GoogleAuthProvider();
+provider.addScope("https://www.googleapis.com/auth/calendar");
 export const githubProvider = new GithubAuthProvider();
-
 const ai = getAI(firebase_app);
 export const model = getGenerativeModel(ai, {
   model: "gemini-1.5-flash"

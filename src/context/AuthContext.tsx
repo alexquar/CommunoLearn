@@ -6,20 +6,34 @@ import { auth_app } from "~/config";
 import { api } from "~/trpc/react";
 import type { UserWithRelations } from "../types/userTypes";
 import Loading from "~/app/loading";
-export const AuthContext = createContext<{ user: UserWithRelations | null }>({ user: null });
+export const AuthContext = createContext<{ 
+  user: UserWithRelations | null;
+  token: string | null;
+  setToken: (token: string | null) => void;
+}>({ user: null, token: null, setToken: (_token) => {
+  console.warn('setToken was called outside of AuthContextProvider');
+} });
 
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserWithRelations | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [token, setToken] = useState<string | null>(null);
   const trpc = api.useUtils();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth_app, (firebaseUser) => {
-        setLoading(true);
+      setLoading(true);
       if (firebaseUser?.email) {
+        // firebaseUser.getIdToken().then((idToken) => {
+        //   let providerData = firebaseUser.providerData.find((provider) => provider.providerId === "google.com");
+        //   let accessToken = (firebaseUser as any)?.stsTokenManager?.accessToken || null
+        // }).catch((error) => {
+        //   console.error("Error getting ID token:", error);
+        //   setToken(null);
+        // }
+        // );
         trpc.user.getUserByEmailWithRelations.fetch({email:firebaseUser.email}) // Refetch with the email
           .then((result) => {
             if (result) {
@@ -44,7 +58,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, [trpc]);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, token, setToken }}>
       {!loading ? children : <Loading />}
     </AuthContext.Provider>
   );

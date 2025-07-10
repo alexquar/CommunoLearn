@@ -12,7 +12,7 @@ export default function CommentSection({
   onId: string | number;
   comments: CommentWithRelations[];
 }) {
-  const [openComments, setOpenComments] = useState(true);
+  const [openComments, setOpenComments] = useState(false);
   return (
     <div className="mt-8">
       <div className="flex flex-row items-center gap-x-2">

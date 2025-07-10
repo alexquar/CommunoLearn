@@ -94,9 +94,9 @@ export default function Meeting({ params }: { params: { id: string } }) {
               {meeting?.content}
             </p>
             <div className="flex flex-col gap-x-1 gap-y-4 text-textBrand md:flex-row">
-              <p className="border-textBrand pe-1 md:border-e">
-                Time: {meeting.meetingTime.toDateString()}
-              </p>
+                <p className="border-textBrand pe-1 md:border-e">
+                Time: {meeting.meetingTime.toLocaleString()}
+                </p>
               <p className="border-textBrand pe-1 md:border-e">
                 Updated: {meeting.updatedAt.toDateString()}
               </p>
@@ -123,6 +123,29 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 )}
               </p>
             </div>
+            <button
+              onClick={() => {
+              const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+                meeting.title,
+              )}&dates=${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}/${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}&details=${encodeURIComponent(
+                meeting.content,
+              )}&location=${encodeURIComponent(
+                meeting.meetingLocationOrLink,
+              )}`;
+              window.open(calendarUrl, "_blank");
+              }}
+              className="mt-4 flex w-fit items-center rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="me-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
+              </svg>
+              Add to Google Calendar
+            </button>
+            <p
+            className="mt-4 text-sm font-semibold text-textBrand"
+            >
+            To use the above feature you must have logged in with Google
+            </p>
             <div className="mt-4 flex flex-col gap-y-8 text-xl font-bold text-primaryBrand">
               <Link href={`/user/${meeting.createdBy.id}`}>
                 Created by {meeting.createdBy.firstName}{" "}

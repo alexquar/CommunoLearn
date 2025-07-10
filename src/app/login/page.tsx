@@ -14,6 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const signinWithGoogle = useSignInWithGoogle()
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -31,7 +32,7 @@ export default function Login() {
   const handleSignInWithGoogle = async (e: React.FormEvent) => {
     e.preventDefault()
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { result, error } = await useSignInWithGoogle()
+    const { result, error } = await signinWithGoogle()
     if (error) {
       console.log(error)
       setError('Could not sign in with Google!')
