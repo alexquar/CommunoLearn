@@ -128,13 +128,13 @@ export default function Meeting({ params }: { params: { id: string } }) {
             </div>
             <button
               onClick={() => {
-              const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+                const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
                 meeting.title,
-              )}&dates=${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}/${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}&details=${encodeURIComponent(
+                )}&dates=${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}/${new Date(meeting.meetingTime.getTime() + (meeting.length ? Number(meeting.length) : 0) * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, "")}&details=${encodeURIComponent(
                 meeting.content,
-              )}&location=${encodeURIComponent(
+                )}&location=${encodeURIComponent(
                 meeting.meetingLocationOrLink,
-              )}`;
+                )}`;
               window.open(calendarUrl, "_blank");
               }}
               className="mt-4 flex w-fit items-center rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
