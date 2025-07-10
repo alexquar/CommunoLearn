@@ -51,6 +51,7 @@ export const meetingRouter = createTRPCRouter({
     inPerson: z.boolean(),
     meetingDocuments: z.array(z.string()).optional(),
     content: z.string().min(1),
+    length: z.number().min(.25).max(24).default(1.00)
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.meeting.create({
@@ -61,6 +62,7 @@ export const meetingRouter = createTRPCRouter({
         inPerson: input.inPerson,
         meetingTime: input.meetingTime,
         meetingDocuments: input.meetingDocuments,
+        length: input.length,
         createdBy: {
         connect: {
           id: input.createdBy
@@ -102,6 +104,7 @@ export const meetingRouter = createTRPCRouter({
     inPerson: z.boolean(),
     meetingDocuments: z.array(z.string()).optional(),
     done: z.boolean(),
+    length: z.number().min(.25).max(24).default(1.00)
   }))
   .mutation(async({ ctx, input }) => {
     return await ctx.db.meeting.update({
@@ -116,6 +119,7 @@ export const meetingRouter = createTRPCRouter({
         meetingTime: input.meetingTime,
         meetingDocuments: input.meetingDocuments,
         done: input.done
+        ,length: input.length
         }
       })
     })

@@ -34,7 +34,29 @@
 -links to user page and only let stuff show when you are owner                          *done
 
 
-improve search 
+improve search *done 
 fix icons         *done
-messages    
-new features?
+messages    *done
+new features *done 
+
+
+
+FEATURES 
+filters on search
+locations proper
+drive integrations 
+using settings and dark mode?
+
+FIX
+always visible community create button 
+improve UI 
+more icons (show user icon in nav? and other icons)
+improve UX
+
+CLEANUP
+Standardize 
+Readme improve 
+clear db and reset 
+
+
+

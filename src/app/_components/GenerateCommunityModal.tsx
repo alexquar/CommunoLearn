@@ -5,9 +5,11 @@ import ErrorNotification from "./ErrorNotification";
 export default function GenerateCommunityModal({
   open,
   setOpen,
+  type = "community",
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  type?: "community" | "project"; // Optional type prop to differentiate between community and project generation
 }) {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,6 +32,24 @@ export default function GenerateCommunityModal({
     // setOpen(false); // Close the modal after generation
   };
 
+    const handleGenerateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { result, error } = await useGenerateCommunity(prompt);
+    if (error) {
+      console.error("Error generating project:", error);
+      setError("Failed to generate project. Please try again.");
+      setLoading(false);
+      return;
+    }
+    console.log("Generated project:", result);
+    setLoading(false);
+    setError("");
+    // setOpen(false); // Close the modal after generation
+  };
+
   return (
     <>
       {open && (
@@ -38,7 +58,7 @@ export default function GenerateCommunityModal({
             <div className="relative rounded-lg bg-white shadow">
               <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
                 <h3 className="text-lg font-bold text-accentBrand">
-                  Generate a Community
+                  Generate a {type === "project" ? "Project" : "Community"}
                 </h3>
                 <button
                   onClick={() => {
@@ -69,10 +89,10 @@ export default function GenerateCommunityModal({
                 </button>
               </div>
               <div className="p-6">
-                <form onSubmit={handleGenerateCommunity}>
+                <form onSubmit={type === "project" ? handleGenerateProject : handleGenerateCommunity}>
                   <textarea
                     className="w-full rounded-lg border border-gray-300 p-2 text-sm text-textBrand focus:border-secondaryBrand focus:ring-secondaryBrand"
-                    placeholder="Describe the community you want to create..."
+                    placeholder={`Describe the ${type} you want to create...`}
                     rows={4}
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
@@ -101,7 +121,7 @@ export default function GenerateCommunityModal({
                       type="submit"
                       className="rounded-lg bg-secondaryBrand px-4 py-2 text-sm text-white hover:bg-secondaryBrand/80 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {loading ? "Generating..." : "Generate Community"}
+                      {loading ? "Generating..." : `Generate ${type === "project" ? "Project" : "Community"}`}
                     </button>
                   </div>
                 </form>

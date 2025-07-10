@@ -97,6 +97,9 @@ export default function Meeting({ params }: { params: { id: string } }) {
                 <p className="border-textBrand pe-1 md:border-e">
                 Time: {meeting.meetingTime.toLocaleString()}
                 </p>
+                <p className="border-textBrand pe-1 md:border-e">
+                Length (hrs): {Number(meeting.length ?? 0).toFixed(2)}
+                </p>
               <p className="border-textBrand pe-1 md:border-e">
                 Updated: {meeting.updatedAt.toDateString()}
               </p>
@@ -216,6 +219,7 @@ export default function Meeting({ params }: { params: { id: string } }) {
             inPersonProp={meeting?.inPerson}
             meetingLocationOrLinkProp={meeting?.meetingLocationOrLink}
             isDone={meeting?.done}
+            length={meeting?.length ? Number(meeting.length) : undefined}
           />
         </div>
       ) : (

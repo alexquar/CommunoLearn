@@ -19,6 +19,7 @@ export default function NewMeetingModal({
   meetingLocationOrLinkProp = "",
   meetingDocumentsProp = [],
   isDone = false,
+  length = 1.00
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -33,6 +34,7 @@ export default function NewMeetingModal({
   meetingLocationOrLinkProp?: string;
   meetingDocumentsProp?: string[];
   isDone?: boolean;
+  length?: number;
 }) {
   const { user } = useAuthContext();
   const router = useRouter();
@@ -52,6 +54,7 @@ export default function NewMeetingModal({
   const [meetingLocationOrLink, setMeetingLocationOrLink] = useState(
     meetingLocationOrLinkProp,
   );
+  const [meetingLength, setMeetingLength] = useState(length);
   const [inPerson, setInPerson] = useState(inPersonProp);
   const [content, setContent] = useState(contentProp);
   const [meetingDocuments, setMeetingDocuments] =
@@ -132,6 +135,7 @@ export default function NewMeetingModal({
         meetingDocuments: meetingDocuments,
         id: meetingId,
         done,
+        length: meetingLength,
       });
     } else {
       mutate({
@@ -144,6 +148,7 @@ export default function NewMeetingModal({
         AssociatedCommunity: communityId,
         createdBy: user?.id ?? "",
         AssociatedProject: projectId,
+        length: meetingLength,
       });
     }
   };
@@ -222,6 +227,23 @@ export default function NewMeetingModal({
                       value={meetingTime}
                       onChange={(e) => setMeetingTime(e.target.value)}
                     />
+                  </div>
+
+                  <div className="col-span-1">
+                    <label className="mb-5 cursor-pointer items-center">
+                        <span className="mb-2 text-sm font-medium text-accentBrand">
+                        Meeting Length (in hours)
+                        </span>
+                        <input
+                        onChange={(e) => setMeetingLength(parseFloat(e.target.value))}
+                        type="number"
+                        value={meetingLength}
+                        step={0.25}
+                        min={0.25}
+                        max={24}
+                        className="block w-full rounded-lg border-2 border-primaryBrand bg-white p-2.5 text-sm text-textBrand"
+                        />
+                    </label>
                   </div>
 
                   <div className="col-span-1">

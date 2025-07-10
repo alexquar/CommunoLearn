@@ -6,6 +6,7 @@ import ErrorNotification from "./ErrorNotification";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Stage } from "@prisma/client";
+import GenerateCommunityModal from "./GenerateCommunityModal";
 export default function NewProjectModal({
   open,
   setOpen,
@@ -45,6 +46,7 @@ export default function NewProjectModal({
   const [done, setDone] = useState(doneProp);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [GenOpen, setGenOpen] = useState(false);
   useEffect(() => {
     if(isEdit){
       setProjectName(name);
@@ -61,7 +63,7 @@ export default function NewProjectModal({
       setDone(doneProp);
     }
   }
-  , [open, isEdit, name, description, completion, projectStage])
+  , [open, isEdit, name, description, completion, projectStage, doneProp]);
   const { mutate } = api.projects.newProject.useMutation({
     onSuccess: () => {
       console.log("Project created successfully");
@@ -151,6 +153,21 @@ export default function NewProjectModal({
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
+               <p className="mt-8 p-4 md:p-5 text-sm leading-6 text-textBrand">
+                            {"Need help ironing out the details for a new project? Give us your idea and we'll to the rest! "}
+                            <span
+                              onClick={() => setGenOpen(true)}
+                              className="cursor-pointer text-secondaryBrand hover:underline"
+                            >
+                              Generate Project
+                            </span>
+                            <GenerateCommunityModal
+                              open={GenOpen}
+                              setOpen={setGenOpen}
+                              type="project"
+                            />
+                          
+                          </p>
               <form onSubmit={handleSubmit} className="p-4 md:p-5">
                 <div className="mb-4 grid grid-cols-2 gap-12">
                   <div className="col-span-2">

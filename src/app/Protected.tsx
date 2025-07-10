@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "./loading";
 const protectedRoutes = ["/communities", "/user", "/meetings", "/projects", "/todos", "/messaging"];
-const isProtectedRoute = (pathname: string) => {
-    return protectedRoutes.some((route) => pathname.startsWith(route));
+const isProtectedRoute = (pathname: string): boolean => {
+    return protectedRoutes.some((route) => pathname.startsWith(route)) || pathname === "/";
   };
   
-export default function ProtectedContent({ children }: { children: React.ReactNode }) {
+export default function ProtectedContent({ children }: { children: React.ReactNode }){
     const { user } = useAuthContext()
     const router = useRouter();
     const pathname = usePathname();
