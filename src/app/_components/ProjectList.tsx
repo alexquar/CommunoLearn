@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { images } from "public/icons";
-
 import Image from "next/image";
+import Link from "next/link";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
-import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 type ProjectWithRelations = Prisma.ProjectGetPayload<{
   include: {
     createdBy: {
@@ -19,98 +19,85 @@ type ProjectWithRelations = Prisma.ProjectGetPayload<{
   };
 }>;
 
-export default function ProjectList({
-  projects,
-}: {
-  projects: ProjectWithRelations[];
-}) {
-  const {user} = useAuthContext();
+export default function ProjectList({ projects }: { projects: ProjectWithRelations[] }) {
+  const { user } = useAuthContext();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const {mutate} = api.projects.addProjectMemberById.useMutation(
-    {
-      onSuccess: () => {
-        console.log("Project joined successfully");
-        setLoading(false);
-        router.refresh();
-      },
-      onError: (error) => {
-        console.error(error);
-        setLoading(false);
-      },
-    }
-  );
-  const handleJoin = (projectId:number) => {
-    setLoading(true);
-    mutate({
-      projectId,
-      userId: user?.id ?? "",
-    });
-    
+  const [loadingProjectId, setLoadingProjectId] = useState<number | null>(null);
+
+  const { mutate } = api.projects.addProjectMemberById.useMutation({
+    onSuccess: () => {
+      setLoadingProjectId(null);
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error(error);
+      setLoadingProjectId(null);
+    },
+  });
+
+  const handleJoin = (projectId: number) => {
+    setLoadingProjectId(projectId);
+    mutate({ projectId, userId: user?.id ?? "" });
   };
 
-  return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {
-        projects.length === 0 && (
-          <div className="my-8">
-            <p className="text-textBrand">No projects found :(</p>
-          </div>
-        )
-      }
-      {projects.map((project) => (
+  if (projects.length === 0) {
+    return (
+      <div className="my-8 text-textBrand text-center text-sm">
+        No projects found 🙁
+      </div>
+    );
+  }
 
-        <div
-          key={project.id}
-          className="flex justify-between gap-x-6 py-5"
-        >
-          <Link           
-          href={`/projects/${project.id}`}
-           className="flex min-w-0 gap-x-4">
-            <Image
-            width={48}
-            height={48}
-              alt={`${project.stage} stage image`}
-              src={images[project.stage]}
-              className="h-12 w-12 flex-none rounded-full bg-gray-50"
-            />
-            <div className="min-w-0 flex-auto">
-              <p className="text-sm/6 font-bold text-textBrand">
-                {project.title}
-              </p>
-              <p className="mt-1 truncate text-xs/5 text-accentBrand">
-                {" "}
-                created by: {project.createdBy.firstName}{" "}
-                {project.createdBy.lastName}{" "}
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.map((project) => {
+        const alreadyJoined = project.projectMembers.some((m) => m.id === user?.id);
+        const isLoading = loadingProjectId === project.id;
+
+        return (
+          <div
+            key={project.id}
+            className="flex flex-col justify-between rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition min-h-[280px]"
+          >
+            <Link href={`/projects/${project.id}`} className="flex items-center gap-4 mb-4">
+              <Image
+                width={48}
+                height={48}
+                alt={`${project.stage} stage`}
+                src={images[project.stage]}
+                className="h-12 w-12 rounded-full bg-gray-100 flex-shrink-0"
+              />
+              <div className="flex flex-col min-w-0">
+                <h3 className="text-md font-semibold text-textBrand truncate">{project.title}</h3>
+                <p className="text-xs text-accentBrand truncate">
+                  by {project.createdBy.firstName} {project.createdBy.lastName}
+                </p>
+              </div>
+            </Link>
+
+            <div className="space-y-1 mb-4">
+              <p className="text-sm text-accentBrand">Created: {project.createdAt.toLocaleDateString()}</p>
+              <p className="text-xs text-textBrand">
+                {project.done ? (
+                  <span className="text-green-600 font-medium">Completed</span>
+                ) : (
+                  <>Goal end date: {project.endDate.toLocaleDateString()}</>
+                )}
               </p>
             </div>
-          </Link>
-          <div className="flex flex-row gap-x-8">
-          {!project.projectMembers.some((member) => member.id === user?.id) &&
-            <button onClick={()=>handleJoin(project.id)} className="px-10 py-3 bg-primaryBrand border-primaryBrand text-white border rounded-3xl hover:text-primaryBrand hover:bg-white">
-              {loading ? "Joining..." : "Join Project"}
-            </button>
-}
 
-          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm/6 text-accentBrand">
-              Created: {project.createdAt.toLocaleDateString()}
-            </p>
-
-            <p className="mt-1 text-xs/5 text-textBrand">
-              {project.done ? (
-                <span>Project has been completed!</span>
-              ) : (
-                <span>
-                  Goal end date: {project.endDate.toLocaleDateString()}
-                </span>
-              )}
-            </p>
+            {!alreadyJoined && (
+              <button
+                onClick={() => handleJoin(project.id)}
+                disabled={isLoading}
+                className="mt-auto w-full rounded-3xl border border-primaryBrand bg-primaryBrand px-4 py-2 text-sm text-white hover:bg-white hover:text-primaryBrand transition"
+              >
+                {isLoading ? "Joining..." : "Join Project"}
+              </button>
+            )}
           </div>
-          </div>
-          </div>
-     
-      ))}
-    </ul>
+        );
+      })}
+    </div>
   );
 }

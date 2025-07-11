@@ -67,94 +67,90 @@ export default function Todo({ params }: { params: { id: string } }) {
 
   return (
     <>
-      {" "}
       {todo ? (
-        <div className="mx-auto flex max-w-7xl flex-col gap-12 px-10 py-12">
-          <div className="flex flex-col gap-y-3">
-            <div className="flex flex-row justify-between">
-              <h1 className="text-5xl font-bold text-accentBrand">
-                {todo?.title}
-              </h1>
-              <Link
-                href={`/projects/${todo?.projectId}`}
-                className="cursor-pointer text-lg font-semibold text-primaryBrand hover:underline"
-              >
-                Back to Project
-              </Link>
-            </div>
-            {todo.done && (
-              <div className="inline-flex">
-                <Blob title="Done" />
-              </div>
-            )}
-            <p className="text-lg font-semibold text-textBrand">
-              {todo?.content}
-            </p>
-            <div className="flex flex-col gap-x-1 gap-y-4 text-textBrand md:flex-row">
-              <p className="border-textBrand pe-1 md:border-e">
-                Stage: {todo?.stage}
-              </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Updated: {todo?.updatedAt.toDateString()}
-              </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Created: {todo?.createdAt.toDateString()}
-              </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Goal Completion: {todo?.completionDate.toDateString()}
-              </p>
-            </div>
-            <div className="mt-4 flex flex-col gap-y-8 text-xl font-bold text-primaryBrand">
-              <Link href={`/user/${todo?.createdBy.id}`}>
-                Created by {todo?.createdBy.firstName}{" "}
-                {todo?.createdBy.lastName}
-              </Link>
-              <Link href={`/user/${todo?.assignedUser?.id}`}>
-                Assigned to {todo?.assignedUser?.firstName ?? "No Body"}{" "}
-                {todo?.assignedUser?.lastName ?? ""}
-              </Link>
-              {(todo?.assignedUser?.id === user?.id ||
-                todo.createdBy.id === user?.id) && (
-                  <div className="flex flex-row gap-x-4">
-                <button
-                  onClick={() => setEdit(true)}
-                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
-                >
-                  Edit Todo
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
-                >
-                  {loading ? "Deleting..." : "Delete Todo"}
-                </button>
-                </div>
-              )}
-            </div>
-            <CommentSection
-              comments={todo.Comment}
-              onId = {todo.id}
-              commentOn="todo"
-              />
-          </div>
-          <NewTodoModal
-            open={edit}
-            setOpen={setEdit}
-            projectId={todo?.projectId ?? 0}
-            todoId={todo?.id ?? 0}
-            isEdit
-            projectMembers={todo?.Project.projectMembers ?? []}
-            titleProp={todo?.title}
-            contentProp={todo?.content}
-            completion={todo?.completionDate.toDateString()}
-            memberIdProp={todo?.assignedUser?.id ?? ""}
-            stageProp={todo?.stage}
-            isDone={todo?.done}
-          />
+  <div className="mx-auto max-w-5xl px-4 py-10">
+    <div className="flex flex-col gap-8 rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+        <h1 className="text-3xl font-bold text-textBrand line-clamp-2">{todo.title}</h1>
+        <Link
+          href={`/projects/${todo.projectId}`}
+          className="text-sm text-primaryBrand hover:underline"
+        >
+          ← Back to Project
+        </Link>
+      </div>
+
+      {/* Content */}
+      <p className="text-base text-accentBrand">{todo.content}</p>
+
+      {/* Metadata Section */}
+      <div className="flex flex-wrap gap-4 text-sm text-textBrand border-t pt-4 border-borderBrand">
+        <p><span className="font-semibold">Stage:</span> {todo.stage}</p>
+        <p><span className="font-semibold">Created:</span> {todo.createdAt.toDateString()}</p>
+        <p><span className="font-semibold">Updated:</span> {todo.updatedAt.toDateString()}</p>
+        <p><span className="font-semibold">Goal Completion:</span> {todo.completionDate.toDateString()}</p>
+        {todo.done && <Blob title="Done" />}
+      </div>
+
+      {/* User Info */}
+      <div className="space-y-2 text-sm">
+        <Link href={`/user/${todo.createdBy.id}`} className="text-primaryBrand hover:underline">
+          Created by {todo.createdBy.firstName} {todo.createdBy.lastName}
+        </Link>
+        {todo.assignedUser ? (
+          <Link href={`/user/${todo.assignedUser.id}`} className="text-primaryBrand hover:underline">
+            Assigned to {todo.assignedUser.firstName} {todo.assignedUser.lastName}
+          </Link>
+        ) : (
+          <p className="text-textBrand">Assigned to: <span className="italic">Nobody</span></p>
+        )}
+      </div>
+
+      {/* Actions */}
+      {(todo.assignedUser?.id === user?.id || todo.createdBy.id === user?.id) && (
+        <div className="flex flex-wrap gap-4 pt-2">
+          <button
+            onClick={() => setEdit(true)}
+            className="rounded-full bg-secondaryBrand px-6 py-2 text-white text-sm hover:bg-secondaryBrand/80"
+          >
+            Edit Todo
+          </button>
+          <button
+            onClick={handleDelete}
+            className="rounded-full bg-red-500 px-6 py-2 text-white text-sm hover:bg-red-600"
+            disabled={loading}
+          >
+            {loading ? "Deleting..." : "Delete Todo"}
+          </button>
         </div>
-      ) : (
-        <Loading />
       )}
+
+      {/* Comments */}
+      <div className="pt-6 border-t border-borderBrand">
+        <CommentSection comments={todo.Comment} onId={todo.id} commentOn="todo" />
+      </div>
+    </div>
+
+    {/* Edit Modal */}
+    <NewTodoModal
+      open={edit}
+      setOpen={setEdit}
+      projectId={todo.projectId}
+      todoId={todo.id}
+      isEdit
+      projectMembers={todo.Project.projectMembers}
+      titleProp={todo.title}
+      contentProp={todo.content}
+      completion={todo.completionDate.toDateString()}
+      memberIdProp={todo.assignedUser?.id ?? ""}
+      stageProp={todo.stage}
+      isDone={todo.done}
+    />
+  </div>
+) : (
+  <Loading />
+)}
     </>
   );
 }
