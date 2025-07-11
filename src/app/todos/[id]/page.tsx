@@ -95,7 +95,7 @@ export default function Todo({ params }: { params: { id: string } }) {
 
       {/* User Info */}
       <div className="space-y-2 text-sm">
-        <Link href={`/user/${todo.createdBy.id}`} className="text-primaryBrand hover:underline">
+        <Link href={`/user/${todo.createdBy.id}`} className="text-primaryBrand hover:underline me-2">
           Created by {todo.createdBy.firstName} {todo.createdBy.lastName}
         </Link>
         {todo.assignedUser ? (

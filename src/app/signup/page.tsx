@@ -175,7 +175,7 @@ export default function Signup() {
 
           <button
             type="submit"
-            className="w-full rounded-md bg-primaryBrand py-2 px-4 text-sm font-semibold text-white hover:bg-primaryBrand/90"
+            className="w-full rounded-md bg-primaryBrand py-2 px-4 text-sm font-semibold text-white hover:bg-primaryBrand/80"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

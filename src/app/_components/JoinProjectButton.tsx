@@ -33,8 +33,10 @@ export default function JoinProjectButton({projectId, members}:{projectId:number
   return (
     <>
     { !members.some(member => member.id === user?.id)  &&
+    <div className="mt-2 ms-auto w-fit">
     <div onClick={handleJoinCommunity} className='px-10 hover:bg-secondaryBrand/75 py-3 rounded-3xl bg-secondaryBrand text-white'>
         {loading ? 'Joining...' : 'Join Project'}
+    </div>
     </div>
     }
     </>

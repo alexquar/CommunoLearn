@@ -6,7 +6,7 @@ import user from '../../../public/user.svg'
 import Link from 'next/link'
 export default function UserList({members, ownerId}: {members: MemberOf[], ownerId: string}) {
     return (
-        <ul className='flex flex-row gap-x-8 mx-2 py-4 overflow-x-scroll'>
+        <ul className='flex flex-row gap-x-8 mx-2 py-4'>
             {
                 members.map((member) => (
                     <li className='flex-shrink-0 justify-center items-center flex flex-row gap-x-3' key={member.id}>
