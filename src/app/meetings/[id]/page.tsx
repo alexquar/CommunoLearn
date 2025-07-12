@@ -133,7 +133,7 @@ export default function Meeting({ params }: { params: { id: string } }) {
         No meetings documents provided 🙁
       </div>
           ) : (
-            <ul className="list-disc list-inside text-sm">
+            <ul className="text-sm">
               {meeting.meetingDocuments.map((doc, i) => (
                 <li key={i}>
                   <a

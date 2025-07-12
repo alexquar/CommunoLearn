@@ -130,7 +130,7 @@ export const communityRouter = createTRPCRouter({
       orderBy: {
       numberOfMembers: 'desc'
       },
-      take: 10
+      take: 6
     }
     );
     return {

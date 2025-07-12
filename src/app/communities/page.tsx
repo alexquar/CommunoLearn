@@ -111,199 +111,167 @@ export default function Communities() {
 
   return (
     <React.Fragment>
-      <section className="relative isolate overflow-hidden px-6 pb-12 pt-24 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:max-w-4xl">
-          <h1 className="text-center text-3xl font-bold text-primaryBrand">
-            CommunoLearn Communities
-          </h1>
-          <figure className="mt-10">
-            <blockquote className="text-center text-lg font-bold leading-8 text-accentBrand sm:text-2xl sm:leading-9">
-              <p>
-                Find the people you&apos;re looking for. Search public
-                communities right now!
-              </p>
-            </blockquote>
-            <form onSubmit={searchCommunites} className="mx-auto overflow-visible z-10 mt-8 max-w-md">
-              <label
-                htmlFor="default-search"
-                className="sr-only mb-2 text-sm font-medium text-textBrand"
-              >
-                Search
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-                  <svg
-                    className="h-4 w-4 text-textBrand"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="search"
-                  id="default-search"
-                  className="block w-full rounded-lg border border-accentBrand bg-white p-4 ps-10 text-sm text-textBrand outline-accentBrand focus:border-accentBrand focus:ring-accentBrand"
-                  placeholder="Search Communities..."
-                  required
-                  value={search}
-                  onChange={ async (e) => {
-                    setSearch(e.target.value)
-                  }}
-                />
-                <button
-                  type="submit"
-                  className="absolute bottom-2.5 end-2.5 rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/75 focus:outline-none"
-                >
-                  Search
-                </button>
-                {searchedSomeCommunities.length > 0 && (
-                    <div className="absolute mt-1 w-full rounded-lg border border-accentBrand bg-white z-50">
-                    <ul className="rounded-lg max-h-40 overflow-y-auto">
-                      {searchedSomeCommunities.map((community) => (
-                        <li 
-                        key={community.id}
-                        className="px-4 flex rounded-lg align-items-center items-center py-2 hover:bg-gray-100 cursor-pointer"
-                        >
-                        <Link className="min-w-0 shrink-0 cursor-pointer font-bold text-textBrand" href={`/communities/${community.id}`}>
-                          {community.name}
-                        </Link>
-                        <span className="text-sm text-textBrand truncate ml-2 flex-1">
-                          {community.sloganCommunity ? community.sloganCommunity : "No slogan available"}:
-                        </span>
-                        </li>
-                      ))}
-                    </ul>
-                    </div>
-                )}
-              </div>
-              {searchError && (
-                <div className="mt-6">
-                  <ErrorNotification message={searchError} />
-                </div>
-              )}
-              {searchLoading && (
-                <div className="mt-6">
-                  <LoadingNotification />
-                </div>
-              )}
-            </form>
-          </figure>
+  {/* Hero + Search Section */}
+  <section className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
+    <div className="mx-auto max-w-3xl text-center">
+      <h1 className="text-4xl font-bold text-primaryBrand sm:text-5xl">
+        CommunoLearn Communities
+      </h1>
+      <p className="mt-4 text-lg text-accentBrand">
+        Find the people you’re looking for. Search public communities now!
+      </p>
+
+      {/* Search Bar */}
+      <form onSubmit={searchCommunites} className="relative mt-10 max-w-xl mx-auto">
+        <input
+          type="search"
+          id="community-search"
+          placeholder="Search communities..."
+          className="w-full rounded-lg border border-accentBrand bg-white py-4 pl-10 pr-32 text-sm text-textBrand shadow-sm focus:outline-none focus:ring-2 focus:ring-accentBrand"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          required
+        />
+        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+          <svg
+            className="h-4 w-4 text-textBrand"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
         </div>
-        {(searchedCommunities != null && searchedCommunities.length >0) && (
-          <div className="mx-auto mt-6 max-w-7xl">
-            <div className="flex items-center justify-between">
-              <blockquote className="my-8 text-2xl font-bold text-accentBrand">
-              Results...
-              </blockquote>
+        <button
+          type="submit"
+          className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md bg-secondaryBrand px-4 py-2 text-sm text-white hover:bg-secondaryBrand/80"
+        >
+          Search
+        </button>
+
+        {/* Autocomplete Results */}
+        {searchedSomeCommunities.length > 0 && (
+          <div className="absolute z-50 mt-2 w-full rounded-lg border border-accentBrand  shadow-lg">
+            <ul className="max-h-48 overflow-y-auto divide-y divide-borderBrand bg-white rounded-lg overflow-x-clip text-textBrand">
+              {searchedSomeCommunities.map((community) => (
+                <li key={community.id} className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
+                  <Link
+                    href={`/communities/${community.id}`}
+                    className="block rounded-lg font-semibold text-textBrand"
+                  >
+                    {community.name}
+                  
+                  <p className="text-sm text-gray-500">
+                    {community.sloganCommunity || "No slogan available"}
+                  </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </form>
+
+      {/* Search Status */}
+      {searchError && <div className="mt-6"><ErrorNotification message={searchError} /></div>}
+      {searchLoading && <div className="mt-6"><LoadingNotification /></div>}
+    </div>
+
+    {/* Search Results */}
+    {searchedCommunities && (
+      <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+        {searchedCommunities.length > 0 ? (
+          <>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-accentBrand">Search Results</h2>
               <button
-              onClick={() => router.push('/communities/new')}
-              className="rounded-lg bg-secondaryBrand px-4 py-2 text-sm font-medium text-white hover:bg-secondaryBrand/75 focus:outline-none"
+                onClick={() => router.push('/communities/new')}
+                className="rounded-lg bg-secondaryBrand px-4 py-2 text-sm text-white hover:bg-secondaryBrand/80"
               >
-              Create New Community
+                Create New Community
               </button>
             </div>
-            <ul
-              role="list"
-              className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 lg:grid-cols-3 xl:col-span-2 xl:grid-cols-4"
-            >
-              {searchedCommunities?.map((community) => (
+            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {searchedCommunities.map((community) => (
                 <li key={community.id}>
                   <CommunityCard community={community} />
                 </li>
               ))}
             </ul>
-          </div> )}
-          {
-            (searchedCommunities !== null && searchedCommunities.length === 0) && (
-            <div className="mt-6 w-fit max-w-2xl mx-auto">
-            <ErrorNotification message={
-              "No communities found with that name :("
-            } />
-            </div>
-        )
-          }
-      </section>
-      <div className="sm:py-18 mx-4 py-12 sm:mx-16">
-        <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
-          <div className="max-w-xl">
-            <h2 className="text-pretty text-3xl font-semibold tracking-tight text-accentBrand sm:text-4xl">
-              Join a popular community!
-            </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Below are some of the communities that have the most members. See
-              if there is something that interests you where you can try out our
-              communities!
-            </p>
+          </>
+        ) : (
+          <div className="mx-auto mt-6 max-w-md">
+            <ErrorNotification message="No communities found with that name :(" />
           </div>
-
-          {error ? (
-            <ErrorNotification message={error} />
-          ) : topCommunities.length === 0 ? (
-            <div className="mx-auto">
-              <LoadingNotification />
-            </div>
-          ) : (
-            <ul
-              role="list"
-              className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
-            >
-              {topCommunities?.map((community) => (
-                <li key={community.id}>
-                  <CommunityCard community={community} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <div className="mb-12 mt-24 flex flex-col items-center">
-          <h1 className="mb-4 text-4xl font-bold text-accentBrand">
-            Want to start your own community?
-          </h1>
-          <p className="my-6 font-semibold text-textBrand">
-            Click below to look create your own community! You can create a
-            public or private community, and you can also choose to make it
-            visible to everyone or only to those who have the link.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              router.push("/communities/new");
-            }}
-            className="rounded-full bg-gradient-to-l from-primaryBrand via-primaryBrand to-secondaryBrand px-10 py-5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl"
-          >
-            Create a new community
-          </button>
-        </div>
-
-        <div className="mb-12 mt-24 flex flex-col items-center">
-          <h1 className="mb-4 text-4xl font-bold text-accentBrand">
-            Looking for a private community?
-          </h1>
-          <p className="my-6 font-semibold text-textBrand">
-            Click below to look for a private community! You must have the
-            community name and password to view and potentially join the
-            community.
-          </p>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="rounded-full bg-gradient-to-r from-primaryBrand via-primaryBrand to-secondaryBrand px-10 py-5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl"
-          >
-            Join a private community
-          </button>
-        </div>
-        <Modal open={open} setOpen={setOpen} />
+        )}
       </div>
-    </React.Fragment>
+    )}
+  </section>
+
+  {/* Popular Communities Section */}
+  <section className="sm:py-24 mx-4 py-16 sm:mx-16">
+    <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
+      <div className="max-w-xl">
+        <h2 className="text-pretty text-3xl font-semibold tracking-tight text-accentBrand sm:text-4xl">
+          Join a popular community!
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          These are some of the most active communities. Find one that fits your interests and get involved!
+        </p>
+      </div>
+
+      {error ? (
+        <ErrorNotification message={error} />
+      ) : topCommunities.length === 0 ? (
+        <div className="mx-auto">
+          <LoadingNotification />
+        </div>
+      ) : (
+        <ul
+          role="list"
+          className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 sm:gap-y-16 xl:col-span-2  xl:gap-x-6"
+        >
+          {topCommunities.map((community) => (
+            <li key={community.id}>
+              <CommunityCard community={community} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  {/* CTA: Create or Join Private Community */}
+  <section className="py-24">
+    <div className="mx-auto max-w-4xl text-center">
+      <h2 className="text-3xl font-bold text-accentBrand">Create or Join a private Community</h2>
+      <p className="mt-4 text-lg text-textBrand">
+        Start your own public or private community, or join one using a private access code.
+      </p>
+      <div className="mt-8 flex flex-col sm:flex-row justify-center gap-6">
+        <button
+          onClick={() => router.push("/communities/new")}
+          className="rounded-full bg-gradient-to-l from-primaryBrand to-secondaryBrand px-6 py-3 text-white text-sm font-semibold hover:opacity-90"
+        >
+          Create a Community
+        </button>
+        <button
+          onClick={() => setOpen(true)}
+          className="rounded-full bg-gradient-to-r from-primaryBrand to-secondaryBrand px-6 py-3 text-white text-sm font-semibold hover:opacity-90"
+        >
+          Join Private Community
+        </button>
+      </div>
+      <Modal open={open} setOpen={setOpen} />
+    </div>
+  </section>
+</React.Fragment>
   );
 }
