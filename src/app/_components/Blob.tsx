@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
 
-export default function Blob({title, color = "primaryBrand"}: {title: string, color?: string}) {
+export default function Blob({
+  title,
+  color = "primaryBrand",
+}: {
+  title: string;
+  color?: string;
+}) {
   return (
-    <span
-                className={`relative z-10 text-xs rounded-full bg-${color} px-3 py-1.5 font-medium text-white hover:bg-${color}/50`}
-              >
-                {title}
-              </span>
-  )
+    <div className="w-fit">
+      <span
+        className={`inline-block whitespace-nowrap rounded-full bg-${color} px-3 py-1.5 text-xs font-medium text-white hover:bg-${color}/50`}
+      >
+        {title}
+      </span>
+    </div>
+  );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { type Meeting } from "@prisma/client";
-
+import Link from "next/link";
 export default function MeetingCard({ meeting }: { meeting: Meeting }) {
   return (
-    <div className="flex flex-col justify-between rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition min-h-[260px]">
+    <Link href={`/meetings/${meeting.id}`} className="flex hover:cursor-pointer flex-col justify-between rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition min-h-[260px]">
       <div className="flex flex-col gap-y-2">
         <h2 className="text-lg font-semibold text-textBrand line-clamp-1">
           {meeting.title}
@@ -22,6 +22,6 @@ export default function MeetingCard({ meeting }: { meeting: Meeting }) {
           </span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,16 +1,17 @@
 "use client";
 import { notFound } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, type RouterOutputs } from "~/trpc/react";
-import { useState } from "react";
 import NewMeetingModal from "~/app/_components/NewMeetingModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
 import Blob from "~/app/_components/Blob";
 import CommentSection from "~/app/_components/_comments/CommentSection";
 import { useRouter } from "next/navigation";
+
 type MeetingWithRelations = RouterOutputs["meetings"]["getMeetingById"];
+
 export default function Meeting({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);
   const [meeting, setMeeting] = useState<MeetingWithRelations | null>(null);
@@ -20,11 +21,9 @@ export default function Meeting({ params }: { params: { id: string } }) {
   const id = params.id;
   const numericId = Number(id);
 
-  const { refetch } = api.meetings.getMeetingById.useQuery({
-    id: numericId,
-  });
+  const { refetch } = api.meetings.getMeetingById.useQuery({ id: numericId });
 
-  const {mutate : deleteMeeting} = api.meetings.deleteMeetingById.useMutation({
+  const { mutate: deleteMeeting } = api.meetings.deleteMeetingById.useMutation({
     onSuccess: () => {
       setLoading(false);
       router.push(`/projects/${meeting?.AssociatedProjectId}`);
@@ -37,194 +36,164 @@ export default function Meeting({ params }: { params: { id: string } }) {
 
   const handleDelete = () => {
     setLoading(true);
-    deleteMeeting({
-      id: numericId,
-    });
-  }
+    deleteMeeting({ id: numericId });
+  };
 
   useEffect(() => {
     refetch()
       .then((result) => {
         const data = result.data;
-        if (!data) {
-          return notFound();
-        }
-        if (
-          data.AssociatedCommunity.private &&
-          !data.AssociatedCommunity.members.some(
-            (member) => member.id === user?.id,
-          )
-        ) {
+        if (!data) return notFound();
+        if (data.AssociatedCommunity.private && !data.AssociatedCommunity.members.some(m => m.id === user?.id)) {
           return notFound();
         }
         setMeeting(data ?? null);
       })
-      .catch((error) => {
-        console.error("Failed to refetch todo:", error);
-      });
+      .catch((err) => console.error("Refetch failed:", err));
   }, [refetch, numericId, user]);
 
-  if (isNaN(numericId)) {
-    return notFound();
-  }
+  if (isNaN(numericId)) return notFound();
+
+  if (!meeting) return <Loading />;
 
   return (
-    <>
-      {" "}
-      {meeting ? (
-        <div className="mx-auto flex max-w-7xl flex-col gap-12 px-10 py-12">
-          <div className="flex flex-col gap-y-3">
-            <div className="flex flex-row justify-between">
-              <h1 className="text-5xl font-bold text-accentBrand">
-                {meeting?.title}
-              </h1>
-              <Link
-                href={`/projects/${meeting?.AssociatedProjectId}`}
-                className="cursor-pointer text-lg font-semibold text-primaryBrand hover:underline"
+    <div className="mx-auto max-w-5xl px-4 py-10">
+      <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition flex flex-col gap-6">
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <h1 className="text-3xl font-bold text-textBrand">{meeting.title}</h1>
+          <Link
+            href={`/projects/${meeting.AssociatedProjectId}`}
+            className="text-sm text-primaryBrand hover:underline"
+          >
+            ← Back to Project
+          </Link>
+        </div>
+
+        {meeting.done && <Blob title="Done" />}
+
+        {/* Description */}
+        <p className="text-base text-accentBrand">{meeting.content}</p>
+
+        {/* Metadata */}
+        <div className="flex flex-wrap gap-4 text-sm text-textBrand border-t border-borderBrand pt-4">
+          <p><span className="font-semibold">Time:</span> {meeting.meetingTime.toLocaleString()}</p>
+          <p><span className="font-semibold">Length (hrs):</span> {Number(meeting.length ?? 0).toFixed(2)}</p>
+          <p><span className="font-semibold">Created:</span> {meeting.createdAt.toDateString()}</p>
+          <p><span className="font-semibold">Updated:</span> {meeting.updatedAt.toDateString()}</p>
+          <p><span className="font-semibold">Project:</span> {meeting.AssociatedProject.title}</p>
+          <p className="flex items-center gap-1">
+            <span className="font-semibold">{meeting.inPerson ? "Location" : "Link"}:</span>
+            {meeting.inPerson ? (
+              meeting.meetingLocationOrLink
+            ) : (
+              <a
+                target="_blank"
+                href={meeting.meetingLocationOrLink}
+                className="underline"
               >
-                Back to Project
-              </Link>
-            </div>
-            {meeting.done && (
-              <div className="inline-flex">
-                <Blob title="Done" />
-              </div>
+                {meeting.meetingLocationOrLink.length > 15
+                  ? `${meeting.meetingLocationOrLink.substring(0, 15)}...`
+                  : meeting.meetingLocationOrLink}
+              </a>
             )}
-            <p className="text-lg font-semibold text-textBrand">
-              {meeting?.content}
-            </p>
-            <div className="flex flex-col gap-x-1 gap-y-4 text-textBrand md:flex-row">
-                <p className="border-textBrand pe-1 md:border-e">
-                Time: {meeting.meetingTime.toLocaleString()}
-                </p>
-                <p className="border-textBrand pe-1 md:border-e">
-                Length (hrs): {Number(meeting.length ?? 0).toFixed(2)}
-                </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Updated: {meeting.updatedAt.toDateString()}
-              </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Created: {meeting.createdAt.toDateString()}
-              </p>
-              <p className="border-textBrand pe-1 md:border-e">
-                Associated Project: {meeting.AssociatedProject.title}
-              </p>
-              <p className="flex flex-row border-textBrand pe-1 md:border-e">
-                {meeting.inPerson ? "Location" : "Link"}:{" "}
-                {!meeting.inPerson ? (
+          </p>
+        </div>
+
+        {/* Calendar Button */}
+        <button
+          onClick={() => {
+            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(meeting.title)}&dates=${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}/${new Date(meeting.meetingTime.getTime() + (Number(meeting.length) || 0) * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, "")}&details=${encodeURIComponent(meeting.content)}&location=${encodeURIComponent(meeting.meetingLocationOrLink)}`;
+            window.open(calendarUrl, "_blank");
+          }}
+          className="w-fit rounded-3xl bg-secondaryBrand px-6 py-2 text-white hover:bg-secondaryBrand/75 text-sm"
+        >
+          Add to Google Calendar
+        </button>
+        <p className="text-sm text-textBrand">
+          (You must be logged in with Google to use this feature.)
+        </p>
+
+        {/* Created By */}
+        <div className="pt-6 border-t border-borderBrand">
+          <Link
+            href={`/user/${meeting.createdBy.id}`}
+            className="text-sm font-semibold text-primaryBrand hover:underline"
+          >
+            Created by {meeting.createdBy.firstName} {meeting.createdBy.lastName}
+          </Link>
+        </div>
+
+        {/* Documents */}
+        <div className="pt-6 border-t border-borderBrand">
+          <h3 className="text-xl font-semibold text-accentBrand mb-2">Meeting Documents</h3>
+          {meeting.meetingDocuments.length === 0 ? (
+                 <div className=" text-textBrand text-sm">
+        No meetings documents provided 🙁
+      </div>
+          ) : (
+            <ul className="list-disc list-inside text-sm">
+              {meeting.meetingDocuments.map((doc, i) => (
+                <li key={i}>
                   <a
+                    href={doc}
                     target="_blank"
-                    className="cursor-point ms-1 underline"
-                    href={meeting.meetingLocationOrLink}
+                    className="text-primaryBrand hover:underline"
                   >
-                    {meeting.meetingLocationOrLink.length > 15
-                      ? `${meeting.meetingLocationOrLink.substring(0, 15)}...`
-                      : meeting.meetingLocationOrLink}
+                    {i + 1}. {doc}
                   </a>
-                ) : (
-                  meeting.meetingLocationOrLink
-                )}
-              </p>
-            </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Controls */}
+        {meeting.createdBy.id === user?.id && (
+          <div className="flex flex-wrap gap-4 pt-6">
             <button
-              onClick={() => {
-                const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-                meeting.title,
-                )}&dates=${meeting.meetingTime.toISOString().replace(/-|:|\.\d+/g, "")}/${new Date(meeting.meetingTime.getTime() + (meeting.length ? Number(meeting.length) : 0) * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, "")}&details=${encodeURIComponent(
-                meeting.content,
-                )}&location=${encodeURIComponent(
-                meeting.meetingLocationOrLink,
-                )}`;
-              window.open(calendarUrl, "_blank");
-              }}
-              className="mt-4 flex w-fit items-center rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
+              onClick={() => setEdit(true)}
+              className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm text-white hover:bg-secondaryBrand/75"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="me-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/>
-              </svg>
-              Add to Google Calendar
+              Edit Meeting
             </button>
-            <p
-            className="mt-4 text-sm font-semibold text-textBrand"
+            <button
+              onClick={handleDelete}
+              className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm text-white hover:bg-secondaryBrand/75"
             >
-            To use the above feature you must have logged in with Google
-            </p>
-            <div className="mt-4 flex flex-col gap-y-8 text-xl font-bold text-primaryBrand">
-              <Link href={`/user/${meeting.createdBy.id}`}>
-                Created by {meeting.createdBy.firstName}{" "}
-                {meeting.createdBy.lastName}
-              </Link>
-              <span>
-                <h3 className="mb-4 text-lg font-semibold text-accentBrand">
-                  Meeting Documents
-                </h3>
-                <ul>
-                  {meeting.meetingDocuments.length === 0 ? (
-                    <div>
-                      <p className="text-base font-normal text-textBrand">
-                        No meeting documents provided :(
-                      </p>
-                    </div>
-                  ) : (
-                    <>
-                      {meeting.meetingDocuments.map((doc, i) => (
-                        <li key={i}>
-                          <a
-                            href={doc}
-                            target="_blank"
-                            className="text-base font-normal text-primaryBrand hover:underline"
-                          >
-                            {i + 1}. {doc}
-                          </a>
-                        </li>
-                      ))}
-                    </>
-                  )}
-                </ul>
-              </span>
-              {meeting.createdBy.id === user?.id && (
-                <div className="flex flex-row gap-x-4">
-                <button
-                  onClick={() => setEdit(true)}
-                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
-                >
-                  Edit Meeting
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="w-fit rounded-3xl bg-secondaryBrand px-10 py-3 text-base font-normal text-white hover:bg-secondaryBrand/75"
-                >
-                  {loading ? "Deleting..." : "Delete Meeting"}
-                </button>
-                </div>
-              )}
-              <CommentSection
-                comments={meeting.Comment}
-                onId={meeting.id}
-                commentOn="meeting"
-              />
-            </div>
+              {loading ? "Deleting..." : "Delete Meeting"}
+            </button>
           </div>
-          <NewMeetingModal
-            open={edit}
-            setOpen={setEdit}
-            projectId={meeting?.AssociatedProjectId}
-            meetingId={meeting?.id}
-            communityId={meeting?.AssociatedCommunityId}
-            isEdit
-            titleProp={meeting?.title}
-            contentProp={meeting?.content}
-            meetingTimeProp={meeting?.meetingTime.toISOString()}
-            meetingDocumentsProp={meeting?.meetingDocuments}
-            inPersonProp={meeting?.inPerson}
-            meetingLocationOrLinkProp={meeting?.meetingLocationOrLink}
-            isDone={meeting?.done}
-            length={meeting?.length ? Number(meeting.length) : undefined}
+        )}
+
+        {/* Comments */}
+        <div className="pt-6 border-t border-borderBrand">
+          <CommentSection
+            comments={meeting.Comment}
+            onId={meeting.id}
+            commentOn="meeting"
           />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
+      </div>
+
+      {/* Edit Modal */}
+      <NewMeetingModal
+        open={edit}
+        setOpen={setEdit}
+        projectId={meeting.AssociatedProjectId}
+        meetingId={meeting.id}
+        communityId={meeting.AssociatedCommunityId}
+        isEdit
+        titleProp={meeting.title}
+        contentProp={meeting.content}
+        meetingTimeProp={meeting.meetingTime.toISOString()}
+        meetingDocumentsProp={meeting.meetingDocuments}
+        inPersonProp={meeting.inPerson}
+        meetingLocationOrLinkProp={meeting.meetingLocationOrLink}
+        isDone={meeting.done}
+        length={meeting.length ? Number(meeting.length) : undefined}
+      />
+    </div>
   );
 }
