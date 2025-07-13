@@ -173,347 +173,264 @@ export default function NewCommunity() {
   }
 
   return (
-    <div className="m-10 md:mx-auto md:my-24 md:w-3/4 lg:w-1/2">
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          {existingCommunityId ? (
-            <h2 className="my-8 text-4xl font-semibold leading-7 text-primaryBrand">
-              Update your community
-            </h2>
-          ) : (
-            <h2 className="my-8 text-4xl font-semibold leading-7 text-primaryBrand">
-              Create a community
-            </h2>
-          )}
-          <p className="mt-1 text-base leading-6 text-textBrand">
-            {existingCommunityId
-              ? "Please edit your communities exisiting information here. You will be returned to your communities page upon completion"
-              : "You've decided to make a community? That is amazing! Let's begin by filling out the form below so we can get you some members and get you started."}
-          </p>
+   <div className="mx-auto max-w-4xl px-4 py-16">
+  <div className="space-y-10">
+    <div className="text-center">
+      <h1 className="text-4xl font-bold text-primaryBrand">
+        {existingCommunityId ? "Update your community" : "Create a community"}
+      </h1>
+      <p className="mt-4 text-base text-textBrand max-w-xl mx-auto">
+        {existingCommunityId
+          ? "Please edit your community’s existing information here. You'll return to the community page when finished."
+          : "You've decided to start a community? That’s amazing! Fill out the form below to get started."}
+      </p>
+      {!existingCommunityId && (
+        <p className="mt-3 text-sm text-textBrand">
+          Need help crafting your community?{" "}
+          <span
+            onClick={() => setOpen(true)}
+            className="cursor-pointer font-medium text-secondaryBrand hover:underline"
+          >
+            Generate Community
+          </span>
+        </p>
+      )}
+    </div>
 
+    <GenerateCommunityModal open={open} setOpen={setOpen} />
+
+    {/* --- BASIC INFO --- */}
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-accentBrand mb-6">Basic Info</h2>
+
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            Community Name
+          </label>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="The perfect name"
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            About
+          </label>
+          <textarea
+            value={aboutCommunity}
+            onChange={(e) => setAboutCommunity(e.target.value)}
+            rows={4}
+            placeholder="What is your community about?"
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          />
           {!existingCommunityId && (
-            <p className="mt-8 text-sm leading-6 text-textBrand">
-              {"Need help ironing out the details for a new community? Give us your idea and we'll to the rest! "}
-              <span
-                onClick={() => setOpen(true)}
-                className="cursor-pointer text-secondaryBrand hover:underline"
-              >
-                Generate Community
-              </span>
-              <GenerateCommunityModal
-                open={open}
-                setOpen={setOpen}
-              />
-            
-            </p>
-          )}
-
-          <div className="mt-8 border-t border-gray-900/10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
-                Basic Info
-              </h1>
-
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                Community Name
-              </label>
-              <div className="mt-2">
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  type="text"
-                  placeholder="The perfect name"
-                  className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="col-span-full">
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                About
-              </label>
-              <div className="mt-2">
-                <textarea
-                  placeholder="What is your community about?"
-                  value={aboutCommunity}
-                  onChange={(e) => setAboutCommunity(e.target.value)}
-                  rows={3}
-                  className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
-                />
-              </div>
-              {!existingCommunityId && (
-                <p className="mt-3 text-sm leading-6 text-textBrand">
-                  Write a few sentences about your community.
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-accentBrand">
-            Other Info
-          </h2>
-          {!existingCommunityId && (
-            <p className="mt-1 text-sm leading-6 text-textBrand">
-              Other important information CommunoLearn users should now about
-              your community.
-            </p>
-          )}
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="col-span-4">
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                Server Contact Adress
-              </label>
-              <div className="mt-2">
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  autoComplete="email"
-                  placeholder="WhereToContactTheCommunity@gmail.com"
-                  className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="col-span-4">
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                Slogan
-              </label>
-              <div className="mt-2">
-                <textarea
-                  value={sloganCommunity}
-                  onChange={(e) => setSloganCommunity(e.target.value)}
-                  rows={2}
-                  placeholder="Here at CommunoLearn our's is: Do It Together "
-                  className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6"
-                />
-              </div>
-              {!existingCommunityId && (
-                <p className="mt-3 text-sm leading-6 text-textBrand">
-                  Give your community a memorable sentence.
-                </p>
-              )}
-            </div>
-
-            <div className="col-span-3">
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                Community Type
-              </label>
-              <div className="mt-2">
-                <select
-                  value={communityType}
-                  onChange={(e) => setCommunityType(e.target.value)}
-                  autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
-                >
-                  <option>Class</option>
-                  <option>High School Club</option>
-                  <option>University Club</option>
-                  <option>Workplace</option>
-                  <option>Friend Group</option>
-                  <option>Event Planning</option>
-                  <option>Team</option>
-                  <option>Commitee</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="col-span-3">
-              <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                {!existingCommunityId && (
-                  <span className="pe-1 text-red-800">*</span>
-                )}
-                Country
-              </label>
-              <div className="mt-2">
-                <select
-                  value={locationCommunity}
-                  onChange={(e) => setLocationCommunity(e.target.value)}
-                  autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:max-w-xs sm:text-sm sm:leading-6"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                  <option>Australia</option>
-                  <option>New Zealand</option>
-                  <option>France</option>
-                  <option>United Kingdom</option>
-                  <option>Ireland</option>
-                  <option>Finland</option>
-                  <option>Sweden</option>
-                  <option>Germany</option>
-                  <option>Norway</option>
-                  <option>Other Country</option>
-                </select>
-                {!existingCommunityId && (
-                  <p className="mt-2 flex px-1 text-xs text-textBrand sm:max-w-xs">
-                    <span className="pe-1 text-red-800">*</span>
-                    Your country isn&apos;t represented? Let us know!
-                    CommunoLearn is always growing and we&apos;d be happy to add
-                    your country to the list!
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-          {!existingCommunityId && (
-            <p className="mt-12 text-base font-bold leading-6 text-primaryBrand">
-              More custom community info coming in the future!
+            <p className="mt-1 text-xs text-textBrand">
+              Write a few sentences about your community.
             </p>
           )}
         </div>
-
-        <div className="border-b border-gray-900/10 pb-12">
-          <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
-            Privacy
-          </h1>
-          {existingCommunityId ? (
-            <p className="mt-1 leading-6 text-textBrand">
-              Choose wisely as this will change the visibility of your
-              community.
-            </p>
-          ) : (
-            <p className="mt-1 text-sm leading-6 text-textBrand">
-              Would you like your community to be publicly viewable/joinable.
-              (Communities are public by default)
-            </p>
-          )}
-
-          <div className="mt-10 space-y-10">
-            <fieldset>
-              <div className="mt-6 space-y-6">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      checked={privateCommunity}
-                      onChange={() => setPrivateCommunity(!privateCommunity)}
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-accentBrand text-accentBrand accent-textBrand focus:ring-accentBrand"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label className="font-medium text-secondaryBrand">
-                      Private Community?
-                    </label>
-
-                    <p className="text-textBrand">
-                      Will hide your community and require a password to join
-                    </p>
-                  </div>
-                </div>
-                {privateCommunity && (
-                  <section>
-                    <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                      Password
-                    </label>
-                    <div className="my-2">
-                      <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
-                        placeholder="The perfect password"
-                        className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6 md:w-1/2"
-                      />
-                    </div>
-
-                    <label className="block text-sm font-medium leading-6 text-secondaryBrand">
-                      Confirm Password
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        type="password"
-                        placeholder="The perfect password pt2"
-                        className="block w-full rounded-md border-0 px-2 py-1.5 text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand sm:text-sm sm:leading-6 md:w-1/2"
-                      />
-                    </div>
-                  </section>
-                )}
-                
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <div className="border-b border-gray-900/10 pb-12">
-          <h1 className="my-10 text-lg font-bold leading-7 text-accentBrand">
-            Media
-          </h1>
-          {!existingCommunityId ? (
-            <p className="mt-1 leading-6 text-textBrand">
-              Choose an icon for your community.
-            </p>
-          ) : (
-            <p className="mt-1 text-sm leading-6 text-textBrand">
-             Modiy your community&apos;s icon. 
-            </p>
-          )}
-
-            <div className="mt-10 space-y-10">
-            <fieldset>
-              <div className="mt-6 space-y-6">
-              <div className="relative flex gap-x-3">
-                <div className="text-sm leading-6 md:flex md:items-center">
-                <input
-                type="file"
-                accept="image/jpeg,image/png,image/gif"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-slate-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-secondaryBrand file:text-white
-                hover:file:bg-secondaryBrand/75"
-                />
-                {
-                file && (
-                <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:mt-0">
-                  <p className="text-secondaryBrand whitespace-nowrap">Community Icon Preview:</p>
-                  <div className="rounded-full min-w-24 min-h-24 max-w-24 max-h-24 overflow-hidden flex items-center justify-center bg-gray-100">
-                  <Image
-                  width={96}
-                  height={96}
-                  src={URL.createObjectURL(file)}
-                  alt="Community Icon Preview"
-                  className="object-contain"
-                  />
-                  </div>
-                </div>
-                )
-                }
-              </div>
-                
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-
-      
-
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-       
-        {error && <ErrorNotification message={error} />}
-        <span
-          onClick={() => router.push("/communities")}
-          className="cursor-pointer text-sm font-bold leading-6 text-accentBrand hover:underline"
-        >
-          Cancel
-        </span>
-        <button
-          onClick={handleSubmit}
-          type="button"
-          className="rounded-3xl border border-primaryBrand bg-primaryBrand px-10 py-3 text-base font-semibold text-white shadow-sm hover:bg-backgroundBrand hover:text-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          {existingCommunityId ? loading? "Updating...":"Update Community" : loading? "Creating...":"Create Community"}
-        </button>
       </div>
     </div>
+
+    {/* --- OTHER INFO --- */}
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-accentBrand mb-6">Other Info</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            Contact Email
+          </label>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="community@email.com"
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            Slogan
+          </label>
+          <textarea
+            value={sloganCommunity}
+            onChange={(e) => setSloganCommunity(e.target.value)}
+            rows={2}
+            placeholder="Here at CommunoLearn our's is: Do It Together"
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            Community Type
+          </label>
+          <select
+            value={communityType}
+            onChange={(e) => setCommunityType(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          >
+            <option>Class</option>
+            <option>High School Club</option>
+            <option>University Club</option>
+            <option>Workplace</option>
+            <option>Friend Group</option>
+            <option>Event Planning</option>
+            <option>Team</option>
+            <option>Committee</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-secondaryBrand">
+            Country <span className="text-red-600">*</span>
+          </label>
+          <select
+            value={locationCommunity}
+            onChange={(e) => setLocationCommunity(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          >
+            <option>United States</option>
+            <option>Canada</option>
+            <option>Mexico</option>
+            <option>Australia</option>
+            <option>New Zealand</option>
+            <option>France</option>
+            <option>United Kingdom</option>
+            <option>Ireland</option>
+            <option>Finland</option>
+            <option>Sweden</option>
+            <option>Germany</option>
+            <option>Norway</option>
+            <option>Other Country</option>
+          </select>
+          {!existingCommunityId && (
+            <p className="mt-1 text-xs text-textBrand">
+              Don’t see your country? Let us know — we’re always expanding!
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+
+    {/* --- PRIVACY --- */}
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-accentBrand mb-4">Privacy</h2>
+      <p className="text-sm text-textBrand">
+        {existingCommunityId
+          ? "Changing this will update visibility settings."
+          : "Would you like your community to be private? (Public by default)"}
+      </p>
+
+      <div className="mt-4 flex items-center space-x-3">
+        <input
+          checked={privateCommunity}
+          onChange={() => setPrivateCommunity(!privateCommunity)}
+          type="checkbox"
+          className="h-4 w-4 checked:bg-primaryBrand accent-primaryBrand checked:text-primaryBrand rounded text-primaryBrand focus:ring-primaryBrand"
+        />
+        <label className="text-sm font-medium text-secondaryBrand">
+          Private Community
+        </label>
+      </div>
+
+      {privateCommunity && (
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="block text-sm font-medium text-secondaryBrand">
+              Password
+            </label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Password"
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-secondaryBrand">
+              Confirm Password
+            </label>
+            <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              placeholder="Confirm password"
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+
+    {/* --- MEDIA --- */}
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-accentBrand mb-4">Media</h2>
+      <p className="text-sm text-textBrand">
+        {existingCommunityId
+          ? "Update your community’s icon below."
+          : "Choose an icon for your new community."}
+      </p>
+
+      <div className="mt-4 flex flex-col md:flex-row items-start md:items-center gap-4">
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/gif"
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          className="file:rounded-md file:border-0 text-textBrand file:bg-secondaryBrand file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-secondaryBrand/80"
+        />
+        {file && (
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium text-secondaryBrand">
+              Icon Preview:
+            </p>
+            <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-100">
+              <Image
+                width={64}
+                height={64}
+                src={URL.createObjectURL(file)}
+                alt="Preview"
+                className="object-cover h-full w-full"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* --- ACTION BUTTONS --- */}
+    <div className="flex justify-end gap-4 pt-4">
+      {error && <ErrorNotification message={error} />}
+      <button
+        type="button"
+        onClick={() => router.push("/communities")}
+        className="text-sm font-semibold text-accentBrand hover:underline"
+      >
+        Cancel
+      </button>
+      <button
+        onClick={handleSubmit}
+        className="rounded-full bg-primaryBrand px-6 py-3 text-sm font-semibold text-white hover:bg-primaryBrand/90 transition"
+      >
+        {existingCommunityId
+          ? loading
+            ? "Updating..."
+            : "Update Community"
+          : loading
+          ? "Creating..."
+          : "Create Community"}
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 }

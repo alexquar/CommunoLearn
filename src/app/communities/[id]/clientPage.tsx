@@ -76,58 +76,68 @@ export default function ClientPage({
     <>
       {members.some((member) => member.id === user?.id) && (
         <>
-          <div>
-            <section className="my-8">
-              <h1 className="text-2xl font-bold text-accentBrand">Members</h1>
-              <div className="mb-8 w-full">
-                <UserList members={members} ownerId={ownerId} />
-              </div>
-              <h1 className="text-2xl font-bold text-accentBrand">Projects</h1>
-              <ProjectList projects={projects} />
-              <button
-                onClick={() => setProjectModalOpen(true)}
-                className="my-3 rounded-3xl bg-secondaryBrand px-10 py-3 text-white hover:bg-secondaryBrand/75"
-              >
-                Add Project
-              </button>
-            </section>
+  <section className="mt-12 space-y-10">
+    {/* Members Section */}
+    <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition">
+      <h2 className="text-xl font-bold text-accentBrand mb-4">Members</h2>
+      <UserList members={members} ownerId={ownerId} />
+    </div>
 
-            <section className="my-8">
-              <h1 className="mb-8 text-2xl font-bold text-accentBrand">
-                Meetings
-              </h1>
-              <MeetingCalendar meetings={meetings} />
-            </section>
-            <CommentSection
-              comments={comments}
-              onId = {id}
-              commentOn="community"
-              />
-        {user?.id === ownerId &&
-        <>
-            <div className="flex justify-center flex-row">
-        <h1 className="mt-12 text-center text-2xl font-bold text-accentBrand">
-            Community Options
-          </h1>
-        </div>
-        
-        <div className="mx-auto flex flex-row justify-center gap-x-8 mt-8">
-         <DeleteCommunity id={id} ownerId={ownerId} />              
-         <Link href={`/communities/new?existing=${id}`} className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
+    {/* Projects Section */}
+    <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-accentBrand">Projects</h2>
+        <button
+          onClick={() => setProjectModalOpen(true)}
+          className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm font-semibold text-white hover:bg-secondaryBrand/80"
+        >
+          + Add Project
+        </button>
+      </div>
+      <ProjectList projects={projects} />
+    </div>
+
+    {/* Meetings Section */}
+    <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition">
+      <h2 className="text-xl font-bold text-accentBrand mb-4">Meetings</h2>
+      <MeetingCalendar meetings={meetings} />
+    </div>
+
+    {/* Comments Section */}
+    <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition">
+      <h2 className="text-xl font-bold text-accentBrand mb-4">Discussion</h2>
+      <CommentSection comments={comments} onId={id} commentOn="community" />
+    </div>
+
+    {/* Owner Options */}
+    {user?.id === ownerId && (
+      <div className="rounded-2xl border border-borderBrand bg-white p-6 shadow-sm hover:shadow-md transition text-center space-y-6">
+        <h2 className="text-xl font-bold text-accentBrand">Community Options</h2>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link
+            href={`/communities/new?existing=${id}`}
+            className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm font-semibold text-white hover:bg-secondaryBrand/80"
+          >
             Update Community
-         </Link> 
-         <button onClick={handleDelete}  className="py-3 text-center px-10 rounded-3xl text-white bg-secondaryBrand hover:bg-secondaryBrand/75">
-            {loading ? "Deleting Community..." : "Delete Community"}
-         </button> 
-         </div>          
-          </>}
-          </div>
-          <NewProjectModal
-            open={projectModalOpen}
-            setOpen={setProjectModalOpen}
-            communityId={id}
-          />
-        </>
+          </Link>
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm font-semibold text-white hover:bg-secondaryBrand/80"
+          >
+            {loading ? "Deleting..." : "Delete Community"}
+          </button>
+        </div>
+      </div>
+    )}
+  </section>
+
+  <NewProjectModal
+    open={projectModalOpen}
+    setOpen={setProjectModalOpen}
+    communityId={id}
+  />
+</>
       )}
     </>
   );

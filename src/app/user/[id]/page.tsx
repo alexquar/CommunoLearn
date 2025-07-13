@@ -95,7 +95,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   type="file"
                   accept="image/png,image/jpeg,image/gif"
                   onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                  className="text-sm text-slate-500 file:bg-secondaryBrand file:text-white file:font-semibold file:px-4 file:py-2 file:rounded-full file:border-0 hover:file:bg-secondaryBrand/80"
+                  className="text-sm text-textBrand file:bg-secondaryBrand file:text-white file:font-semibold file:px-4 file:py-2 file:rounded-full file:border-0 hover:file:bg-secondaryBrand/80"
                 />
                 {file && (
                   <button

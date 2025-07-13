@@ -13,3 +13,13 @@ body{
 ::-webkit-scrollbar-thumb {
     @apply bg-accentBrand h-0  rounded-full;
 }
+
+.input {
+  @apply block w-full rounded-md border-0 px-3 py-2 text-sm text-textBrand shadow-sm outline-accentBrand ring-1 ring-inset ring-accentBrand placeholder:text-textBrand focus:ring-2 focus:ring-inset focus:ring-accentBrand;
+}
+.checkbox {
+  @apply h-4 w-4 rounded border-accentBrand text-accentBrand focus:ring-accentBrand;
+}
+.file-input {
+  @apply block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-secondaryBrand file:text-white hover:file:bg-secondaryBrand/75;
+}
