@@ -43,22 +43,29 @@ new features *done
 
 FEATURES 
 filters on search
-locations proper?
+locations proper? 
 using settings and dark mode *done 
-Adds?
-drive? 
-gmail?
+drive? //hold
+gmail? *done 
 
 FIX
 always visible community create button *done 
-improve UI 
+improve UI *done
 more icons (show user icon in nav? and other icons) *done
-improve UX
+improve UX *done
 
 CLEANUP
-Standardize 
-Readme improve 
+Standardize *done
+Readme improve *done 
 clear db and reset 
+
+
+FUTURE
+-add web sockets to prod replace placeholder 
+-testing automation 
+-locations for meetings through gc 
+-expand country options 
+-full drive integration 
 
 
 

@@ -15,8 +15,8 @@ export default function Communities() {
   const searchParams = useSearchParams();
   const givenSearch = searchParams.get("search");
   const router = useRouter();
-  const [communityType, setCommunityType] = useState("Class");
-  const [locationCommunity, setLocationCommunity] = useState("United States");
+  const [communityType, setCommunityType] = useState("All");
+  const [locationCommunity, setLocationCommunity] = useState("All");
   const [search, setSearch] = useState(givenSearch ?? "");
   const [error, setError] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -190,6 +190,7 @@ export default function Communities() {
         onChange={(e) => setCommunityType(e.target.value)}
         className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
           >
+        <option>All</option>
         <option>Class</option>
         <option>High School Club</option>
         <option>University Club</option>
@@ -211,6 +212,7 @@ export default function Communities() {
         onChange={(e) => setLocationCommunity(e.target.value)}
         className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
           >
+        <option>All</option>
         <option>United States</option>
         <option>Canada</option>
         <option>Mexico</option>

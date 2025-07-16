@@ -15,7 +15,7 @@ export default function Loading() {
       <div className="mt-10 flex items-center justify-center gap-x-6">
         <Link
           href="/"
-          className="rounded-xl bg-primaryBrand px-3.5 py-2.5 text-sm font-semibold hover:text-primaryBrand text-white shadow-sm border hover:bg-backgroundBrand border-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="rounded-xl bg-primaryBrand px-3.5 py-2.5 text-sm font-semibold hover:text-primaryBrand text-white shadow-sm border hover:bg-backgroundBrand border-primaryBrand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
         >
           Go Home Instead!
         </Link>

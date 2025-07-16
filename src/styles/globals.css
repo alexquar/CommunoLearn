@@ -1,21 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
-  --color-text-brand: #7784a1;
-  --color-background-brand: #f6f6f6;
-  --color-primary-brand: #ebd65a;
-  --color-secondary-brand: #ee6605;
-  --color-accent-brand: #777b83;
+  --color-secondary-brand: 238 102 5;     /* not comma-separated */
+  --color-primary-brand: 235 214 90;
+  --color-accent-brand: 119 123 131;
+  --color-text-brand: 119 132 161;
+  --color-background-brand: 246 246 246;
 }
 
 .dark {
-  --color-text-brand: #d5dbee;
-  --color-background-brand: #121417;
-  --color-primary-brand: #fff176;
-  --color-secondary-brand: #ff8c42;
-  --color-accent-brand: #a0a4b8;
+  --color-secondary-brand: 255 140 0;
+  --color-primary-brand: 255 241 118;
+  --color-accent-brand: 170 170 170;
+  --color-text-brand: 211 217 244;
+  --color-background-brand: 18 18 18;
 }
+
+@layer base {
+  body {
+    @apply text-textBrand;
+  }
+}
+
 
 
 

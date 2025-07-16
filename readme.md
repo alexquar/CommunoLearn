@@ -1,50 +1,63 @@
 # CommunoLearn
 
-A modern productivity management platform built with the T3 Stack.
+A modern productivity management platform built with the T3 Stack. Seamlessly manage tasks, projects, and team collaboration with a sleek, modern interface.
 
-## Tech Stack (Major tools)
+## Features
 
-- [Next.js](https://nextjs.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- 🚀 Real-time collaboration
+- 📊 Task and project management
+- 👥 Team workspaces
+- 📱 Responsive design
+- 🔐 Secure authentication
+- 🎨 Modern UI with Tailwind CSS
+
+## Tech Stack
+
+- **Framework**: Next.js 13 with App Router
+- **Database**: PostgreSQL with Prisma ORM
+- **Styling**: Tailwind CSS
+- **API**: tRPC for type-safe APIs
+- **Utilities**: Google Cloud
+- **Deployment**: Vercel
 
 ## Getting Started
 
-1. Clone the repository:
+1. Clone and install:
 ```bash
 git clone https://github.com/yourusername/communolearn.git
 cd communolearn
-```
-
-2. Install dependencies:
-```bash
 npm install
 ```
 
-3. Set up environment variables:
+2. Set up environment:
 ```bash
 cp .env.example .env
+# Configure DATABASE_URL, NEXTAUTH_SECRET, and other env variables
 ```
-Fill in your environment variables in `.env`
 
-4. Set up the database:
+3. Initialize database:
 ```bash
 npx prisma db push
+npx prisma generate
 ```
 
-5. Start the development server:
+4. Start development:
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-## Development
+## Development Commands
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run format` - Format with Prettier
+- `npm run dev` - Development server
+- `npm run build` - Production build
+- `npm run start` - Production server
+- `npm run lint` - Code linting
+- `npm run format` - Code formatting
+- `npm run prisma:studio` - Database management
+
+## Contributing
+
+Contributions are welcome! Please read our contributing guidelines before submitting PRs.
 
