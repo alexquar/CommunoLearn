@@ -25,12 +25,17 @@ export default function Communities() {
   const [searchedCommunities, setSearchedCommunities] = useState<Community[] | null>(null);
   const [searchedSomeCommunities, setSearchedSomeCommunities] = useState<Community[]>([]);
   const { refetch } = api.communities.getCommunityByName.useQuery(
-    { name: search },
+    { name: search,
+      communityType: communityType === "All" ? undefined : communityType,
+      country: locationCommunity === "All" ? undefined : locationCommunity },
     { enabled: false },
   );
 
   const { refetch: getSomeCommunities} = api.communities.getSomeCommunitiesByName.useQuery(
-    { name: search },
+    { name: search,
+      communityType: communityType === "All" ? undefined : communityType,
+      country: locationCommunity === "All" ? undefined : locationCommunity
+     },
     { enabled: false },
   );
 
@@ -62,8 +67,8 @@ export default function Communities() {
 
   const searchCommunites = useCallback(
     async (e: React.FormEvent) => {
-      setSearchLoading(true);
       setSearchError("");
+      setSearchLoading(true);
       e.preventDefault();
       try {
         const { data } = await refetch();

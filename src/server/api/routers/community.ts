@@ -80,22 +80,98 @@ export const communityRouter = createTRPCRouter({
 
   //get a community by its name for the search bar
   getCommunityByName: publicProcedure
-  .input(z.object({ name: z.string() }))
+  .input(z.object({ name: z.string(), country: z.string().optional(), communityType: z.string().optional() }))
   .query(async({ ctx, input }) => {
+    if (input.country && input.communityType) {
+      return await ctx.db.community.findMany({
+        where: {
+          name: {
+            contains: input.name,
+            mode: 'default'
+          },
+          locationCommunity: input.country,
+          communityType: input.communityType,
+          private: false
+        }
+      })}
+    if (input.country) {
+        return await ctx.db.community.findMany({
+          where: {
+            name: {
+              contains: input.name,
+              mode: 'default'
+            },
+            locationCommunity: input.country,
+            private: false
+          }
+        });
+      }
+    if (input.communityType) {
+      return await ctx.db.community.findMany({
+        where: {
+          name: {
+            contains: input.name,
+            mode: 'default'
+          },
+          communityType: input.communityType,
+          private: false
+        }
+      });
+    }
     return await ctx.db.community.findMany({
       where: {
-      name: {
-        contains: input.name,
-        mode: 'default'
+        name: {
+          contains: input.name,
+          mode: 'default'
+        },
+        private: false
       }
-      }
-    })
+    });
   }),
 
   getSomeCommunitiesByName: publicProcedure
-  .input(z.object({ name: z.string() }))
+  .input(z.object({ name: z.string(), communityType: z.string().optional(), country: z.string().optional()
+   }))
   .query(async({ ctx, input }) => {
-    console.log("Searching for communities with name:", input.name);
+    if (input.country && input.communityType) {
+      return await ctx.db.community.findMany({
+        where: {
+          name: {
+            contains: input.name,
+            mode: 'default'
+          },
+          locationCommunity: input.country,
+          communityType: input.communityType,
+          private: false
+        },
+        take: 10
+      })}
+    if (input.country) {
+        return await ctx.db.community.findMany({
+          where: {
+            name: {
+              contains: input.name,
+              mode: 'default'
+            },
+            locationCommunity: input.country,
+            private: false
+          },
+          take: 10
+        });
+      }
+    if (input.communityType) {
+      return await ctx.db.community.findMany({
+        where: {
+          name: {
+            contains: input.name,
+            mode: 'default'
+          },
+          communityType: input.communityType,
+          private: false
+        },
+        take: 10
+      });
+    }
     return await ctx.db.community.findMany({
       where: {
         name: {
@@ -104,11 +180,8 @@ export const communityRouter = createTRPCRouter({
         },
         private: false
       },
-      take: 5,
-      orderBy:{
-        numberOfMembers: 'desc'
-      }
-    })
+      take: 10
+    });
   }),
 
   getPrivateCommunityByName: publicProcedure
