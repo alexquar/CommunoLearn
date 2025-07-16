@@ -128,65 +128,9 @@ export default function Communities() {
       </p>
 
       {/* Search Bar */}
-      <form onSubmit={searchCommunites} className="relative mt-10 max-w-xl mx-auto">
-        <input
-          type="search"
-          id="community-search"
-          placeholder="Search communities..."
-          className="w-full rounded-lg border border-accentBrand bg-white py-4 pl-10 pr-32 text-sm text-textBrand shadow-sm focus:outline-none focus:ring-2 focus:ring-accentBrand"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          required
-        />
-        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-          <svg
-            className="h-4 w-4 text-textBrand"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
-        </div>
-        <button
-          type="submit"
-          className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md bg-secondaryBrand px-4 py-2 text-sm text-white hover:bg-secondaryBrand/80"
-        >
-          Search
-        </button>
-
-        {/* Autocomplete Results */}
-        {searchedSomeCommunities.length > 0 && (
-          <div className="absolute z-50 mt-2 w-full rounded-lg border border-accentBrand  shadow-lg">
-            <ul className="max-h-48 overflow-y-auto divide-y divide-borderBrand bg-white rounded-lg overflow-x-clip text-textBrand">
-              {searchedSomeCommunities.map((community) => (
-                <li key={community.id} className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
-                  <Link
-                    href={`/communities/${community.id}`}
-                    className="block rounded-lg font-semibold text-textBrand"
-                  >
-                    {community.name}
-                  
-                  <p className="text-sm text-gray-500">
-                    {community.sloganCommunity || "No slogan available"}
-                  </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </form>
-
-      <div className="flex gap-4 mt-6 justify-center">
-        <div className="w-1/2 max-w-xs">
+      {/* Filters Section */}
+      <div className="flex flex-col sm:flex-row gap-4 mt-10 justify-center">
+        <div className="w-full sm:w-1/2 max-w-xs">
           <label className="block text-left text-sm font-medium text-secondaryBrand">
         Community Type
           </label>
@@ -208,7 +152,7 @@ export default function Communities() {
           </select>
         </div>
 
-        <div className="w-1/2 max-w-xs">
+        <div className="w-full sm:w-1/2 max-w-xs">
           <label className="block text-left text-sm font-medium text-secondaryBrand">
         Country
           </label>
@@ -234,6 +178,63 @@ export default function Communities() {
           </select>
         </div>
       </div>
+
+      {/* Search Bar */}
+      <form onSubmit={searchCommunites} className="relative mt-6 max-w-xl mx-auto">
+        <input
+          type="search"
+          id="community-search"
+          placeholder="Search communities..."
+          className="w-full rounded-lg border border-accentBrand bg-white py-4 pl-10 pr-32 text-sm text-textBrand shadow-sm focus:outline-none focus:ring-2 focus:ring-accentBrand"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          required
+        />
+        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+          <svg
+        className="h-4 w-4 text-textBrand"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+          >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
+          </svg>
+        </div>
+        <button
+          type="submit"
+          className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md bg-secondaryBrand px-4 py-2 text-sm text-white hover:bg-secondaryBrand/80"
+        >
+          Search
+        </button>
+
+        {/* Autocomplete Results */}
+        {searchedSomeCommunities.length > 0 && (
+          <div className="absolute z-50 mt-2 w-full rounded-lg border border-accentBrand shadow-lg">
+        <ul className="max-h-48 overflow-y-auto divide-y divide-borderBrand bg-white rounded-lg overflow-x-clip text-textBrand">
+          {searchedSomeCommunities.map((community) => (
+            <li key={community.id} className="p-3 hover:bg-gray-100 rounded-lg cursor-pointer">
+          <Link
+            href={`/communities/${community.id}`}
+            className="block rounded-lg font-semibold text-textBrand"
+          >
+            {community.name}
+            <p className="text-sm text-gray-500">
+              {community.sloganCommunity || "No slogan available"}
+            </p>
+          </Link>
+            </li>
+          ))}
+        </ul>
+          </div>
+        )}
+      </form>
 
       {/* Search Status */}
       {searchError && <div className="mt-6"><ErrorNotification message={searchError} /></div>}

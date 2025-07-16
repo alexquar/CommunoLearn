@@ -42,7 +42,7 @@ new features *done
 
 
 FEATURES 
-filters on search
+filters on search *done 
 locations proper? 
 using settings and dark mode *done 
 drive? //hold
