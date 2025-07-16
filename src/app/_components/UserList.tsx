@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function UserList({members, ownerId}: {members: MemberOf[], ownerId: string}) {
     return (
         <ul className="flex flex-wrap gap-6 py-4">
-  {[...members,...members,...members,...members,...members].map((member) => (
+  {members.map((member) => (
     <li
       key={member.id}
       className="rounded-2xl border border-gray-200 shadow-sm p-4 flex flex-row items-center gap-4 w-full max-w-xs transition hover:shadow-md hover:-translate-y-1"
@@ -38,6 +38,13 @@ export default function UserList({members, ownerId}: {members: MemberOf[], owner
       </Link>
     </li>
   ))}
+  {
+    members.length === 0 && (
+      <li className="text-textBrand text-sm">
+        No members found 🙁
+      </li>
+    )
+  }
 </ul>
     )
 }

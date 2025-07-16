@@ -1,7 +1,7 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
-
 export default {
+  darkMode: "class", // <-- add this line
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
@@ -9,13 +9,14 @@ export default {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
       colors: {
-        textBrand : "#7784a1",
-        backgroundBrand : "#f6f6f6",
-        primaryBrand : "#ebd65a",
-        secondaryBrand : "#ee6605",
-        accentBrand : "#777b83"
-      }
+        textBrand: "var(--color-text-brand)",
+        backgroundBrand: "var(--color-background-brand)",
+        primaryBrand: "var(--color-primary-brand)",
+        secondaryBrand: "var(--color-secondary-brand)",
+        accentBrand: "var(--color-accent-brand)",
+      },
     },
   },
   plugins: [],
 } satisfies Config;
+

@@ -43,15 +43,17 @@ new features *done
 
 FEATURES 
 filters on search
-locations proper
+locations proper?
 drive integrations 
-using settings and dark mode?
+using settings and dark mode *done 
 Adds?
+drive? 
+gmail?
 
 FIX
-always visible community create button 
+always visible community create button *done 
 improve UI 
-more icons (show user icon in nav? and other icons)
+more icons (show user icon in nav? and other icons) *done
 improve UX
 
 CLEANUP
