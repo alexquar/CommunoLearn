@@ -1,5 +1,5 @@
 "use client";
-import Blob from "./Blob";
+import Blob from "../_general/Blob";
 import { useState } from "react";
 import {
   Dialog,
@@ -10,7 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import type { Community } from "@prisma/client";
-import ErrorNotification from "./ErrorNotification";
+import ErrorNotification from "../_general/ErrorNotification";
 export default function Modal(props: {
   open: boolean;
   setOpen: (open: boolean) => void;

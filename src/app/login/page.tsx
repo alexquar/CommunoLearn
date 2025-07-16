@@ -10,7 +10,7 @@ import useSignIn from "../hooks/useSignin";
 import useSignInWithGoogle from "../hooks/useSigninWithGoogle";
 import useResetPassword from "../hooks/useResetPassword";
 import useSignInWithGithub from "../hooks/useSigninWithGithub";
-import ErrorNotification from "../_components/ErrorNotification";
+import ErrorNotification from "../_components/_general/ErrorNotification";
 
 export default function Login() {
   const router = useRouter();

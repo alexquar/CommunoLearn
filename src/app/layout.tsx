@@ -1,5 +1,5 @@
 import "~/styles/globals.css";
-import NavBar from "./_components/NavBar";
+import NavBar from "./_components/_general/NavBar";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";

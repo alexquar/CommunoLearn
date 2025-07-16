@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, type RouterOutputs } from "~/trpc/react";
-import NewMeetingModal from "~/app/_components/NewMeetingModal";
+import NewMeetingModal from "~/app/_components/_meetings/NewMeetingModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
-import Blob from "~/app/_components/Blob";
+import Blob from "~/app/_components/_general/Blob";
 import CommentSection from "~/app/_components/_comments/CommentSection";
 import { useRouter } from "next/navigation";
 

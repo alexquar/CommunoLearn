@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import NewProjectModal from "~/app/_components/NewProjectModal";
-import ProjectList from "~/app/_components/ProjectList";
+import NewProjectModal from "~/app/_components/_projects/NewProjectModal";
+import ProjectList from "~/app/_components/_projects/ProjectList";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Prisma } from "@prisma/client";
-import MeetingCalendar from "~/app/_components/MeetingGrid";
-import DeleteCommunity from "~/app/_components/DeleteCommunity";
+import MeetingCalendar from "~/app/_components/_meetings/MeetingGrid";
+import DeleteCommunity from "~/app/_components/_communities/DeleteCommunity";
 import Link from "next/link";
 import CommentSection from "~/app/_components/_comments/CommentSection";
 import { api } from "~/trpc/react";
@@ -20,7 +20,7 @@ type ProjectWithRelations = Prisma.ProjectGetPayload<{
   };
 }>;
 import type { MemberOf } from "~/types/userTypes";
-import UserList from "~/app/_components/UserList";
+import UserList from "~/app/_components/_users/UserList";
 import { useRouter } from "next/navigation";
 type MeetingWithRelations = Prisma.MeetingGetPayload<{
   include: {
@@ -120,6 +120,16 @@ export default function ClientPage({
           >
             Update Community
           </Link>
+            <button
+            onClick={() => {
+              const emailList = members.map(member => member.email).join(',');
+              const subject = encodeURIComponent('Community Message');
+              window.open(`mailto:${emailList}?subject=${subject}`, '_blank');
+            }}
+            className="rounded-3xl bg-secondaryBrand px-6 py-2 text-sm font-semibold text-white hover:bg-secondaryBrand/80"
+            >
+            Send Community Email
+            </button>
           <button
             onClick={handleDelete}
             disabled={loading}

@@ -42,7 +42,7 @@ export default function ProjectList({ projects }: { projects: ProjectWithRelatio
 
   if (projects.length === 0) {
     return (
-      <div className="my-8 text-textBrand text-center text-sm">
+      <div className="my-8 text-textBrand text-left text-sm">
         No projects found 🙁
       </div>
     );

@@ -4,11 +4,11 @@ import Link from "next/link";
 import ClientPage from "./clientPage";
 
 import { api } from "~/trpc/server";
-import TodoList from "~/app/_components/TodoList";
-import MeetingGrid from "~/app/_components/MeetingGrid";
-import UserList from "~/app/_components/UserList";
-import JoinProjectButton from "~/app/_components/JoinProjectButton";
-import Blob from "~/app/_components/Blob";
+import TodoList from "~/app/_components/_todos/TodoList";
+import MeetingGrid from "~/app/_components/_meetings/MeetingGrid";
+import UserList from "~/app/_components/_users/UserList";
+import JoinProjectButton from "~/app/_components/_projects/JoinProjectButton";
+import Blob from "~/app/_components/_general/Blob";
 import CommentSection from "~/app/_components/_comments/CommentSection";
 
 export default async function Project({ params }: { params: { id: string } }) {

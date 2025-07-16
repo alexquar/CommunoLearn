@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
 import { notFound } from "next/navigation";
-import Blob from "~/app/_components/Blob";
-import JoinCommunityButton from "~/app/_components/JoinCommunityButton";
+import Blob from "~/app/_components/_general/Blob";
+import JoinCommunityButton from "~/app/_components/_communities/JoinCommunityButton";
 import ClientPage from "./clientPage";
 import Image from "next/image";
 //this component will need to be switched to client

@@ -12,12 +12,12 @@ import { useAuthContext } from "~/context/AuthContext";
 import userIcon from "../../../../public/user.svg";
 
 import Loading from "~/app/loading";
-import Error from "~/app/_components/Error";
-import CommunityCard from "~/app/_components/CommunityCard";
-import ProjectList from "~/app/_components/ProjectList";
-import MeetingCard from "~/app/_components/MeetingCard";
-import TodoList from "~/app/_components/TodoList";
-import EditUserModal from "~/app/_components/EditUserModal";
+import Error from "~/app/_components/_general/Error";
+import CommunityCard from "~/app/_components/_communities/CommunityCard";
+import ProjectList from "~/app/_components/_projects/ProjectList";
+import MeetingCard from "~/app/_components/_meetings/MeetingCard";
+import TodoList from "~/app/_components/_todos/TodoList";
+import EditUserModal from "~/app/_components/_users/EditUserModal";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;

@@ -44,7 +44,6 @@ new features *done
 FEATURES 
 filters on search
 locations proper?
-drive integrations 
 using settings and dark mode *done 
 Adds?
 drive? 

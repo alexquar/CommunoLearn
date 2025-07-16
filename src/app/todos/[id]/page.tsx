@@ -4,12 +4,12 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { api, type RouterOutputs } from "~/trpc/react";
 import { useState } from "react";
-import NewTodoModal from "~/app/_components/NewTodoModal";
+import NewTodoModal from "~/app/_components/_todos/NewTodoModal";
 import Loading from "~/app/loading";
 import { useAuthContext } from "~/context/AuthContext";
 type TodoWithRelations = RouterOutputs["todos"]["getTodoByIdWithRelations"];
 import CommentSection from "~/app/_components/_comments/CommentSection";
-import Blob from "~/app/_components/Blob";
+import Blob from "~/app/_components/_general/Blob";
 import { useRouter } from "next/navigation";
 export default function Todo({ params }: { params: { id: string } }) {
   const [edit, setEdit] = useState(false);

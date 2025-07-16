@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import { useState } from "react";
 import { useAuthContext } from "~/context/AuthContext";
-import Blob from "../Blob";
+import Blob from "../_general/Blob";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import CommentEditModal from "./CommentEdit";

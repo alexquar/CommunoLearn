@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
-import ErrorNotification from "~/app/_components/ErrorNotification";
+import ErrorNotification from "~/app/_components/_general/ErrorNotification";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "~/context/AuthContext";
 import Loading from "~/app/loading";
-import GenerateCommunityModal from "~/app/_components/GenerateCommunityModal";
+import GenerateCommunityModal from "~/app/_components/_communities/GenerateCommunityModal";
 import Image from "next/image";
 
 export default function NewCommunity() {

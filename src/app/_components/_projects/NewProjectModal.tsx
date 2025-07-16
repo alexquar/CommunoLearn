@@ -2,11 +2,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
-import ErrorNotification from "./ErrorNotification";
+import ErrorNotification from "../_general/ErrorNotification";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "~/context/AuthContext";
 import { type Stage } from "@prisma/client";
-import GenerateCommunityModal from "./GenerateCommunityModal";
+import GenerateCommunityModal from "../_communities/GenerateCommunityModal";
 export default function NewProjectModal({
   open,
   setOpen,

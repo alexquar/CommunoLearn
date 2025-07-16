@@ -2,7 +2,7 @@ import { HydrateClient } from "~/trpc/server";
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import HomePageSearch from "./_components/HomePageSearch";
+import HomePageSearch from "./_components/_general/HomePageSearch";
 
 export default async function Home() {
   return (

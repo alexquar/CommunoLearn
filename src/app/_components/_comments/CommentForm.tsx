@@ -3,7 +3,7 @@ import { useAuthContext } from "~/context/AuthContext";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
-import ErrorNotification from "../ErrorNotification";
+import ErrorNotification from "../_general/ErrorNotification";
 export default function CommentForm({
   associatedId,
   commentOn,

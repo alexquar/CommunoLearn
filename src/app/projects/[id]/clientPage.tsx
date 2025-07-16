@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { useAuthContext } from "~/context/AuthContext";
-import NewMeetingModal from "~/app/_components/NewMeetingModal";
-import NewTodoModal from "~/app/_components/NewTodoModal";
-import NewProjectModal from "~/app/_components/NewProjectModal";
+import NewMeetingModal from "~/app/_components/_meetings/NewMeetingModal";
+import NewTodoModal from "~/app/_components/_todos/NewTodoModal";
+import NewProjectModal from "~/app/_components/_projects/NewProjectModal";
 import type { Project } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 

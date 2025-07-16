@@ -2,10 +2,10 @@
 import { useCallback, useState } from "react";
 import { api } from "~/trpc/react";
 import { type Community } from "@prisma/client";
-import CommunityCard from "../_components/CommunityCard";
-import LoadingNotification from "../_components/LoadingNotification";
-import ErrorNotification from "../_components/ErrorNotification";
-import Modal from "../_components/PrivateCommunitySearchModal";
+import CommunityCard from "../_components/_communities/CommunityCard";
+import LoadingNotification from "../_components/_general/LoadingNotification";
+import ErrorNotification from "../_components/_general/ErrorNotification";
+import Modal from "../_components/_communities/PrivateCommunitySearchModal";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSearchParams } from "next/navigation";
@@ -14,8 +14,9 @@ import Link from "next/link";
 export default function Communities() {
   const searchParams = useSearchParams();
   const givenSearch = searchParams.get("search");
-
   const router = useRouter();
+  const [communityType, setCommunityType] = useState("Class");
+  const [locationCommunity, setLocationCommunity] = useState("United States");
   const [search, setSearch] = useState(givenSearch ?? "");
   const [error, setError] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
@@ -178,6 +179,54 @@ export default function Communities() {
           </div>
         )}
       </form>
+
+      <div className="flex gap-4 mt-6 justify-center">
+        <div className="w-1/2 max-w-xs">
+          <label className="block text-left text-sm font-medium text-secondaryBrand">
+        Community Type
+          </label>
+          <select
+        value={communityType}
+        onChange={(e) => setCommunityType(e.target.value)}
+        className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          >
+        <option>Class</option>
+        <option>High School Club</option>
+        <option>University Club</option>
+        <option>Workplace</option>
+        <option>Friend Group</option>
+        <option>Event Planning</option>
+        <option>Team</option>
+        <option>Committee</option>
+        <option>Other</option>
+          </select>
+        </div>
+
+        <div className="w-1/2 max-w-xs">
+          <label className="block text-left text-sm font-medium text-secondaryBrand">
+        Country
+          </label>
+          <select
+        value={locationCommunity}
+        onChange={(e) => setLocationCommunity(e.target.value)}
+        className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-textBrand focus:border-accentBrand focus:ring-accentBrand"
+          >
+        <option>United States</option>
+        <option>Canada</option>
+        <option>Mexico</option>
+        <option>Australia</option>
+        <option>New Zealand</option>
+        <option>France</option>
+        <option>United Kingdom</option>
+        <option>Ireland</option>
+        <option>Finland</option>
+        <option>Sweden</option>
+        <option>Germany</option>
+        <option>Norway</option>
+        <option>Other Country</option>
+          </select>
+        </div>
+      </div>
 
       {/* Search Status */}
       {searchError && <div className="mt-6"><ErrorNotification message={searchError} /></div>}

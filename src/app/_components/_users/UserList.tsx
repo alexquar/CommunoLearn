@@ -2,7 +2,7 @@
 import React from 'react'
 import type { MemberOf } from '~/types/userTypes'
 import Image from 'next/image'
-import user from '../../../public/user.svg'
+import user from '../../../../public/user.svg'
 import Link from 'next/link'
 export default function UserList({members, ownerId}: {members: MemberOf[], ownerId: string}) {
     return (

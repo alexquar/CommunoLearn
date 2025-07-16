@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 "use client";
 
@@ -9,9 +7,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import logo from "../../../public/plan-28.svg";
+import logo from "../../../../public/plan-28.svg";
 import { useAuthContext } from "~/context/AuthContext";
-import useSignout from "../hooks/useSignout";
+import useSignout from "../../hooks/useSignout";
 
 export default function NavBar() {
   const { user } = useAuthContext();

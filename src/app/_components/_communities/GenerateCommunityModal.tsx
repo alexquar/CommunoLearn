@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import useGenerateCommunity from "../hooks/useGenerateCommunity";
-import ErrorNotification from "./ErrorNotification";
+import useGenerateCommunity from "../../hooks/useGenerateCommunity";
+import ErrorNotification from "../_general/ErrorNotification";
 export default function GenerateCommunityModal({
   open,
   setOpen,

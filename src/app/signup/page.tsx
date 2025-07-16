@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import type { location } from "@prisma/client";
-import ErrorNotification from "../_components/ErrorNotification";
+import ErrorNotification from "../_components/_general/ErrorNotification";
 import useSignUp from "../hooks/useSignup";
 
 export default function Signup() {
